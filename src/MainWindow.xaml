@@ -1,0 +1,377 @@
+﻿<Window x:Class="AssetManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
+        WindowState="Maximized"
+        Title="Havenheim Manager"
+        Background="DarkGray">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="20" Width="2500" Height="1500">
+            <StackPanel Orientation="Vertical">
+                <Button Content="Load"
+                            Command="{Binding LoadCommand}"
+                            Width="100" Height="30"/>
+                <Button Content="Save"
+                            Command="{Binding SaveCommand}"
+                            Width="100" Height="30" Margin="0,15,0,0"/>
+                <Button Content="Save As"
+                        Command="{Binding SaveAsCommand}"
+                        Width="100" Height="30" Margin="0,15,0,0"/>
+
+                <Button Content="Set Clip Path"
+                        Command="{Binding SetClipPathCommand}"
+                        Width="100" Height="30" Margin="0,350,0,0"/>
+
+                <Button Content="Remove Clip"
+                        Command="{Binding RemoveClipCommand}"
+                        Width="100" Height="30"  Margin="0,10,0,0"/>
+            </StackPanel>
+
+            <TabControl Width="2390" Background="LightGray" Margin="10,0,0,0">
+                <TabItem Header="Traits" Background="LightGray" Width="100" Height="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Left" Width="1000" Margin="10,10,0,0">
+                            <StackPanel Orientation="Horizontal" Width="1000" Height="20">
+                                <TextBlock>Name</TextBlock>
+                                <TextBlock Margin="130, 0, 0, 0">Filters</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Width="1000" Height="500">
+                                <ListBox ItemsSource="{Binding ClipList}" Background="DimGray" Width="150" Height="500" Margin="0, 0, 10, 0"
+                             SelectedItem="{Binding SelectedClip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="{Binding Path=ClipName}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                
+
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="500" Margin="0,0,20,0">
+                                    <Expander Name="UtilityExpander" Header="Utility" FontSize="10" FontWeight="Bold">
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedUtilityCheckboxCommand}" Unchecked="{Binding UncheckedUtilityCheckboxCommand}">Martial</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedUtilityCheckboxCommand}" Unchecked="{Binding UncheckedUtilityCheckboxCommand}">Utility</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedUtilityCheckboxCommand}" Unchecked="{Binding UncheckedUtilityCheckboxCommand}">Social</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedUtilityCheckboxCommand}" Unchecked="{Binding UncheckedUtilityCheckboxCommand}">Magic</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedUtilityCheckboxCommand}" Unchecked="{Binding UncheckedUtilityCheckboxCommand}">Core</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedUtilityCheckboxCommand}" Unchecked="{Binding UncheckedUtilityCheckboxCommand}">Ability</CheckBox>
+                                        </StackPanel>
+                                    </Expander>
+
+                                    <Expander Name="SkillExpander" Header="Skills" FontSize="10" FontWeight="Bold">
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Acrobatics</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Appraise</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Bluff</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Climb</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Craft</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Diplomacy</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Disable Device</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Disguise</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Escape Artist</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Fly</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Handle Animal</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Heal</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Intimidate</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Knowledge</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Linguistics</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Perception</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Perform</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Profession</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Ride</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Sense Motive</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Sleight of Hand</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Spellcraft</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Stealth</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Survival</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Swim</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">UMD</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">Alternate</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSkillCheckboxCommand}" Unchecked="{Binding UncheckedSkillCheckboxCommand}">All</CheckBox>
+                                        </StackPanel>
+                                    </Expander>
+
+                                    <Expander Name="CombatExpander" Header="Combat" FontSize="10" FontWeight="Bold">
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Hit Points</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Initiative</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">AC</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Attack</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Damage</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Critical</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Nonlethal</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Combat Manuver</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Unarmed</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Weapon</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Two-Weapon</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Two-Handed</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Bow</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Thrown</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Attacks of Opportunity</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Simple Weapons</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Martial Weapons</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">Exotic Weapons</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedCombatCheckboxCommand}" Unchecked="{Binding UncheckedCombatCheckboxCommand}">None</CheckBox>
+                                        </StackPanel>
+                                    </Expander>
+
+                                    <Expander Name="RoleExpander" Header="Role" FontSize="10" FontWeight="Bold">
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Melee</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Ranged</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Switch Attacker</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Tank</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Leader</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Blaster</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Debuffer</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Buffer</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Healer</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Battlefiled Control</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Shapeshifter</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Minions</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Skill Monkey</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Face</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">Information</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedRoleCheckboxCommand}" Unchecked="{Binding UncheckedRoleCheckboxCommand}">None</CheckBox>
+                                        </StackPanel>
+                                    </Expander>
+
+                                    <Expander Name="SpellExpander" Header="Spells" FontSize="10" FontWeight="Bold">
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Abjuration</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Conjuration</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Divination</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Enchanment</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Evocation</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Illusion</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Necromancy</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Transmutation</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Universal</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Offensive</CheckBox>
+                                            <CheckBox FontWeight="Normal" Checked="{Binding CheckedSpellCheckboxCommand}" Unchecked="{Binding UncheckedSpellCheckboxCommand}">Defensive</CheckBox>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+
+                                <ListBox ItemsSource="{Binding SelectedClip.Names}" Background="DimGray" Margin="0, 0, 20, 0"
+                             SelectedItem="{Binding SelectedName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="500">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="{Binding Path=NameName}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="500">
+                                    <ListBox ItemsSource="{Binding SelectedName.Heads}" Background="DimGray" Width="150" Height="500"
+                                     SelectedItem="{Binding SelectedHead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding Path=HeadName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                    <StackPanel Orientation="Vertical" Width="150" Height="500" Margin="25, 0, 25, 0">
+                                        <ListBox ItemsSource="{Binding SelectedName.Ready}" Background="Gold" Width="150" Height="245"
+                                     SelectedItem="{Binding ReadyHead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+
+                                        <ListBox ItemsSource="{Binding SelectedName.Rejected}" Background="LightCoral" Width="150" Height="245" Margin="0, 10, 0, 0"
+                                     SelectedItem="{Binding RejectedHead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </StackPanel>
+
+                                    <ListBox ItemsSource="{Binding SelectedName.Exported}" Background="Aquamarine" Width="150" Height="500"
+                                     SelectedItem="{Binding ExportHead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Width="1000" Height="50">
+                                <Button Content="Add Clip"
+                            Command="{Binding AddClipCommand}"
+                            Width="60" Height="30" Margin="5,0,10,0"/>
+
+                                <Button Content="Mark Active"
+                            Command="{Binding MarkClipActiveCommand}"
+                            Width="75" Height="30"  Margin="0,0,10,0"/>
+
+                                <Button Content="Mark Ready"
+                            Command="{Binding MarkClipReadyCommand}"
+                            Width="75" Height="30"  Margin="0,0,10,0"/>
+
+                                <Button Content="Exported"
+                            Command="{Binding MarkClipExportedCommand}"
+                            Width="60" Height="30"  Margin="0,0,5,0"/>
+
+                                <Button Content="Add Name"
+                            Command="{Binding AddNameCommand}"
+                            Width="65" Height="30" Margin="15, 0, 10, 0"/>
+
+                                <Button Content="Remove Name"
+                            Command="{Binding RemoveNameCommand}"
+                            Width="85" Height="30" Margin="0, 0, 0, 0"/>
+
+                                <Button Content="Add Head"
+                            Command="{Binding AddHeadCommand}"
+                            Width="80" Height="30" Margin="15, 0, 25, 0"/>
+
+                                <Button Content="Ready Head"
+                            Command="{Binding ReadyHeadCommand}"
+                            Width="80" Height="30" Margin="0, 0, 25, 0"/>
+
+                                <Button Content="Remove Head"
+                            Command="{Binding RemoveHeadCommand}"
+                            Width="80" Height="30" Margin="0, 0, 25, 0"/>
+
+                                <Button Content="Export Head"
+                            Command="{Binding ExportHeadCommand}"
+                            Width="80" Height="30" Margin="0, 0, 25, 0"/>
+
+                                <Button Content="Reject Head"
+                            Command="{Binding RejectHeadCommand}"
+                            Width="80" Height="30" Margin="0, 0, 0, 0"/>
+                            </StackPanel>
+
+                            <Border BorderBrush="CadetBlue" BorderThickness="1">
+                                <WebBrowser Source="{Binding TraitPath}" Height="750" Width="1000"/>
+                            </Border>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Right" Width="250" Margin="30, 0, 30, 0">
+                            <ListBox ItemsSource="{Binding ComparisonList}" Foreground="AliceBlue" Background="DimGray" Width="250" Height="550"
+                         SelectedItem="{Binding SelectedCompareName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding Path=NameName}"/>
+                                            <ListBox Margin="10, 0, 0, 0" ItemsSource="{Binding Heads}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock Text="{Binding HeadName}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <Button Content="Move Heads to Current Name"
+                        Command="{Binding MoveNameCommand}"
+                        Width="200" Height="30" Margin="0, 10, 0, 0"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Right" Width="1000">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="600" Height="550">
+                                <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Right" Width="250" Margin="0, 0,20, 0">
+                                    <ListBox ItemsSource="{Binding HeadList}" Background="DimGray" Foreground="AliceBlue" Width="250" Height="500"
+                                 SelectedItem="{Binding SelectedMasterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding Path=NameName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 10, 0, 0">
+                                        <Button Content="Add Name"
+                                    Command="{Binding AddMasterNameCommand}"
+                                    Width="100" Height="30" Margin="0, 0, 20, 0"/>
+
+                                        <Button Content="Remove Name"
+                                    Command="{Binding RemoveMasterNameCommand}"
+                                    Width="100" Height="30"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Right" Width="250">
+                                    <ListBox ItemsSource="{Binding SelectedMasterName.Heads}" Background="DimGray" Foreground="AliceBlue" 
+                                 SelectedItem="{Binding SelectedMasterHead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="250" Height="500">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding Path=HeadName}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 10, 0, 0">
+                                        <Button Content="Add Head"
+                                    Command="{Binding AddMasterHeadCommand}"
+                                    Width="75" Height="30"/>
+
+                                        <Button Content="Remove Head"
+                                    Command="{Binding RemoveMasterHeadCommand}"
+                                    Width="80" Height="30" Margin="10, 0, 10, 0"/>
+
+                                        <Button Content="Set Path"
+                                    Command="{Binding SetHeadPathCommand}"
+                                    Width="75" Height="30"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <Border BorderBrush="CadetBlue" BorderThickness="1">
+                                <Image Source="{Binding HeadImage}" Height="750" Width="1000" />
+                            </Border>
+
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="Feats" Background="LightGray" Width="100" Height="20">
+
+                </TabItem>
+
+                <TabItem Header="Spells" Background="LightGray" Width="100" Height="20">
+
+                </TabItem>
+
+                <TabItem Header="Items" Background="LightGray" Width="100" Height="20">
+
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+    </Grid>
+</Window>

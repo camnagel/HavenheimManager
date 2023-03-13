@@ -1,0 +1,34 @@
+﻿namespace AssetManager.Enums
+{
+    internal enum Skill
+    {
+        Acrobatics,
+        Appraise,
+        Bluff,
+        Climb,
+        Craft,
+        Diplomacy,
+        DisableDevice,
+        Disguise,
+        EscapeArtist,
+        Fly,
+        HandleAnimal,
+        Heal,
+        Intimidate,
+        Knowledge,
+        Linguistics,
+        Perception,
+        Perform,
+        Profession,
+        Ride,
+        SenseMotive,
+        SleightOfHand,
+        Spellcraft,
+        Stealth,
+        Survival,
+        Swim,
+        UMD,
+        Alternate,
+        All
+    }
+}
