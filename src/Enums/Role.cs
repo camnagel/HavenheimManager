@@ -1,6 +1,6 @@
 ﻿namespace AssetManager.Enums
 {
-    internal enum Role
+    public enum Role
     {
         Melee,
         Ranged,

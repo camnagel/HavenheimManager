@@ -1,6 +1,6 @@
 ﻿namespace AssetManager.Enums
 {
-    internal enum Utility
+    public enum Core
     {
         Martial, 
         Utility, 

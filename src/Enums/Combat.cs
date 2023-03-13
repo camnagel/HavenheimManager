@@ -1,6 +1,6 @@
 ﻿namespace AssetManager.Enums
 {
-    internal enum Combat
+    public enum Combat
     {
         HitPoints,
         Initiative,

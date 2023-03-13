@@ -1,6 +1,6 @@
 ﻿namespace AssetManager.Enums
 {
-    internal enum Spell
+    public enum School
     {
         Abjuration,
         Conjuration,

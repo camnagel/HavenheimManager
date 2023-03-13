@@ -22,9 +22,15 @@ namespace AssetManager
 
         public ObservableCollection<Name> HeadList { get; set; } = new();
 
-        public ObservableCollection<Name> ComparisonList { get; set; } = new();
+        public ObservableCollection<Feat> ComparisonList { get; set; } = new();
 
-        public ObservableCollection<Clip> CurrentClip { get; set; } = new();
+        public ObservableCollection<Trait> CurrentTrait { get; set; } = new();
+
+        public ObservableCollection<Feat> CurrentFeat { get; set; } = new();
+
+        public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
+
+        public ObservableCollection<Item> CurrentItem { get; set; } = new();
 
         private string _saveFileName = "";
 
@@ -39,91 +45,27 @@ namespace AssetManager
             }
         }
 
-        private BitmapImage? _clipImage;
-        public BitmapImage? ClipImage
-        {
-            get => _clipImage;
-            set
-            {
-                _clipImage = value;
-                OnPropertyChanged("ClipImage");
-            }
-        }
-
-        private BitmapImage? _headImage;
-        public BitmapImage? HeadImage
-        {
-            get => _headImage;
-            set
-            {
-                _headImage = value;
-                OnPropertyChanged("HeadImage");
-            }
-        }
-
         /// <summary>
-        /// The selected clip
+        /// The selected <see cref="Trait"/>
         /// </summary>
-        private Clip? _selectedClip;
-        public Clip? SelectedClip
+        private Trait? _selectedTrait;
+        public Trait? SelectedTrait
         {
-            get => _selectedClip;
+            get => _selectedTrait;
             set
             {
                 if (value != null)
                 {
-                    SelectedClip = null;
+                    SelectedTrait = null;
                 }
-                _selectedClip = value;
-                CurrentClip.Clear();
-                ClipImage = null;
+                _selectedTrait = value;
+                CurrentTrait.Clear();
                 if (value != null)
                 {
-                    CurrentClip.Add(value);
-                    if (value.ClipImagePath is { Length: > 0 })
-                    {
-                        ClipImage = new BitmapImage(new Uri(value.ClipImagePath, UriKind.Absolute));
-                    }
+                    CurrentTrait.Add(value);
                 }
-
-                UpdateComparisonList();
-                OnPropertyChanged("SelectedClip");
-            }
-        }
-
-        /// <summary>
-        /// The selected name for the Master Reference List
-        /// </summary>
-        private Name? _selectedMasterName;
-        public Name? SelectedMasterName
-        {
-            get => _selectedMasterName;
-            set
-            {
-                HeadImage = null;
-                _selectedMasterName = value;
-                UpdateComparisonList();
-                OnPropertyChanged("SelectedMasterName");
-            }
-        }
-
-        /// <summary>
-        /// The selected head for the Master Reference List
-        /// </summary>
-        private Head? _selectedMasterHead;
-        public Head? SelectedMasterHead
-        {
-            get => _selectedMasterHead;
-            set
-            {
-                _selectedMasterHead = value;
-                HeadImage = null;
-                UpdateComparisonList();
-                if (value is { HeadImagePath: { Length: > 0 } })
-                {
-                    HeadImage = new BitmapImage(new Uri(value.HeadImagePath, UriKind.Absolute));
-                }
-                OnPropertyChanged("SelectedMasterHead");
+                
+                OnPropertyChanged("SelectedTrait");
             }
         }
 
@@ -202,6 +144,10 @@ namespace AssetManager
             }
         }
 
+        public Clip SelectedClip; //TODO
+        public Name SelectedMasterName;
+        public Head SelectedMasterHead;
+
         // Asset Commands
         public DelegateCommand LoadCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
@@ -278,7 +224,6 @@ namespace AssetManager
                     SelectedName.Heads.Add(new Head(head.HeadName));
                 }
                 
-                UpdateComparisonList();
             }
         }
 
@@ -317,8 +262,6 @@ namespace AssetManager
                     SelectedName.Ready.Remove(ReadyHead);
                     ReadyHead = null;
                 }
-
-                UpdateComparisonList();
             }
         }
 
@@ -360,7 +303,6 @@ namespace AssetManager
                 if (result.Length == 0) return;
                 if (SelectedName.Heads.Select(x => x.HeadName).Contains(result)) return;
                 SelectedName.Heads.Add(new Head(result));
-                UpdateComparisonList();
                 SelectedHead = null;
             }
         }
@@ -374,7 +316,7 @@ namespace AssetManager
             if (SelectedClip != null && SelectedName != null)
             {
                 SelectedClip.Names.Remove(SelectedName);
-                UpdateComparisonList();
+        
                 SelectedName = null;
                 SelectedHead = null;
             }
@@ -388,7 +330,6 @@ namespace AssetManager
                 if (result.Length == 0) return;
                 if (SelectedClip.Names.Select(x => x.NameName).Contains(result)) return;
                 SelectedClip.Names.Add(new Name(result, new ObservableCollection<Head>(), new ObservableCollection<string>()));
-                UpdateComparisonList();
                 SelectedName = null;
             }
         }
@@ -422,7 +363,6 @@ namespace AssetManager
                 SelectedClip = null;
                 SelectedName = null;
                 SelectedHead = null;
-                UpdateComparisonList();
             }
         }
 
@@ -496,7 +436,7 @@ namespace AssetManager
             {
                 SelectedMasterName.Heads.Remove(SelectedMasterHead);
                 SelectedMasterHead = null;
-                UpdateComparisonList();
+              
             }
         }
 
@@ -511,7 +451,7 @@ namespace AssetManager
                 HeadList.Remove(SelectedMasterName);
                 SelectedMasterHead = null;
                 SelectedMasterName = null;
-                UpdateComparisonList();
+              
             }
         }
 
@@ -523,36 +463,7 @@ namespace AssetManager
                 if (result.Length == 0) return;
                 if (SelectedMasterName.Heads.Select(x => x.HeadName).Contains(result)) return;
                 SelectedMasterName.Heads.Add(new Head(result));
-                UpdateComparisonList();
                 SelectedMasterHead = null;
-            }
-        }
-
-        private void UpdateComparisonList()
-        {
-            ComparisonList.Clear();
-
-            if (SelectedClip == null) return;
-
-            foreach (Name name in SelectedClip.Names)
-            {
-                ObservableCollection<Head> missingHeads = new();
-                Name headListName = HeadList.FirstOrDefault(x => x.NameName == name.NameName) ?? new Name();
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                if (headListName.Heads == null) continue;
-
-                foreach (string head in headListName.Heads.Select(x => x.HeadName))
-                {
-                    if (!name.Heads.Select(x => x.HeadName).Contains(head) && 
-                        !name.Rejected.Contains(head) && 
-                        !name.Exported.Contains(head) && 
-                        !name.Ready.Contains(head))
-                    {
-                        missingHeads.Add(new Head(head));
-                    }
-                }
-
-                ComparisonList.Add(new Name(name.NameName, missingHeads, new ObservableCollection<string>()));
             }
         }
 
@@ -629,7 +540,6 @@ namespace AssetManager
             if (result.Length == 0) return;
             if (HeadList.Select(x => x.NameName).Contains(result)) return;
             HeadList.Add(new Name(result, new ObservableCollection<Head>(), new ObservableCollection<string>()));
-            UpdateComparisonList();
             SelectedMasterName = null;
         }
 
