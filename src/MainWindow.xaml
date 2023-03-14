@@ -193,17 +193,17 @@
 
                                     <Expander Name="SchoolExpander" Header="Spells" FontSize="10" FontWeight="Bold">
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Abjuration">Abjuration</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Conjuration">Conjuration</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Divination">Divination</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Enchanment">Enchanment</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Evocation">Evocation</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Illusion">Illusion</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Necromancy">Necromancy</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Transmutation">Transmutation</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Universal">Universal</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Offensive">Offensive</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SpellTraitCheckboxCommand}" CommandParameter="Defensive">Defensive</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Abjuration">Abjuration</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Conjuration">Conjuration</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Divination">Divination</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Enchanment">Enchanment</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Evocation">Evocation</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Illusion">Illusion</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Necromancy">Necromancy</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Transmutation">Transmutation</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Universal">Universal</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Offensive">Offensive</CheckBox>
+                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Defensive">Defensive</CheckBox>
                                         </StackPanel>
                                     </Expander>
 

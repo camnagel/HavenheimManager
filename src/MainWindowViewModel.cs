@@ -1,22 +1,22 @@
 ﻿using AssetManager.Containers;
 using AssetManager.Enums;
-using Microsoft.VisualBasic;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Windows;
+using File = System.IO.File;
 
 namespace AssetManager
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         // Primary Object Collections
-        public ObservableCollection<Trait> TraitList { get; set; } = new();
+        public List<Trait> MasterTraitList { get; } = new();
+
+        // Filtered Object Collections
+        public ObservableCollection<Trait> FilteredTraitList { get; set; } = new();
 
         // Selected Object Backing Collections
         public ObservableCollection<Trait> CurrentTrait { get; set; } = new();
@@ -25,15 +25,23 @@ namespace AssetManager
         public ObservableCollection<Item> CurrentItem { get; set; } = new();
 
         // Trait Filter Lists
-        private List<Core> CoreTraitFilters = new List<Core>();
-        private List<Skill> SkillTraitFilters = new List<Skill>();
-        private List<Class> ClassTraitFilters = new List<Class>();
-        private List<Combat> CombatTraitFilters = new List<Combat>();
-        private List<Role> RoleTraitFilters = new List<Role>();
-        private List<School> SchoolTraitFilters = new List<School>();
-        private List<Source> SourceTraitFilters = new List<Source>();
+        private HashSet<Core> CoreTraitFilters = new HashSet<Core>();
+        private HashSet<Skill> SkillTraitFilters = new HashSet<Skill>();
+        private HashSet<Class> ClassTraitFilters = new HashSet<Class>();
+        private HashSet<Combat> CombatTraitFilters = new HashSet<Combat>();
+        private HashSet<Role> RoleTraitFilters = new HashSet<Role>();
+        private HashSet<School> SchoolTraitFilters = new HashSet<School>();
+        private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
 
         private string _saveFileName = "";
+
+        private bool _activeFilters => CoreTraitFilters.Any() || 
+                                      SkillTraitFilters.Any() || 
+                                      ClassTraitFilters.Any() || 
+                                      CombatTraitFilters.Any() || 
+                                      RoleTraitFilters.Any() || 
+                                      SchoolTraitFilters.Any() ||
+                                      SourceTraitFilters.Any();
 
         /// <summary>
         /// The selected <see cref="Trait"/>
@@ -60,54 +68,243 @@ namespace AssetManager
         }
 
         // Asset Commands
-        public DelegateCommand LoadCommand { get; set; }
-        public DelegateCommand SaveCommand { get; set; }
-        public DelegateCommand SaveAsCommand { get; set; }
+        public DelegateCommand LoadCommand { get; }
+        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand SaveAsCommand { get; }
 
         // Trait Checkbox Commands
-        public DelegateCommand SkillTraitCheckboxCommand { get; set; }
-        public DelegateCommand CoreTraitCheckboxCommand { get; set; }
-        public DelegateCommand ClassTraitCheckboxCommand { get; set; }
-        public DelegateCommand CombatTraitCheckboxCommand { get; set; }
-        public DelegateCommand RoleTraitCheckboxCommand { get; set; }
-        public DelegateCommand SchoolTraitCheckboxCommand { get; set; }
+        public DelegateCommand CoreTraitCheckboxCommand { get; }
+        public DelegateCommand SkillTraitCheckboxCommand { get; }
+        public DelegateCommand ClassTraitCheckboxCommand { get; }
+        public DelegateCommand CombatTraitCheckboxCommand { get; }
+        public DelegateCommand RoleTraitCheckboxCommand { get; }
+        public DelegateCommand SchoolTraitCheckboxCommand { get; }
+        public DelegateCommand SourceTraitCheckboxCommand { get; }
 
         public MainWindowViewModel()
         {
             LoadCommand = new DelegateCommand(LoadAction);
             SaveCommand = new DelegateCommand(SaveAction);
             SaveAsCommand = new DelegateCommand(SaveAsAction);
-            SkillTraitCheckboxCommand = new DelegateCommand(TraitSkillFilterAction);
             CoreTraitCheckboxCommand = new DelegateCommand(TraitCoreFilterAction);
-            /*CheckedClassTraitCheckboxCommand = new DelegateCommand();
-            CheckedCombatTraitCheckboxCommand = new DelegateCommand();
-            CheckedRoleTraitCheckboxCommand = new DelegateCommand();
-            CheckedSchoolTraitCheckboxCommand = new DelegateCommand();
-            UncheckedSkillTraitCheckboxCommand = new DelegateCommand();
-            UncheckedCoreTraitCheckboxCommand = new DelegateCommand();
-            UncheckedClassTraitCheckboxCommand = new DelegateCommand();
-            UncheckedCombatTraitCheckboxCommand = new DelegateCommand();
-            UncheckedRoleTraitCheckboxCommand = new DelegateCommand();
-            UncheckedSchoolTraitCheckboxCommand = new DelegateCommand();*/
+            SkillTraitCheckboxCommand = new DelegateCommand(TraitSkillFilterAction);
+            ClassTraitCheckboxCommand = new DelegateCommand(TraitClassFilterAction);
+            CombatTraitCheckboxCommand = new DelegateCommand(TraitCombatFilterAction);
+            RoleTraitCheckboxCommand = new DelegateCommand(TraitRoleFilterAction);
+            SchoolTraitCheckboxCommand = new DelegateCommand(TraitSchoolFilterAction);
+            SourceTraitCheckboxCommand = new DelegateCommand(TraitSourceFilterAction);
         }
 
         // Trait Checkbox Actions
+        private void TraitCoreFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Core toggleCore = filter.StringToCore();
+
+                if (CoreTraitFilters.Contains(toggleCore))
+                {
+                    CoreTraitFilters.Remove(toggleCore);
+                }
+                else
+                {
+                    CoreTraitFilters.Add(toggleCore);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
         private void TraitSkillFilterAction(object arg)
         {
             if (arg is string filter)
             {
                 Skill toggleSkill = filter.StringToSkill();
+
+                if (SkillTraitFilters.Contains(toggleSkill))
+                {
+                    SkillTraitFilters.Remove(toggleSkill);
+                }
+                else
+                {
+                    SkillTraitFilters.Add(toggleSkill);
+                }
+
+                ApplyTraitFilters();
             }
         }
-        private void TraitCoreFilterAction(object arg)
+
+        private void TraitClassFilterAction(object arg)
         {
             if (arg is string filter)
             {
-                int a = 0;
+                Class toggleClass = filter.StringToClass();
+
+                if (ClassTraitFilters.Contains(toggleClass))
+                {
+                    ClassTraitFilters.Remove(toggleClass);
+                }
+                else
+                {
+                    ClassTraitFilters.Add(toggleClass);
+                }
+
+                ApplyTraitFilters();
             }
         }
 
+        private void TraitCombatFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Combat toggleCombat = filter.StringToCombat();
 
+                if (CombatTraitFilters.Contains(toggleCombat))
+                {
+                    CombatTraitFilters.Remove(toggleCombat);
+                }
+                else
+                {
+                    CombatTraitFilters.Add(toggleCombat);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
+        private void TraitRoleFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Role toggleRole = filter.StringToRole();
+
+                if (RoleTraitFilters.Contains(toggleRole))
+                {
+                    RoleTraitFilters.Remove(toggleRole);
+                }
+                else
+                {
+                    RoleTraitFilters.Add(toggleRole);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
+        private void TraitSchoolFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                School toggleSchool = filter.StringToSchool();
+
+                if (SchoolTraitFilters.Contains(toggleSchool))
+                {
+                    SchoolTraitFilters.Remove(toggleSchool);
+                }
+                else
+                {
+                    SchoolTraitFilters.Add(toggleSchool);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
+        private void TraitSourceFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Source toggleSource = filter.StringToSource();
+
+                if (SourceTraitFilters.Contains(toggleSource))
+                {
+                    SourceTraitFilters.Remove(toggleSource);
+                }
+                else
+                {
+                    SourceTraitFilters.Add(toggleSource);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
+        private void ApplyTraitFilters()
+        {
+            FilteredTraitList.Clear();
+            if (!_activeFilters)
+            {
+                foreach (Trait trait in MasterTraitList)
+                {
+                    FilteredTraitList.Add(trait);
+                }
+
+                return;
+            }
+
+            List<Trait> possibleTraits = new List<Trait>(MasterTraitList);
+
+            if (CoreTraitFilters.Any())
+            {
+                foreach (Core filter in CoreTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.CoreTags.Contains(filter)).ToList();
+                }
+            }
+
+            if (SkillTraitFilters.Any())
+            {
+                foreach (Skill filter in SkillTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.SkillTags.Contains(filter)).ToList();
+                }
+            }
+
+            if (ClassTraitFilters.Any())
+            {
+                foreach (Class filter in ClassTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.ClassTags.Contains(filter)).ToList();
+                }
+            }
+
+            if (CombatTraitFilters.Any())
+            {
+                foreach (Combat filter in CombatTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.CombatTags.Contains(filter)).ToList();
+                }
+            }
+
+            if (RoleTraitFilters.Any())
+            {
+                foreach (Role filter in RoleTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.RoleTags.Contains(filter)).ToList();
+                }
+            }
+
+            if (SchoolTraitFilters.Any())
+            {
+                foreach (School filter in SchoolTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.SchoolTags.Contains(filter)).ToList();
+                }
+            }
+
+            if (SourceTraitFilters.Any())
+            {
+                foreach (Source filter in SourceTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.SourceTags.Contains(filter)).ToList();
+                }
+            }
+
+            foreach (Trait trait in possibleTraits)
+            {
+                FilteredTraitList.Add(trait);
+            }
+        }
 
         private void LoadAction(object arg)
         {
@@ -121,10 +318,10 @@ namespace AssetManager
             {
                 SerialBin bin = JsonSerializer.Deserialize<SerialBin>(File.ReadAllText(dialog.FileName))!;
 
-                foreach (Clip clip in bin.ClipList)
+                /*foreach (Clip clip in bin.ClipList)
                 {
-                    //ClipList.Add(clip);
-                }
+                    ClipList.Add(clip);
+                }*/
             }
         }
 
@@ -168,6 +365,13 @@ namespace AssetManager
             LoadCommand.RaiseCanExecuteChanged();
             SaveCommand.RaiseCanExecuteChanged();
             SaveAsCommand.RaiseCanExecuteChanged();
+            CoreTraitCheckboxCommand.RaiseCanExecuteChanged();
+            SkillTraitCheckboxCommand.RaiseCanExecuteChanged();
+            ClassTraitCheckboxCommand.RaiseCanExecuteChanged();
+            CombatTraitCheckboxCommand.RaiseCanExecuteChanged();
+            RoleTraitCheckboxCommand.RaiseCanExecuteChanged();
+            SchoolTraitCheckboxCommand.RaiseCanExecuteChanged();
+            SourceTraitCheckboxCommand.RaiseCanExecuteChanged();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

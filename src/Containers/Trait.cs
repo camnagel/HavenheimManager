@@ -1,9 +1,5 @@
-﻿using System;
+﻿using AssetManager.Enums;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AssetManager.Enums;
 
 namespace AssetManager.Containers
 {
@@ -13,37 +9,40 @@ namespace AssetManager.Containers
 
         public string Description { get; }
 
+        public string Url { get; }
+
         public string Effects { get; }
 
         public Source Source { get; }
 
-        public HashSet<Combat> CombatTags { get; } = new HashSet<Combat>();
-
-        public HashSet<School> SchoolTags { get; } = new HashSet<School>();
+        public HashSet<Core> CoreTags { get; } = new HashSet<Core>();
 
         public HashSet<Skill> SkillTags { get; } = new HashSet<Skill>();
 
-        public HashSet<Core> CoreTags { get; } = new HashSet<Core>();
+        public HashSet<Class> ClassTags { get; } = new HashSet<Class>();
+
+        public HashSet<Combat> CombatTags { get; } = new HashSet<Combat>();
 
         public HashSet<Role> RoleTags { get; } = new HashSet<Role>();
 
-        public Trait(string name, string description, string effects, 
-            Source source, IList<Combat> combatTags, IList<School> schoolTags, 
-            IList<Skill> skillTags, IList<Core> coreTags, IList<Role> roleTags)
+        public HashSet<School> SchoolTags { get; } = new HashSet<School>();
+
+        public HashSet<Source> SourceTags { get; } = new HashSet<Source>();
+
+        public Trait(string name, string description, string effects, string url,
+            Source source, IList<Core> coreTags, IList<Skill> skillTags, 
+            IList<Class> classTags, IList<Combat> combatTags, IList<Role> roleTags,
+            IList<School> schoolTags, IList<Source> sourceTags)
         {
             Name = name;
             Description = description;
+            Url = url;
             Effects = effects;
             Source = source;
 
-            foreach (var tag in combatTags)
+            foreach (var tag in coreTags)
             {
-                CombatTags.Add(tag);
-            }
-
-            foreach (var tag in schoolTags)
-            {
-                SchoolTags.Add(tag);
+                CoreTags.Add(tag);
             }
 
             foreach (var tag in skillTags)
@@ -51,14 +50,29 @@ namespace AssetManager.Containers
                 SkillTags.Add(tag);
             }
 
-            foreach (var tag in coreTags)
+            foreach (var tag in classTags)
             {
-                CoreTags.Add(tag);
+                ClassTags.Add(tag);
+            }
+
+            foreach (var tag in combatTags)
+            {
+                CombatTags.Add(tag);
             }
 
             foreach (var tag in roleTags)
             {
                 RoleTags.Add(tag);
+            }
+
+            foreach (var tag in schoolTags)
+            {
+                SchoolTags.Add(tag);
+            }
+
+            foreach (var tag in sourceTags)
+            {
+                SourceTags.Add(tag);
             }
         }
     }
