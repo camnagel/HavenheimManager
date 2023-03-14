@@ -25,15 +25,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#install">Install</a></li>
-    <li><a href="#video-exporter">Video Exporter</a></li>
-    <li><a href="#av-clock">AvClock</a></li>
-    <li><a href="#videoformat">VideoFormat</a></li>
-    <li><a href="#iavclip">IAvClip</a></li>
-    <li><a href="#frametype">FrameType</a></li>
-    <li><a href="#iavframe">IAvFrame</a></li>
-    <li><a href="#multiplayer-app">MultiPlayer App</a></li>
-    <li><a href="#built-with">Built With</a></li>
-    <li><a href="#roadmap">RoadMap</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
   </ol>
 </details>
 
