@@ -2,7 +2,6 @@
 {
     public enum Combat
     {
-        HitPoints,
         Initiative,
         AC,
         Attack,
@@ -19,7 +18,6 @@
         AttacksOfOpportunity,
         SimpleWeapons,
         MartialWeapons,
-        ExoticWeapons, 
-        None
+        ExoticWeapons
     }
 }

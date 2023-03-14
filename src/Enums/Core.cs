@@ -2,11 +2,13 @@
 {
     public enum Core
     {
-        Martial, 
-        Utility, 
-        Social,
-        Magic,
-        Core,
-        Ability
+        Strength,
+        Dexterity,
+        Constitution,
+        Intelligence,
+        Wisdom,
+        Charisma,
+        HitPoints,
+        Wealth
     }
 }

@@ -15,8 +15,8 @@
         Shapeshifter,
         Minions,
         SkillMonkey,
-        Face,
+        Social,
         Information,
-        None
+        Crafter
     }
 }
