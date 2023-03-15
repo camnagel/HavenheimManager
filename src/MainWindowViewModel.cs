@@ -379,7 +379,11 @@ namespace AssetManager
                     switch (type)
                     {
                         case SourceType.Trait:
-                            ImportReader.ReadTraitCsv(importPath);
+                            foreach (Trait trait in ImportReader.ReadTraitCsv(importPath))
+                            {
+                                MasterTraitList.Add(trait);
+                            }
+                            ApplyTraitFilters();
                             break;
                         case SourceType.Feat:
                             ImportReader.ReadFeatCsv(importPath);
@@ -388,7 +392,7 @@ namespace AssetManager
                             ImportReader.ReadItemCsv(importPath);
                             break;
                         case SourceType.Spell:
-                            ImportReader.ReadspellCsv(importPath);
+                            ImportReader.ReadSpellCsv(importPath);
                             break;
                     }
                 }

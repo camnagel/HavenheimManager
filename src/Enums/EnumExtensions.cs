@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using AssetManager.Import;
 
 namespace AssetManager.Enums
 {
     public static class EnumExtensions
     {
+        private static readonly Regex _whitespaceFilter = new Regex(@"\s+");
+
         public static Skill StringToSkill(this string skillName)
         {
-            switch (skillName.ToLower())
+            switch (_whitespaceFilter.Replace(skillName.ToLower(), ""))
             {
                 case "acrobatics":
                     return Skill.Acrobatics;
@@ -21,15 +24,15 @@ namespace AssetManager.Enums
                     return Skill.Craft;
                 case "diplomacy":
                     return Skill.Diplomacy;
-                case "disable device":
+                case "disabledevice":
                     return Skill.DisableDevice;
                 case "disguise":
                     return Skill.Disguise;
-                case "escape artist":
+                case "escapeartist":
                     return Skill.EscapeArtist;
                 case "fly":
                     return Skill.Fly;
-                case "handle animal":
+                case "handleanimal":
                     return Skill.HandleAnimal;
                 case "heal":
                     return Skill.Heal;
@@ -47,9 +50,9 @@ namespace AssetManager.Enums
                     return Skill.Profession;
                 case "ride":
                     return Skill.Ride;
-                case "sense motive":
+                case "sensemotive":
                     return Skill.SenseMotive;
-                case "sleight of hand":
+                case "sleightofhand":
                     return Skill.SleightOfHand;
                 case "spellcraft":
                     return Skill.Spellcraft;
@@ -72,7 +75,7 @@ namespace AssetManager.Enums
 
         public static Class StringToClass(this string className)
         {
-            switch (className.ToLower())
+            switch (_whitespaceFilter.Replace(className.ToLower(), ""))
             {
                 case "alchemist":
                     return Class.Alchemist;
@@ -130,7 +133,7 @@ namespace AssetManager.Enums
                     return Class.Psion;
                 case "psychic":
                     return Class.Psychic;
-                case "psychic warrior":
+                case "psychicwarrior":
                     return Class.PsychicWarrior;
                 case "ranger":
                     return Class.Ranger;
@@ -148,7 +151,7 @@ namespace AssetManager.Enums
                     return Class.Slayer;
                 case "sorcerer":
                     return Class.Sorcerer;
-                case "soul knife":
+                case "soulknife":
                     return Class.SoulKnife;
                 case "spiritualist":
                     return Class.Spiritualist;
@@ -173,9 +176,10 @@ namespace AssetManager.Enums
 
         public static Source StringToSource(this string sourceName)
         {
-            switch (sourceName.ToLower())
+            switch (_whitespaceFilter.Replace(sourceName.ToLower(), ""))
             {
                 case "standard":
+                case "":
                     return Source.Standard;
                 case "rework":
                     return Source.Rework;
@@ -188,7 +192,7 @@ namespace AssetManager.Enums
 
         public static School StringToSchool(this string schoolName)
         {
-            switch (schoolName.ToLower())
+            switch (_whitespaceFilter.Replace(schoolName.ToLower(), ""))
             {
                 case "abjuration":
                     return School.Abjuration;
@@ -219,13 +223,13 @@ namespace AssetManager.Enums
 
         public static Role StringToRole(this string roleName)
         {
-            switch (roleName.ToLower())
+            switch (_whitespaceFilter.Replace(roleName.ToLower(), ""))
             {
                 case "melee":
                     return Role.Melee;
                 case "ranged":
                     return Role.Ranged;
-                case "switch attacker":
+                case "switchattacker":
                     return Role.SwitchAttacker;
                 case "tank":
                     return Role.Tank;
@@ -239,13 +243,13 @@ namespace AssetManager.Enums
                     return Role.Buffer;
                 case "healer":
                     return Role.Healer;
-                case "battlefield control":
+                case "battlefieldcontrol":
                     return Role.BattlefieldControl;
                 case "shapeshifter":
                     return Role.Shapeshifter;
                 case "minions":
                     return Role.Minions;
-                case "skill monkey":
+                case "skillmonkey":
                     return Role.SkillMonkey;
                 case "social":
                     return Role.Social;
@@ -260,7 +264,7 @@ namespace AssetManager.Enums
 
         public static Core StringToCore(this string coreName)
         {
-            switch (coreName.ToLower())
+            switch (_whitespaceFilter.Replace(coreName.ToLower(), ""))
             {
                 case "strength":
                     return Core.Strength;
@@ -274,7 +278,7 @@ namespace AssetManager.Enums
                     return Core.Wisdom;
                 case "charisma":
                     return Core.Charisma;
-                case "hit points":
+                case "hitpoints":
                     return Core.HitPoints;
                 case "wealth":
                     return Core.Wealth;
@@ -328,7 +332,7 @@ namespace AssetManager.Enums
 
         public static SourceType StringToSourceType(this string sourceTypeName)
         {
-            switch (sourceTypeName.ToLower())
+            switch (_whitespaceFilter.Replace(sourceTypeName.ToLower(), ""))
             {
                 case "feat":
                     return SourceType.Feat;

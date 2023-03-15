@@ -5,31 +5,31 @@ namespace AssetManager.Containers
 {
     public class Trait : ISummary, ITaggable
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public string Description { get; }
+        public string Description { get; set; }
 
-        public string Prereqs { get; }
+        public string Prereqs { get; set; }
 
-        public string Url { get; }
+        public string Url { get; set; }
 
-        public string Effects { get; }
+        public string Effects { get; set; }
 
-        public Source Source { get; }
+        public Source Source { get; set; }
 
-        public HashSet<Core> CoreTags { get; } = new HashSet<Core>();
+        public HashSet<Core> CoreTags { get; set; } = new HashSet<Core>();
 
-        public HashSet<Skill> SkillTags { get; } = new HashSet<Skill>();
+        public HashSet<Skill> SkillTags { get; set; } = new HashSet<Skill>();
 
-        public HashSet<Class> ClassTags { get; } = new HashSet<Class>();
+        public HashSet<Class> ClassTags { get; set; } = new HashSet<Class>();
 
-        public HashSet<Combat> CombatTags { get; } = new HashSet<Combat>();
+        public HashSet<Combat> CombatTags { get; set; } = new HashSet<Combat>();
 
-        public HashSet<Role> RoleTags { get; } = new HashSet<Role>();
+        public HashSet<Role> RoleTags { get; set; } = new HashSet<Role>();
 
-        public HashSet<School> SchoolTags { get; } = new HashSet<School>();
+        public HashSet<School> SchoolTags { get; set; } = new HashSet<School>();
 
-        public Trait(string name, string description, string effects, string url, string prereqs,
+        /*public Trait(string name, string description, string effects, string url, string prereqs,
             Source source, IList<Core> coreTags, IList<Skill> skillTags, IList<Class> classTags, 
             IList<Combat> combatTags, IList<Role> roleTags, IList<School> schoolTags)
         {
@@ -69,6 +69,6 @@ namespace AssetManager.Containers
             {
                 SchoolTags.Add(tag);
             }
-        }
+        }*/
     }
 }

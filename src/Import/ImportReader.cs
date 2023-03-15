@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using AssetManager.Containers;
@@ -8,38 +9,46 @@ namespace AssetManager.Import
 {
     internal class ImportReader
     {
-        internal static void ReadTraitCsv(string filePath)
+        internal static IEnumerable<Trait> ReadTraitCsv(string filePath)
         {
             using (var stream = new StreamReader(filePath))
             using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
             {
                 reader.Context.RegisterClassMap<TraitMap>();
-                var traits = reader.GetRecords<Trait>().ToList();
-                int a = 0;
+                foreach (Trait trait in reader.GetRecords<Trait>())
+                {
+                    if (trait.Name.Length > 0)
+                    {
+                        yield return trait;
+                    }
+                }
             }
         }
 
-        internal static void ReadFeatCsv(string filePath)
+        internal static IEnumerable<Feat> ReadFeatCsv(string filePath)
         {
             using (var stream = new StreamReader(filePath))
             using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
             {
+                yield break;
             }
         }
 
-        internal static void ReadItemCsv(string filePath)
+        internal static IEnumerable<Item> ReadItemCsv(string filePath)
         {
             using (var stream = new StreamReader(filePath))
             using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
             {
+                yield break;
             }
         }
 
-        internal static void ReadspellCsv(string filePath)
+        internal static IEnumerable<Spell> ReadSpellCsv(string filePath)
         {
             using (var stream = new StreamReader(filePath))
             using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
             {
+                yield break;
             }
         }
     }

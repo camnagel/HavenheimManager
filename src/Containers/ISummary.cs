@@ -4,16 +4,16 @@ namespace AssetManager.Containers
 {
     internal interface ISummary
     {
-        string Name { get; }
+        string Name { get; set; }
 
-        string Description { get; }
+        string Description { get; set; }
 
-        string Prereqs { get; }
+        string Prereqs { get; set; }
 
-        string Url { get; }
+        string Url { get; set; }
 
-        string Effects { get; }
+        string Effects { get; set; }
 
-        Source Source { get; }
+        Source Source { get; set; }
     }
 }

@@ -40,7 +40,7 @@
                                 <TextBlock Margin="138, 0, 0, 0">Selected Trait</TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
-                                <ListBox ItemsSource="{Binding TraitList}" Background="DimGray" Width="150" Height="900" Margin="0, 0, 10, 0"
+                                <ListBox ItemsSource="{Binding FilteredTraitList}" Background="DimGray" Width="150" Height="900" Margin="0, 0, 10, 0"
                                          SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>

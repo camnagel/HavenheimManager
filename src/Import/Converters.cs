@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AssetManager.Enums;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -16,7 +17,14 @@ namespace AssetManager.Import
         public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
         {
             HashSet<Core> tagSet= new HashSet<Core>();
-            if (tags != null) tagSet.Add(tags.StringToCore());
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToCore());
+                }
+            }
             return tagSet;
         } 
     }
@@ -26,7 +34,14 @@ namespace AssetManager.Import
         public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
         {
             HashSet<Skill> tagSet = new HashSet<Skill>();
-            if (tags != null) tagSet.Add(tags.StringToSkill());
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToSkill());
+                }
+            }
             return tagSet;
         }
     }
@@ -36,7 +51,14 @@ namespace AssetManager.Import
         public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
         {
             HashSet<Class> tagSet = new HashSet<Class>();
-            if (tags != null) tagSet.Add(tags.StringToClass());
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToClass());
+                }
+            }
             return tagSet;
         }
     }
@@ -46,7 +68,14 @@ namespace AssetManager.Import
         public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
         {
             HashSet<Combat> tagSet = new HashSet<Combat>();
-            if (tags != null) tagSet.Add(tags.StringToCombat());
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToCombat());
+                }
+            }
             return tagSet;
         }
     }
@@ -56,7 +85,14 @@ namespace AssetManager.Import
         public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
         {
             HashSet<Role> tagSet = new HashSet<Role>();
-            if (tags != null) tagSet.Add(tags.StringToRole());
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToRole());
+                }
+            }
             return tagSet;
         }
     }
@@ -66,7 +102,14 @@ namespace AssetManager.Import
         public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
         {
             HashSet<School> tagSet = new HashSet<School>();
-            if (tags != null) tagSet.Add(tags.StringToSchool());
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToSchool());
+                }
+            }
             return tagSet;
         }
     }
