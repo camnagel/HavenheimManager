@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using System.IO;
+using System.Linq;
+using AssetManager.Containers;
 using CsvHelper;
 
 namespace AssetManager.Import
@@ -11,7 +13,9 @@ namespace AssetManager.Import
             using (var stream = new StreamReader(filePath))
             using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
             {
-
+                reader.Context.RegisterClassMap<TraitMap>();
+                var traits = reader.GetRecords<Trait>().ToList();
+                int a = 0;
             }
         }
 
