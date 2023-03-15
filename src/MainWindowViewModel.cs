@@ -1,4 +1,5 @@
-﻿using AssetManager.Containers;
+﻿using System;
+using AssetManager.Containers;
 using AssetManager.Enums;
 using Microsoft.Win32;
 using System.Collections.Generic;
@@ -6,7 +7,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
+using AssetManager.Import;
 using File = System.IO.File;
+using System.Windows;
 
 namespace AssetManager
 {
@@ -71,6 +75,7 @@ namespace AssetManager
         public DelegateCommand LoadCommand { get; }
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand SaveAsCommand { get; }
+        public DelegateCommand ImportCommand { get; }
 
         // Trait Checkbox Commands
         public DelegateCommand CoreTraitCheckboxCommand { get; }
@@ -86,6 +91,7 @@ namespace AssetManager
             LoadCommand = new DelegateCommand(LoadAction);
             SaveCommand = new DelegateCommand(SaveAction);
             SaveAsCommand = new DelegateCommand(SaveAsAction);
+            ImportCommand = new DelegateCommand(ImportAction);
             CoreTraitCheckboxCommand = new DelegateCommand(TraitCoreFilterAction);
             SkillTraitCheckboxCommand = new DelegateCommand(TraitSkillFilterAction);
             ClassTraitCheckboxCommand = new DelegateCommand(TraitClassFilterAction);
@@ -296,7 +302,7 @@ namespace AssetManager
             {
                 foreach (Source filter in SourceTraitFilters)
                 {
-                    possibleTraits = possibleTraits.Where(x => x.SourceTags.Contains(filter)).ToList();
+                    possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
                 }
             }
 
@@ -358,6 +364,48 @@ namespace AssetManager
             }
         }
 
+        private void ImportAction(object arg)
+        {
+            try
+            {
+                var vm = new ImportViewModel();
+                var configWindow = new ImportView(vm);
+
+                if (configWindow.ShowDialog() == true)
+                {
+                    string importPath = vm.GetSourcePath();
+                    SourceType type = vm.GetSourceType();
+
+                    switch (type)
+                    {
+                        case SourceType.Trait:
+                            ImportReader.ReadTraitCsv(importPath);
+                            break;
+                        case SourceType.Feat:
+                            ImportReader.ReadFeatCsv(importPath);
+                            break;
+                        case SourceType.Item:
+                            ImportReader.ReadItemCsv(importPath);
+                            break;
+                        case SourceType.Spell:
+                            ImportReader.ReadspellCsv(importPath);
+                            break;
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                string messageBoxText = "Source type was not selected";
+                string caption = "Error";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                
+                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+            }
+
+            RefreshButtonState();
+        }
+
         private void RefreshButtonState()
         {
             LoadCommand.RaiseCanExecuteChanged();
@@ -365,6 +413,7 @@ namespace AssetManager
             LoadCommand.RaiseCanExecuteChanged();
             SaveCommand.RaiseCanExecuteChanged();
             SaveAsCommand.RaiseCanExecuteChanged();
+            ImportCommand.RaiseCanExecuteChanged();
             CoreTraitCheckboxCommand.RaiseCanExecuteChanged();
             SkillTraitCheckboxCommand.RaiseCanExecuteChanged();
             ClassTraitCheckboxCommand.RaiseCanExecuteChanged();

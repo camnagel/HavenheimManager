@@ -1,4 +1,5 @@
 ﻿using System;
+using AssetManager.Import;
 
 namespace AssetManager.Enums
 {
@@ -323,6 +324,23 @@ namespace AssetManager.Enums
             }
 
             throw new ArgumentOutOfRangeException(nameof(combatName), "Could not determine requested combat: " + combatName);
+        }
+
+        public static SourceType StringToSourceType(this string sourceTypeName)
+        {
+            switch (sourceTypeName.ToLower())
+            {
+                case "feat":
+                    return SourceType.Feat;
+                case "item":
+                    return SourceType.Item;
+                case "trait":
+                    return SourceType.Trait;
+                case "spell":
+                    return SourceType.Spell;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(sourceTypeName), "Could not determine requested source type: " + sourceTypeName);
         }
     }
 }

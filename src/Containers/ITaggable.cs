@@ -5,14 +5,16 @@ namespace AssetManager.Containers
 {
     internal interface ITaggable
     {
-        HashSet<Combat> CombatTags { get; }
-
-        HashSet<School> SchoolTags { get; }
+        HashSet<Core> CoreTags { get; }
 
         HashSet<Skill> SkillTags { get; }
 
-        HashSet<Core> CoreTags { get; }
+        HashSet<Class> ClassTags { get; }
+
+        HashSet<Combat> CombatTags { get; }
 
         HashSet<Role> RoleTags { get; }
+
+        HashSet<School> SchoolTags { get; }
     }
 }

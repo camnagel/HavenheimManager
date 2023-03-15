@@ -9,6 +9,8 @@ namespace AssetManager.Containers
 
         public string Description { get; }
 
+        public string Prereqs { get; }
+
         public string Url { get; }
 
         public string Effects { get; }
@@ -27,15 +29,13 @@ namespace AssetManager.Containers
 
         public HashSet<School> SchoolTags { get; } = new HashSet<School>();
 
-        public HashSet<Source> SourceTags { get; } = new HashSet<Source>();
-
-        public Trait(string name, string description, string effects, string url,
-            Source source, IList<Core> coreTags, IList<Skill> skillTags, 
-            IList<Class> classTags, IList<Combat> combatTags, IList<Role> roleTags,
-            IList<School> schoolTags, IList<Source> sourceTags)
+        public Trait(string name, string description, string effects, string url, string prereqs,
+            Source source, IList<Core> coreTags, IList<Skill> skillTags, IList<Class> classTags, 
+            IList<Combat> combatTags, IList<Role> roleTags, IList<School> schoolTags)
         {
             Name = name;
             Description = description;
+            Prereqs = prereqs;
             Url = url;
             Effects = effects;
             Source = source;
@@ -68,11 +68,6 @@ namespace AssetManager.Containers
             foreach (var tag in schoolTags)
             {
                 SchoolTags.Add(tag);
-            }
-
-            foreach (var tag in sourceTags)
-            {
-                SourceTags.Add(tag);
             }
         }
     }

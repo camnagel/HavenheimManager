@@ -8,6 +8,8 @@ namespace AssetManager.Containers
 
         string Description { get; }
 
+        string Prereqs { get; }
+
         string Url { get; }
 
         string Effects { get; }
