@@ -41,7 +41,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
                                 <ListBox ItemsSource="{Binding FilteredTraitList}" Background="DimGray" Width="150" Height="900" Margin="0, 0, 10, 0"
-                                         SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                         SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="AliceBlue">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Vertical">
@@ -220,34 +220,37 @@
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="500" Height="900">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="20">
                                         <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
-                                        <Label Content="{Binding SelectedTrait.Name}" Width="150" Height="20" Background="DimGray"/>
+                                        <TextBox Text="{Binding SelectedTrait.Name}" Width="150" Height="20" Background="DimGray" Foreground="AliceBlue"/>
 
                                         <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
-                                        <Label Content="{Binding SelectedTrait.Source}" Width="150" Height="20" Background="DimGray"/>
+                                        <TextBox Text="{Binding SelectedTrait.Source}" Width="150" Height="20" Background="DimGray" Foreground="AliceBlue"/>
                                     </StackPanel>
 
                                     <TextBlock Margin="0, 5, 0, 0">Effects:</TextBlock>
-                                    <Label Content="{Binding SelectedTrait.Effects}" Width="500" Height="50" Background="DimGray"/>
+                                    <TextBox Text="{Binding SelectedTrait.Effects}" Width="500" Height="50" Background="DimGray" Foreground="AliceBlue"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Description:</TextBlock>
-                                    <Label Content="{Binding SelectedTrait.Description}" Width="500" Height="810" Background="DimGray"/>
+                                    <TextBox Text="{Binding SelectedTrait.Description}" Width="500" Height="810" Background="DimGray" Foreground="AliceBlue"/>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="150" Height="900" Margin="10, 0, 0, 0">
-                                    <TextBlock Margin="0, 25, 0, 0">Core Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.CoreTags}" Background="DimGray" Width="150" Height="100"/>
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="10, 0, 0, 0">
+                                    <TextBlock Margin="0, 25, 0, 0">Prereqs:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.Prereqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="255"/>
+                                    
+                                    <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.CoreTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Combat Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.CombatTags}" Background="DimGray" Width="150" Height="100"/>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.CombatTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.SchoolTags}" Background="DimGray" Width="150" Height="100"/>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.SchoolTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Skill Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.SkillTags}" Background="DimGray" Width="150" Height="100"/>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.SkillTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.RoleTags}" Background="DimGray" Width="150" Height="100"/>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.RoleTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>
                                 </StackPanel>
                             </StackPanel>
 
