@@ -25,11 +25,13 @@ namespace AssetManager.Import
 
         public DelegateCommand SelectCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
+        public DelegateCommand CancelCommand { get; set; }
 
         public ImportViewModel()
         {
             SaveCommand = new DelegateCommand(SaveAction);
             SelectCommand = new DelegateCommand(SelectAction);
+            CancelCommand = new DelegateCommand(CancelAction);
         }
 
         private void SaveAction(object arg)
@@ -41,6 +43,15 @@ namespace AssetManager.Import
                     window.DialogResult = true;
                 }
 
+                window.Close();
+            }
+        }
+
+        private void CancelAction(object arg)
+        {
+            if (arg is Window window)
+            {
+                window.DialogResult = false;
                 window.Close();
             }
         }

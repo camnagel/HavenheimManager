@@ -9,7 +9,7 @@ namespace AssetManager.Import
         public TraitMap()
         {
             Map(x => x.Name).Index(0);
-            Map(x => x.Prereqs).Index(1);
+            Map(x => x.Prereqs).TypeConverter<PrereqsConverter<string>>().Index(1);
             Map(x => x.Effects).Index(2);
             Map(x => x.Description).Index(3);
             Map(x => x.Url).Index(4);

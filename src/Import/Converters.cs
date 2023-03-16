@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AssetManager.Enums;
 using CsvHelper;
@@ -10,6 +11,23 @@ namespace AssetManager.Import
     public class SourceConverter<T> : DefaultTypeConverter
     {
         public override object ConvertFromString(string? source, IReaderRow row, MemberMapData data) => source.StringToSource();
+    }
+
+    public class PrereqsConverter<T> : DefaultTypeConverter
+    {
+        public override object ConvertFromString(string? prereqs, IReaderRow row, MemberMapData data)
+        {
+            List<string> prereqList = new List<string>();
+            if (prereqs is { Length: > 0 })
+            {
+                List<string> splitTags = prereqs.Split(',').ToList();
+                foreach (string prereq in splitTags)
+                {
+                    prereqList.Add(prereq.Trim());
+                }
+            }
+            return prereqList;
+        }
     }
 
     public class CoreConverter<T> : DefaultTypeConverter

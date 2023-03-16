@@ -1,4 +1,5 @@
 ﻿using AssetManager.Enums;
+using System.Collections.Generic;
 
 namespace AssetManager.Containers
 {
@@ -8,7 +9,7 @@ namespace AssetManager.Containers
 
         string Description { get; set; }
 
-        string Prereqs { get; set; }
+        IList<string> Prereqs { get; set; }
 
         string Url { get; set; }
 

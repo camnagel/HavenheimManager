@@ -23,7 +23,14 @@
                       SelectedItem="{Binding SelectedSourceType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/> 
         </StackPanel>
 
-        <Button Content="Import" Command="{Binding SaveCommand}" Margin="0, 0, 10, 10"
+        <Button Content="Import" Command="{Binding SaveCommand}" Margin="10, 0, 0, 10"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Width="70" Height="30">
+        </Button>
+
+        <Button Content="Cancel" Command="{Binding CancelCommand}" Margin="0, 0, 10, 10"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
