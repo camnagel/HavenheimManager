@@ -16,5 +16,7 @@ namespace AssetManager.Containers
         HashSet<Role> RoleTags { get; set; }
 
         HashSet<School> SchoolTags { get; set; }
+
+        IList<string> CustomTags { get; set; }
     }
 }

@@ -28,6 +28,9 @@ namespace AssetManager
         public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
         public ObservableCollection<Item> CurrentItem { get; set; } = new();
 
+        // Custom tag collections
+        public ObservableCollection<string> CustomTraitFilterList { get; set; } = new();
+
         // Trait Filter Lists
         private HashSet<Core> CoreTraitFilters = new HashSet<Core>();
         private HashSet<Skill> SkillTraitFilters = new HashSet<Skill>();
@@ -36,6 +39,7 @@ namespace AssetManager
         private HashSet<Role> RoleTraitFilters = new HashSet<Role>();
         private HashSet<School> SchoolTraitFilters = new HashSet<School>();
         private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
+        private HashSet<string> CustomTraitFilters = new HashSet<string>();
 
         private string _saveFileName = "";
 
@@ -45,7 +49,8 @@ namespace AssetManager
                                       CombatTraitFilters.Any() || 
                                       RoleTraitFilters.Any() || 
                                       SchoolTraitFilters.Any() ||
-                                      SourceTraitFilters.Any();
+                                      SourceTraitFilters.Any() ||
+                                      CustomTraitFilters.Any();
 
         /// <summary>
         /// The selected <see cref="Trait"/>
@@ -85,6 +90,7 @@ namespace AssetManager
         public DelegateCommand RoleTraitCheckboxCommand { get; }
         public DelegateCommand SchoolTraitCheckboxCommand { get; }
         public DelegateCommand SourceTraitCheckboxCommand { get; }
+        public DelegateCommand CustomTraitCheckboxCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -99,6 +105,7 @@ namespace AssetManager
             RoleTraitCheckboxCommand = new DelegateCommand(TraitRoleFilterAction);
             SchoolTraitCheckboxCommand = new DelegateCommand(TraitSchoolFilterAction);
             SourceTraitCheckboxCommand = new DelegateCommand(TraitSourceFilterAction);
+            CustomTraitCheckboxCommand = new DelegateCommand(TraitCustomFilterAction);
         }
 
         // Trait Checkbox Actions
@@ -235,6 +242,23 @@ namespace AssetManager
             }
         }
 
+        private void TraitCustomFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                if (CustomTraitFilters.Contains(filter))
+                {
+                    CustomTraitFilters.Remove(filter);
+                }
+                else
+                {
+                    CustomTraitFilters.Add(filter);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
         private void ApplyTraitFilters()
         {
             FilteredTraitList.Clear();
@@ -303,6 +327,14 @@ namespace AssetManager
                 foreach (Source filter in SourceTraitFilters)
                 {
                     possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
+                }
+            }
+
+            if (CustomTraitFilters.Any())
+            {
+                foreach (string filter in CustomTraitFilters)
+                {
+                    possibleTraits = possibleTraits.Where(x => x.CustomTags.Contains(filter)).ToList();
                 }
             }
 
@@ -382,6 +414,13 @@ namespace AssetManager
                             foreach (Trait trait in ImportReader.ReadTraitCsv(importPath))
                             {
                                 MasterTraitList.Add(trait);
+                                foreach (string tag in trait.CustomTags)
+                                {
+                                    if (!CustomTraitFilterList.Contains(tag))
+                                    {
+                                        CustomTraitFilterList.Add(tag);
+                                    }
+                                }
                             }
                             ApplyTraitFilters();
                             break;

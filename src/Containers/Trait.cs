@@ -13,7 +13,9 @@ namespace AssetManager.Containers
 
         public string Url { get; set; }
 
-        public string Effects { get; set; }
+        public string Notes { get; set; }
+
+        public IList<string> CustomTags { get; set; }
 
         public Source Source { get; set; }
 

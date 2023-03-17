@@ -13,7 +13,7 @@ namespace AssetManager.Containers
 
         string Url { get; set; }
 
-        string Effects { get; set; }
+        string Notes { get; set; }
 
         Source Source { get; set; }
     }

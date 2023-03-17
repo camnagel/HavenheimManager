@@ -216,26 +216,50 @@
                                             <CheckBox FontWeight="Normal" Command="{Binding SourceTraitCheckboxCommand}" CommandParameter="Homebrew">Homebrew</CheckBox>
                                         </StackPanel>
                                     </Expander>
+
+                                    <Expander Name="CustomExpander" Header="Custom" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding CustomTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.CustomTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="500" Height="900">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="20">
                                         <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
-                                        <TextBox Text="{Binding SelectedTrait.Name}" Width="150" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                                        <TextBox Text="{Binding SelectedTrait.Name}" Width="256" Height="20" Background="DimGray" Foreground="AliceBlue"/>
 
                                         <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
                                         <TextBox Text="{Binding SelectedTrait.Source}" Width="150" Height="20" Background="DimGray" Foreground="AliceBlue"/>
                                     </StackPanel>
 
-                                    <TextBlock Margin="0, 5, 0, 0">Effects:</TextBlock>
-                                    <TextBox Text="{Binding SelectedTrait.Effects}" Width="500" Height="50" Background="DimGray" Foreground="AliceBlue"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                                        <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
+                                        <TextBox Text="{Binding SelectedTrait.Url}" Width="480" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                                    </StackPanel>
 
-                                    <TextBlock Margin="0, 5, 0, 0">Description:</TextBlock>
-                                    <TextBox Text="{Binding SelectedTrait.Description}" Width="500" Height="810" Background="DimGray" Foreground="AliceBlue"/>
+                                    <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>
+                                    <TextBox Text="{Binding SelectedTrait.Description}" Width="500" Height="700" Background="DimGray" Foreground="AliceBlue"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Notes:</TextBlock>
+                                    <TextBox Text="{Binding SelectedTrait.Notes}" Width="500" Height="115" Background="DimGray" Foreground="AliceBlue"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="10, 0, 0, 0">
-                                    <TextBlock Margin="0, 25, 0, 0">Prereqs:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.Prereqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="255"/>
+                                    <TextBlock Margin="0, 0, 0, 0">Prereqs:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.Prereqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="160"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>
                                     
                                     <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
                                     <ListBox ItemsSource="{Binding SelectedTrait.CoreTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>

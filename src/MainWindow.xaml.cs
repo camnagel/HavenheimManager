@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace AssetManager
 {
@@ -10,8 +11,8 @@ namespace AssetManager
         public MainWindow(MainWindowViewModel vm)
         {
             this.DataContext = vm;
-
             InitializeComponent();
+            //CustomExpander.DataContext = vm.CustomTraitFilterList;
         }
     }
 }

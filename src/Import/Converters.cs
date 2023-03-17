@@ -13,6 +13,23 @@ namespace AssetManager.Import
         public override object ConvertFromString(string? source, IReaderRow row, MemberMapData data) => source.StringToSource();
     }
 
+    public class CustomTagsConverter<T> : DefaultTypeConverter
+    {
+        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        {
+            List<string> tagList = new List<string>();
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagList.Add(tag.Trim());
+                }
+            }
+            return tagList;
+        }
+    }
+
     public class PrereqsConverter<T> : DefaultTypeConverter
     {
         public override object ConvertFromString(string? prereqs, IReaderRow row, MemberMapData data)

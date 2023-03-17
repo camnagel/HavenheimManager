@@ -10,7 +10,16 @@ namespace AssetManager.Import
 {
     public class ImportViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<string> SourcePathList { get; } = new();
+        private string _sourcePath;
+        public string? SourcePath
+        {
+            get => _sourcePath;
+            set
+            {
+                _sourcePath = value ?? "";
+                OnPropertyChanged("SourcePath");
+            }
+        }
 
         private string _selectedSourceType;
         public string? SelectedSourceType
@@ -38,7 +47,7 @@ namespace AssetManager.Import
         {
             if (arg is Window window)
             {
-                if (SourcePathList.Any() && _selectedSourceType.Length > 0)
+                if (SourcePath is { Length: > 0 } && _selectedSourceType.Length > 0)
                 {
                     window.DialogResult = true;
                 }
@@ -64,12 +73,11 @@ namespace AssetManager.Import
 
             if (dialog.ShowDialog() == true)
             {
-                SourcePathList.Clear();
-                SourcePathList.Add(dialog.FileName);
+                SourcePath = dialog.FileName;
             }
         }
 
-        public string GetSourcePath() => SourcePathList.First();
+        public string GetSourcePath() => SourcePath;
 
         public SourceType GetSourceType() => _selectedSourceType.StringToSourceType();
 
