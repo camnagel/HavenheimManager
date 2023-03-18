@@ -28,8 +28,16 @@ namespace AssetManager
         public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
         public ObservableCollection<Item> CurrentItem { get; set; } = new();
 
-        // Custom tag collections
+        // Tag collections
         public ObservableCollection<string> CustomTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> CoreTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> SkillTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> ClassTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> CombatTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> RoleTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> SchoolTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> SourceTraitFilterList { get; set; } = new();
+
 
         // Trait Filter Lists
         private HashSet<Core> CoreTraitFilters = new HashSet<Core>();

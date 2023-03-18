@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,11 @@ namespace AssetManager.Enums
     /// </summary>
     public enum Source
     {
+        [Description("Standard")]
         Standard,
+        [Description("Rework")]
         Rework,
+        [Description("Homebrew")]
         Homebrew
     }
 }

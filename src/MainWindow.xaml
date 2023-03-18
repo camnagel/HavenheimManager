@@ -53,168 +53,115 @@
 
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,20,0">
                                     <Expander Name="CoreExpander" Header="Core" FontSize="10" FontWeight="Bold">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Strength">Strength</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Dexterity">Dexterity</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Constitution">Constitution</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Intelligence">Intelligence</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Wisdom">Wisdom</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Charisma">Charisma</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Hit Points">Hit Points</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CoreTraitCheckboxCommand}" CommandParameter="Wealth">Wealth</CheckBox>
-                                        </StackPanel>
+                                        <ListBox ItemsSource="{Binding CoreTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.CoreTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </Expander>
 
                                     <Expander Name="SkillExpander" Header="Skills" FontSize="10" FontWeight="Bold">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Acrobatics">Acrobatics</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Appraise">Appraise</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Bluff">Bluff</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Climb">Climb</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Craft">Craft</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Diplomacy">Diplomacy</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Disable Device">Disable Device</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Disguise">Disguise</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Escape Artist">Escape Artist</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Fly">Fly</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Handle Animal">Handle Animal</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Heal">Heal</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Intimidate">Intimidate</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Knowledge">Knowledge</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Linguistics">Linguistics</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Perception">Perception</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Perform">Perform</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Profession">Profession</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Ride">Ride</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Sense Motive">Sense Motive</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Sleight of Hand">Sleight of Hand</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Spellcraft">Spellcraft</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Stealth">Stealth</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Survival">Survival</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Swim">Swim</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="UMD">UMD</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="Alternate">Alternate</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SkillTraitCheckboxCommand}" CommandParameter="All">All</CheckBox>
-                                        </StackPanel>
+                                        <ListBox ItemsSource="{Binding SkillTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.SkillTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </Expander>
 
                                     <Expander Name="ClassExpander" Header="Class" FontSize="10" FontWeight="Bold">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Alchemist">Alchemist</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Arcanist">Arcanist</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Aegis">Aegis</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Barbarian">Barbarian</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Bard">Bard</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Bloodrager">Bloodrager</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Brawler">Brawler</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Cavalier">Cavalier</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Cleric">Cleric</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Cryptic">Cryptic</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Dread">Dread</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Druid">Druid</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Fighter">Fighter</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Hunter">Hunter</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Inquisitor">Inquisitor</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Investigator">Investigator</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Kineticist">Kineticist</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Magus">Magus</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Marksman">Marksman</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Medium">Medium</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Mesmerist">Mesmerist</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Monk">Monk</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Ninja">Ninja</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Occulist">Occulist</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Oracle">Oracle</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Paladin">Paladin</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Psion">Psion</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Psychic">Psychic</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Psychic Warrior">Psychic Warrior</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Ranger">Ranger</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Rogue">Rogue</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Samurai">Samurai</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Shaman">Shaman</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Shifter">Shifter</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Skald">Skald</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Slayer">Slayer</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Sorcerer">Sorcerer</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Soul Knife">Soul Knife</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Spiritualist">Spiritualist</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Summoner">Summoner</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Swashbuckler">Swashbuckler</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Tactician">Tactician</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Warpriest">Warpriest</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Wilder">Wilder</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Witch">Witch</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding ClassTraitCheckboxCommand}" CommandParameter="Wizard">Wizard</CheckBox>
-                                        </StackPanel>
+                                        <ListBox ItemsSource="{Binding ClassTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.ClassTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </Expander>
 
                                     <Expander Name="CombatExpander" Header="Combat" FontSize="10" FontWeight="Bold">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Initiative">Initiative</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="AC">AC</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Attack">Attack</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Damage">Damage</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Critical">Critical</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Nonlethal">Nonlethal</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Combat Manuver">Combat Manuver</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Unarmed">Unarmed</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Weapon">Weapon</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Two-Weapon">Two-Weapon</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Two-Handed">Two-Handed</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Bow">Bow</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Thrown">Thrown</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Attacks of Opportunity">Attacks of Opportunity</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Simple Weapons">Simple Weapons</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Martial Weapons">Martial Weapons</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding CombatTraitCheckboxCommand}" CommandParameter="Exotic Weapons">Exotic Weapons</CheckBox>
-                                        </StackPanel>
+                                        <ListBox ItemsSource="{Binding CombatTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.CombatTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </Expander>
 
                                     <Expander Name="RoleExpander" Header="Role" FontSize="10" FontWeight="Bold">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Melee">Melee</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Ranged">Ranged</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Switch Attacker">Switch Attacker</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Tank">Tank</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Leader">Leader</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Guard">Guard</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Blaster">Blaster</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Debuffer">Debuffer</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Buffer">Buffer</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Healer">Healer</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Battlefiled Control">Battlefiled Control</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Shapeshifter">Shapeshifter</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Minions">Minions</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Skill Monkey">Skill Monkey</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Social">Social</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Information">Information</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding RoleTraitCheckboxCommand}" CommandParameter="Crafter">Crafter</CheckBox>
-                                        </StackPanel>
+                                        <ListBox ItemsSource="{Binding RoleTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.RoleTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </Expander>
 
                                     <Expander Name="SchoolExpander" Header="Spells" FontSize="10" FontWeight="Bold">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Abjuration">Abjuration</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Conjuration">Conjuration</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Divination">Divination</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Enchanment">Enchanment</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Evocation">Evocation</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Illusion">Illusion</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Necromancy">Necromancy</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Transmutation">Transmutation</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Universal">Universal</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Offensive">Offensive</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SchoolTraitCheckboxCommand}" CommandParameter="Defensive">Defensive</CheckBox>
-                                        </StackPanel>
+                                        <ListBox ItemsSource="{Binding SchoolTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.SchoolTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </Expander>
 
                                     <Expander Name="SourceExpander" Header="Source" FontSize="10" FontWeight="Bold">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding SourceTraitCheckboxCommand}" CommandParameter="Standard">Standard</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SourceTraitCheckboxCommand}" CommandParameter="Rework">Rework</CheckBox>
-                                            <CheckBox FontWeight="Normal" Command="{Binding SourceTraitCheckboxCommand}" CommandParameter="Homebrew">Homebrew</CheckBox>
-                                        </StackPanel>
+                                        <ListBox ItemsSource="{Binding SourceTraitFilterList}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.SourceTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </Expander>
 
                                     <Expander Name="CustomExpander" Header="Custom" FontSize="10" FontWeight="Bold">

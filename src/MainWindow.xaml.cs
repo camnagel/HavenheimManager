@@ -1,5 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using AssetManager.Enums;
+using System;
+using System.Windows;
 
 namespace AssetManager
 {
@@ -12,7 +13,40 @@ namespace AssetManager
         {
             this.DataContext = vm;
             InitializeComponent();
-            //CustomExpander.DataContext = vm.CustomTraitFilterList;
+            foreach (var item in Enum.GetValues(typeof(Core)))
+            {
+                vm.CoreTraitFilterList.Add(((Core)item).GetEnumDescription());
+            }
+
+            foreach (var item in Enum.GetValues(typeof(Source)))
+            {
+                vm.SourceTraitFilterList.Add(((Source)item).GetEnumDescription());
+            }
+
+            foreach (var item in Enum.GetValues(typeof(Skill)))
+            {
+                vm.SkillTraitFilterList.Add(((Skill)item).GetEnumDescription());
+            }
+
+            foreach (var item in Enum.GetValues(typeof(Combat)))
+            {
+                vm.CombatTraitFilterList.Add(((Combat)item).GetEnumDescription());
+            }
+
+            foreach (var item in Enum.GetValues(typeof(Role)))
+            {
+                vm.RoleTraitFilterList.Add(((Role)item).GetEnumDescription());
+            }
+
+            foreach (var item in Enum.GetValues(typeof(School)))
+            {
+                vm.SchoolTraitFilterList.Add(((School)item).GetEnumDescription());
+            }
+
+            foreach (var item in Enum.GetValues(typeof(Class)))
+            {
+                vm.ClassTraitFilterList.Add(((Class)item).GetEnumDescription());
+            }
         }
     }
 }
