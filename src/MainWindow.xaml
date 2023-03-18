@@ -34,10 +34,11 @@
                 <TabItem Header="Traits" Background="LightGray" Width="100" Height="20">
                     <StackPanel>
                         <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Left" Width="2360" Margin="10,10,0,0">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1000" Height="20">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="20">
                                 <TextBlock>Name</TextBlock>
                                 <TextBlock Margin="130, 0, 0, 0">Filters</TextBlock>
                                 <TextBlock Margin="138, 0, 0, 0">Selected Trait</TextBlock>
+                                <TextBlock Margin="610, 0, 0, 0">Favorites</TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
                                 <ListBox ItemsSource="{Binding FilteredTraitList}" Background="DimGray" Width="150" Height="900" Margin="0, 0, 10, 0"
@@ -223,12 +224,63 @@
                                     <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
                                     <ListBox ItemsSource="{Binding SelectedTrait.RoleTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"/>
                                 </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">
+                                    <ListBox ItemsSource="{Binding FavoriteTraitList}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="540"
+                                             SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                        <TextBlock Margin="0, 5, 0, 0">Hidden</TextBlock>
+                                    <Expander>
+                                        <ListBox ItemsSource="{Binding HiddenTraitList}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="317"
+                                                 SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="{Binding Path=Name}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+                                </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1000" Height="50">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1500" Height="50">
                                 <Button Content="Favorite"
                                         Command="{Binding AddFavoriteTraitCommand}"
                                         Width="60" Height="30" Margin="5,0,10,0"/>
+
+                                <Button Content="Hide"
+                                        Command="{Binding AddHiddenTraitCommand}"
+                                        Width="60" Height="30" Margin="5,0,10,0"/>
+
+                                <Button Content="Edit"
+                                        Command="{Binding EditTraitCommand}"
+                                        Width="60" Height="30" Margin="280,0,10,0"/>
+
+                                <Button Content="New"
+                                        Command="{Binding NewTraitCommand}"
+                                        Width="60" Height="30" Margin="50,0,50,0"/>
+
+                                <Button Content="Remove"
+                                        Command="{Binding RemoveTraitCommand}"
+                                        Width="60" Height="30" Margin="0,0,100,0"/>
+
+                                <Button Content="Unfavorite"
+                                        Command="{Binding RemoveFavoriteTraitCommand}"
+                                        Width="60" Height="30" Margin="195,0,10,0"/>
+
+                                <Button Content="Show"
+                                        Command="{Binding RemoveHiddenTraitCommand}"
+                                        Width="60" Height="30" Margin="10,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

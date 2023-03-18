@@ -1,10 +1,7 @@
-﻿using Microsoft.Win32;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using AssetManager.Enums;
+using Microsoft.Win32;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
-using AssetManager.Enums;
 
 namespace AssetManager.Import
 {

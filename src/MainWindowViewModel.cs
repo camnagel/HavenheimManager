@@ -1,16 +1,15 @@
-﻿using System;
-using AssetManager.Containers;
+﻿using AssetManager.Containers;
 using AssetManager.Enums;
+using AssetManager.Import;
 using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
-using System.Threading;
-using AssetManager.Import;
-using File = System.IO.File;
 using System.Windows;
+using File = System.IO.File;
 
 namespace AssetManager
 {
@@ -21,6 +20,8 @@ namespace AssetManager
 
         // Filtered Object Collections
         public ObservableCollection<Trait> FilteredTraitList { get; set; } = new();
+        public ObservableCollection<Trait> FavoriteTraitList { get; set; } = new();
+        public ObservableCollection<Trait> HiddenTraitList { get; set; } = new();
 
         // Selected Object Backing Collections
         public ObservableCollection<Trait> CurrentTrait { get; set; } = new();
@@ -38,27 +39,9 @@ namespace AssetManager
         public ObservableCollection<string> SchoolTraitFilterList { get; set; } = new();
         public ObservableCollection<string> SourceTraitFilterList { get; set; } = new();
 
-
-        // Trait Filter Lists
-        private HashSet<Core> CoreTraitFilters = new HashSet<Core>();
-        private HashSet<Skill> SkillTraitFilters = new HashSet<Skill>();
-        private HashSet<Class> ClassTraitFilters = new HashSet<Class>();
-        private HashSet<Combat> CombatTraitFilters = new HashSet<Combat>();
-        private HashSet<Role> RoleTraitFilters = new HashSet<Role>();
-        private HashSet<School> SchoolTraitFilters = new HashSet<School>();
-        private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
-        private HashSet<string> CustomTraitFilters = new HashSet<string>();
-
         private string _saveFileName = "";
 
-        private bool _activeFilters => CoreTraitFilters.Any() || 
-                                      SkillTraitFilters.Any() || 
-                                      ClassTraitFilters.Any() || 
-                                      CombatTraitFilters.Any() || 
-                                      RoleTraitFilters.Any() || 
-                                      SchoolTraitFilters.Any() ||
-                                      SourceTraitFilters.Any() ||
-                                      CustomTraitFilters.Any();
+        
 
         /// <summary>
         /// The selected <see cref="Trait"/>
@@ -90,16 +73,6 @@ namespace AssetManager
         public DelegateCommand SaveAsCommand { get; }
         public DelegateCommand ImportCommand { get; }
 
-        // Trait Checkbox Commands
-        public DelegateCommand CoreTraitCheckboxCommand { get; }
-        public DelegateCommand SkillTraitCheckboxCommand { get; }
-        public DelegateCommand ClassTraitCheckboxCommand { get; }
-        public DelegateCommand CombatTraitCheckboxCommand { get; }
-        public DelegateCommand RoleTraitCheckboxCommand { get; }
-        public DelegateCommand SchoolTraitCheckboxCommand { get; }
-        public DelegateCommand SourceTraitCheckboxCommand { get; }
-        public DelegateCommand CustomTraitCheckboxCommand { get; }
-
         public MainWindowViewModel()
         {
             LoadCommand = new DelegateCommand(LoadAction);
@@ -114,7 +87,53 @@ namespace AssetManager
             SchoolTraitCheckboxCommand = new DelegateCommand(TraitSchoolFilterAction);
             SourceTraitCheckboxCommand = new DelegateCommand(TraitSourceFilterAction);
             CustomTraitCheckboxCommand = new DelegateCommand(TraitCustomFilterAction);
+            AddFavoriteTraitCommand = new DelegateCommand(AddFavoriteTraitAction);
+            AddHiddenTraitCommand = new DelegateCommand(AddHiddenTraitAction);
+            EditTraitCommand = new DelegateCommand(EditTraitAction);
+            NewTraitCommand = new DelegateCommand(NewTraitAction);
+            RemoveTraitCommand = new DelegateCommand(RemoveTraitAction);
+            RemoveFavoriteTraitCommand = new DelegateCommand(RemoveFavoriteTraitAction);
+            RemoveHiddenTraitCommand = new DelegateCommand(RemoveHiddenTraitAction);
         }
+
+        #region Traits
+        // Trait Filter Lists
+        private HashSet<Core> CoreTraitFilters = new HashSet<Core>();
+        private HashSet<Skill> SkillTraitFilters = new HashSet<Skill>();
+        private HashSet<Class> ClassTraitFilters = new HashSet<Class>();
+        private HashSet<Combat> CombatTraitFilters = new HashSet<Combat>();
+        private HashSet<Role> RoleTraitFilters = new HashSet<Role>();
+        private HashSet<School> SchoolTraitFilters = new HashSet<School>();
+        private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
+        private HashSet<string> CustomTraitFilters = new HashSet<string>();
+
+        private bool _activeTraitFilters => CoreTraitFilters.Any() ||
+                                            SkillTraitFilters.Any() ||
+                                            ClassTraitFilters.Any() ||
+                                            CombatTraitFilters.Any() ||
+                                            RoleTraitFilters.Any() ||
+                                            SchoolTraitFilters.Any() ||
+                                            SourceTraitFilters.Any() ||
+                                            CustomTraitFilters.Any();
+
+        // Trait Checkbox Commands
+        public DelegateCommand CoreTraitCheckboxCommand { get; }
+        public DelegateCommand SkillTraitCheckboxCommand { get; }
+        public DelegateCommand ClassTraitCheckboxCommand { get; }
+        public DelegateCommand CombatTraitCheckboxCommand { get; }
+        public DelegateCommand RoleTraitCheckboxCommand { get; }
+        public DelegateCommand SchoolTraitCheckboxCommand { get; }
+        public DelegateCommand SourceTraitCheckboxCommand { get; }
+        public DelegateCommand CustomTraitCheckboxCommand { get; }
+
+        // Trait Control Bar Commands
+        public DelegateCommand AddFavoriteTraitCommand { get; }
+        public DelegateCommand AddHiddenTraitCommand { get; }
+        public DelegateCommand EditTraitCommand { get; }
+        public DelegateCommand NewTraitCommand { get; }
+        public DelegateCommand RemoveTraitCommand { get; }
+        public DelegateCommand RemoveFavoriteTraitCommand { get; }
+        public DelegateCommand RemoveHiddenTraitCommand { get; }
 
         // Trait Checkbox Actions
         private void TraitCoreFilterAction(object arg)
@@ -270,7 +289,7 @@ namespace AssetManager
         private void ApplyTraitFilters()
         {
             FilteredTraitList.Clear();
-            if (!_activeFilters)
+            if (!_activeTraitFilters)
             {
                 foreach (Trait trait in MasterTraitList)
                 {
@@ -351,6 +370,92 @@ namespace AssetManager
                 FilteredTraitList.Add(trait);
             }
         }
+
+        private void AddFavoriteTraitAction(object arg)
+        {
+            if (SelectedTrait != null && !FavoriteTraitList.Contains(SelectedTrait))
+            {
+                FavoriteTraitList.Add(SelectedTrait);
+                MasterTraitList.Remove(SelectedTrait);
+                FilteredTraitList.Remove(SelectedTrait);
+                HiddenTraitList.Remove(SelectedTrait);
+
+                SelectedTrait = null;
+            }
+        }
+
+        private void AddHiddenTraitAction(object arg)
+        {
+            if (SelectedTrait != null && !HiddenTraitList.Contains(SelectedTrait))
+            {
+                HiddenTraitList.Add(SelectedTrait);
+                MasterTraitList.Remove(SelectedTrait);
+                FilteredTraitList.Remove(SelectedTrait);
+                FavoriteTraitList.Remove(SelectedTrait);
+
+                SelectedTrait = null;
+            }
+        }
+
+        private void EditTraitAction(object arg)
+        {
+
+        }
+
+        private void NewTraitAction(object arg)
+        {
+
+        }
+
+        private void RemoveTraitAction(object arg)
+        {
+            if (SelectedTrait != null)
+            {
+                string messageBoxText = "Trait will be removed. Are you sure?";
+                string caption = "Warning";
+                MessageBoxButton button = MessageBoxButton.YesNo;
+                MessageBoxImage icon = MessageBoxImage.Warning;
+                MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    MasterTraitList.Remove(SelectedTrait);
+                    HiddenTraitList.Remove(SelectedTrait);
+                    FavoriteTraitList.Remove(SelectedTrait);
+                    SelectedTrait = null;
+                    ApplyTraitFilters();
+                }
+            }
+        }
+
+        private void RemoveFavoriteTraitAction(object arg)
+        {
+            if (SelectedTrait != null && FavoriteTraitList.Contains(SelectedTrait))
+            {
+                MasterTraitList.Add(SelectedTrait);
+                FavoriteTraitList.Remove(SelectedTrait);
+                HiddenTraitList.Remove(SelectedTrait);
+
+                SelectedTrait = null;
+
+                ApplyTraitFilters();
+            }
+        }
+
+        private void RemoveHiddenTraitAction(object arg)
+        {
+            if (SelectedTrait != null && HiddenTraitList.Contains(SelectedTrait))
+            {
+                MasterTraitList.Add(SelectedTrait);
+                FavoriteTraitList.Remove(SelectedTrait);
+                HiddenTraitList.Remove(SelectedTrait);
+
+                SelectedTrait = null;
+
+                ApplyTraitFilters();
+            }
+        }
+        #endregion
 
         private void LoadAction(object arg)
         {
