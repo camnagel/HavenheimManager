@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 using File = System.IO.File;
 
@@ -41,7 +42,9 @@ namespace AssetManager
 
         private string _saveFileName = "";
 
-        
+        private static readonly Regex _whitespaceFilter = new Regex(@"\s+");
+
+        private static readonly string _searchPlaceholderText = "Search...";
 
         /// <summary>
         /// The selected <see cref="Trait"/>
@@ -64,6 +67,19 @@ namespace AssetManager
                 }
                 
                 OnPropertyChanged("SelectedTrait");
+            }
+        }
+
+        private string _traitSearchText = _searchPlaceholderText;
+        public string TraitSearchText
+        {
+            get => _traitSearchText;
+            set
+            {
+                _traitSearchText = value;
+                ApplyTraitFilters();
+
+                OnPropertyChanged("TraitSearchText");
             }
         }
 
@@ -94,6 +110,8 @@ namespace AssetManager
             RemoveTraitCommand = new DelegateCommand(RemoveTraitAction);
             RemoveFavoriteTraitCommand = new DelegateCommand(RemoveFavoriteTraitAction);
             RemoveHiddenTraitCommand = new DelegateCommand(RemoveHiddenTraitAction);
+            SearchRemovePlaceholderTextCommand = new DelegateCommand(SearchRemovePlaceholderTextAction);
+            SearchAddPlaceholderTextCommand = new DelegateCommand(SearchAddPlaceholderTextAction);
         }
 
         #region Traits
@@ -127,6 +145,8 @@ namespace AssetManager
         public DelegateCommand CustomTraitCheckboxCommand { get; }
 
         // Trait Control Bar Commands
+        public DelegateCommand SearchRemovePlaceholderTextCommand { get; }
+        public DelegateCommand SearchAddPlaceholderTextCommand { get; }
         public DelegateCommand AddFavoriteTraitCommand { get; }
         public DelegateCommand AddHiddenTraitCommand { get; }
         public DelegateCommand EditTraitCommand { get; }
@@ -289,80 +309,51 @@ namespace AssetManager
         private void ApplyTraitFilters()
         {
             FilteredTraitList.Clear();
-            if (!_activeTraitFilters)
-            {
-                foreach (Trait trait in MasterTraitList)
-                {
-                    FilteredTraitList.Add(trait);
-                }
+            List<Trait> possibleTraits = TraitSearchText != _searchPlaceholderText && TraitSearchText != "" ? 
+                MasterTraitList.Where(
+                    x => _whitespaceFilter.Replace(
+                        x.Name.ToLower(), "").Contains(
+                        _whitespaceFilter.Replace(_traitSearchText.ToLower(), "")))
+                               .ToList() : MasterTraitList;
 
-                return;
+            foreach (Core filter in CoreTraitFilters)
+            {
+                possibleTraits = possibleTraits.Where(x => x.CoreTags.Contains(filter)).ToList();
             }
 
-            List<Trait> possibleTraits = new List<Trait>(MasterTraitList);
-
-            if (CoreTraitFilters.Any())
+            foreach (Skill filter in SkillTraitFilters)
             {
-                foreach (Core filter in CoreTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.CoreTags.Contains(filter)).ToList();
-                }
+                possibleTraits = possibleTraits.Where(x => x.SkillTags.Contains(filter)).ToList();
             }
 
-            if (SkillTraitFilters.Any())
+            foreach (Class filter in ClassTraitFilters)
             {
-                foreach (Skill filter in SkillTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.SkillTags.Contains(filter)).ToList();
-                }
+                possibleTraits = possibleTraits.Where(x => x.ClassTags.Contains(filter)).ToList();
             }
 
-            if (ClassTraitFilters.Any())
+            foreach (Combat filter in CombatTraitFilters)
             {
-                foreach (Class filter in ClassTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.ClassTags.Contains(filter)).ToList();
-                }
+                possibleTraits = possibleTraits.Where(x => x.CombatTags.Contains(filter)).ToList();
             }
 
-            if (CombatTraitFilters.Any())
+            foreach (Role filter in RoleTraitFilters)
             {
-                foreach (Combat filter in CombatTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.CombatTags.Contains(filter)).ToList();
-                }
+                possibleTraits = possibleTraits.Where(x => x.RoleTags.Contains(filter)).ToList();
             }
 
-            if (RoleTraitFilters.Any())
+            foreach (School filter in SchoolTraitFilters)
             {
-                foreach (Role filter in RoleTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.RoleTags.Contains(filter)).ToList();
-                }
+                possibleTraits = possibleTraits.Where(x => x.SchoolTags.Contains(filter)).ToList();
             }
 
-            if (SchoolTraitFilters.Any())
+            foreach (Source filter in SourceTraitFilters)
             {
-                foreach (School filter in SchoolTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.SchoolTags.Contains(filter)).ToList();
-                }
+                possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
             }
 
-            if (SourceTraitFilters.Any())
+            foreach (string filter in CustomTraitFilters)
             {
-                foreach (Source filter in SourceTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
-                }
-            }
-
-            if (CustomTraitFilters.Any())
-            {
-                foreach (string filter in CustomTraitFilters)
-                {
-                    possibleTraits = possibleTraits.Where(x => x.CustomTags.Contains(filter)).ToList();
-                }
+                possibleTraits = possibleTraits.Where(x => x.CustomTags.Contains(filter)).ToList();
             }
 
             foreach (Trait trait in possibleTraits)
@@ -407,6 +398,22 @@ namespace AssetManager
 
         }
 
+        private void SearchRemovePlaceholderTextAction(object arg)
+        {
+            if (TraitSearchText == _searchPlaceholderText)
+            {
+                TraitSearchText = "";
+            }
+        }
+
+        private void SearchAddPlaceholderTextAction(object arg)
+        {
+            if (string.IsNullOrWhiteSpace(TraitSearchText))
+            {
+                TraitSearchText = _searchPlaceholderText;
+            }
+        }
+        
         private void RemoveTraitAction(object arg)
         {
             if (SelectedTrait != null)

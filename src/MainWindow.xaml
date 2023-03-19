@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
         WindowState="Maximized"
@@ -41,16 +42,28 @@
                                 <TextBlock Margin="610, 0, 0, 0">Favorites</TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
-                                <ListBox ItemsSource="{Binding FilteredTraitList}" Background="DimGray" Width="150" Height="900" Margin="0, 0, 10, 0"
-                                         SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="AliceBlue">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding Path=Name}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,10,0">
+                                    <TextBox Text="{Binding TraitSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5" Height="20">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding SearchAddPlaceholderTextCommand}" />
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="GotFocus">
+                                                <i:InvokeCommandAction Command="{Binding SearchRemovePlaceholderTextCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                        <ListBox ItemsSource="{Binding FilteredTraitList}" Background="DimGray" Width="150" Height="875" 
+                                             SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="AliceBlue">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
 
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,20,0">
                                     <Expander Name="CoreExpander" Header="Core" FontSize="10" FontWeight="Bold">
