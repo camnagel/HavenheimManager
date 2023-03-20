@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
+using AssetManager.Editors;
 using File = System.IO.File;
 
 namespace AssetManager
@@ -390,12 +391,123 @@ namespace AssetManager
 
         private void EditTraitAction(object arg)
         {
+            try
+            {
+                if (SelectedTrait != null)
+                {
+                    var vm = new TraitViewModel(SelectedTrait);
+                    var configWindow = new TraitView(vm);
 
+                    if (configWindow.ShowDialog() == true)
+                    {
+                        Trait newTrait = vm.GetTrait();
+
+                        foreach (string tag in newTrait.CustomTags)
+                        {
+                            if (!CustomTraitFilterList.Contains(tag))
+                            {
+                                CustomTraitFilterList.Add(tag);
+                            }
+                        }
+                        
+                        if (MasterTraitList.Contains(SelectedTrait))
+                        {
+                            MasterTraitList.Remove(SelectedTrait);
+                            MasterTraitList.Add(newTrait);
+                            
+                            ApplyTraitFilters();
+                            if (FilteredTraitList.Contains(newTrait))
+                            {
+                                SelectedTrait = newTrait;
+                            }
+                        }
+
+                        if (FavoriteTraitList.Contains(SelectedTrait))
+                        {
+                            FavoriteTraitList.Remove(SelectedTrait);
+                            FavoriteTraitList.Add(newTrait);
+                            SelectedTrait = newTrait;
+                        }
+
+                        else if (HiddenTraitList.Contains(SelectedTrait))
+                        {
+                            HiddenTraitList.Remove(SelectedTrait);
+                            HiddenTraitList.Add(newTrait);
+                            SelectedTrait = newTrait;
+                        }
+                    }
+                }
+                else
+                {
+                    string messageBoxText = "No trait selected to edit";
+                    string caption = "Select Trait";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Exclamation;
+                    MessageBox.Show(messageBoxText, caption, button, icon);
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                string messageBoxText = "Exception when adding trait";
+                string caption = "Exception";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show(messageBoxText, caption, button, icon);
+            }
+
+            RefreshButtonState();
         }
 
         private void NewTraitAction(object arg)
         {
+            try
+            {
+                var vm = new TraitViewModel(new Trait());
+                var configWindow = new TraitView(vm);
 
+                if (configWindow.ShowDialog() == true)
+                {
+                    Trait newTrait = vm.GetTrait();
+                    if (MasterTraitList.Select(x => x.Name).Contains(newTrait.Name) || 
+                        FavoriteTraitList.Select(x => x.Name).Contains(newTrait.Name) ||
+                        HiddenTraitList.Select(x => x.Name).Contains(newTrait.Name)) 
+                    {
+                        string messageBoxText = "Trait with same name already exists";
+                        string caption = "Duplicate";
+                        MessageBoxButton button = MessageBoxButton.OK;
+                        MessageBoxImage icon = MessageBoxImage.Exclamation;
+                        MessageBox.Show(messageBoxText, caption, button, icon);
+                    }
+                    else
+                    {
+                        MasterTraitList.Add(newTrait);
+
+                        foreach (string tag in newTrait.CustomTags)
+                        {
+                            if (!CustomTraitFilterList.Contains(tag))
+                            {
+                                CustomTraitFilterList.Add(tag);
+                            }
+                        }
+
+                        ApplyTraitFilters();
+                        if (FilteredTraitList.Contains(newTrait))
+                        {
+                            SelectedTrait = newTrait;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                string messageBoxText = "Exception when adding trait";
+                string caption = "Exception";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show(messageBoxText, caption, button, icon);
+            }
+
+            RefreshButtonState();
         }
 
         private void SearchRemovePlaceholderTextAction(object arg)

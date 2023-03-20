@@ -18,6 +18,8 @@ namespace AssetManager.Enums
         [Description("Rework")]
         Rework,
         [Description("Homebrew")]
-        Homebrew
+        Homebrew,
+        [Description("Unknown")]
+        Unknown
     }
 }

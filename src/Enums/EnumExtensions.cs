@@ -186,6 +186,8 @@ namespace AssetManager.Enums
                     return Source.Rework;
                 case "homebrew":
                     return Source.Homebrew;
+                case "unknown":
+                    return Source.Unknown;
             }
 
             throw new ArgumentOutOfRangeException(nameof(sourceName), "Could not determine requested source: " + sourceName);
