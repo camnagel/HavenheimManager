@@ -111,8 +111,8 @@ namespace AssetManager
             RemoveTraitCommand = new DelegateCommand(RemoveTraitAction);
             RemoveFavoriteTraitCommand = new DelegateCommand(RemoveFavoriteTraitAction);
             RemoveHiddenTraitCommand = new DelegateCommand(RemoveHiddenTraitAction);
-            SearchRemovePlaceholderTextCommand = new DelegateCommand(SearchRemovePlaceholderTextAction);
-            SearchAddPlaceholderTextCommand = new DelegateCommand(SearchAddPlaceholderTextAction);
+            TraitSearchRemovePlaceholderTextCommand = new DelegateCommand(TraitSearchRemovePlaceholderTextAction);
+            TraitSearchAddPlaceholderTextCommand = new DelegateCommand(TraitSearchAddPlaceholderTextAction);
         }
 
         #region Traits
@@ -126,15 +126,6 @@ namespace AssetManager
         private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
         private HashSet<string> CustomTraitFilters = new HashSet<string>();
 
-        private bool _activeTraitFilters => CoreTraitFilters.Any() ||
-                                            SkillTraitFilters.Any() ||
-                                            ClassTraitFilters.Any() ||
-                                            CombatTraitFilters.Any() ||
-                                            RoleTraitFilters.Any() ||
-                                            SchoolTraitFilters.Any() ||
-                                            SourceTraitFilters.Any() ||
-                                            CustomTraitFilters.Any();
-
         // Trait Checkbox Commands
         public DelegateCommand CoreTraitCheckboxCommand { get; }
         public DelegateCommand SkillTraitCheckboxCommand { get; }
@@ -146,8 +137,8 @@ namespace AssetManager
         public DelegateCommand CustomTraitCheckboxCommand { get; }
 
         // Trait Control Bar Commands
-        public DelegateCommand SearchRemovePlaceholderTextCommand { get; }
-        public DelegateCommand SearchAddPlaceholderTextCommand { get; }
+        public DelegateCommand TraitSearchRemovePlaceholderTextCommand { get; }
+        public DelegateCommand TraitSearchAddPlaceholderTextCommand { get; }
         public DelegateCommand AddFavoriteTraitCommand { get; }
         public DelegateCommand AddHiddenTraitCommand { get; }
         public DelegateCommand EditTraitCommand { get; }
@@ -363,15 +354,31 @@ namespace AssetManager
             }
         }
 
+        private void UpdateTraitCustomTags()
+        {
+            CustomTraitFilterList.Clear();
+            foreach (Trait trait in MasterTraitList)
+            {
+                foreach (string tag in trait.CustomTags)
+                {
+                    if (!CustomTraitFilterList.Contains(tag))
+                    {
+                        CustomTraitFilterList.Add(tag);
+                    }
+                }
+            }
+        }
+
         private void AddFavoriteTraitAction(object arg)
         {
             if (SelectedTrait != null && !FavoriteTraitList.Contains(SelectedTrait))
             {
                 FavoriteTraitList.Add(SelectedTrait);
                 MasterTraitList.Remove(SelectedTrait);
-                FilteredTraitList.Remove(SelectedTrait);
                 HiddenTraitList.Remove(SelectedTrait);
 
+                UpdateTraitCustomTags();
+                ApplyTraitFilters();
                 SelectedTrait = null;
             }
         }
@@ -382,9 +389,10 @@ namespace AssetManager
             {
                 HiddenTraitList.Add(SelectedTrait);
                 MasterTraitList.Remove(SelectedTrait);
-                FilteredTraitList.Remove(SelectedTrait);
                 FavoriteTraitList.Remove(SelectedTrait);
 
+                UpdateTraitCustomTags();
+                ApplyTraitFilters();
                 SelectedTrait = null;
             }
         }
@@ -402,19 +410,12 @@ namespace AssetManager
                     {
                         Trait newTrait = vm.GetTrait();
 
-                        foreach (string tag in newTrait.CustomTags)
-                        {
-                            if (!CustomTraitFilterList.Contains(tag))
-                            {
-                                CustomTraitFilterList.Add(tag);
-                            }
-                        }
-                        
                         if (MasterTraitList.Contains(SelectedTrait))
                         {
                             MasterTraitList.Remove(SelectedTrait);
                             MasterTraitList.Add(newTrait);
-                            
+
+                            UpdateTraitCustomTags();
                             ApplyTraitFilters();
                             if (FilteredTraitList.Contains(newTrait))
                             {
@@ -482,14 +483,7 @@ namespace AssetManager
                     {
                         MasterTraitList.Add(newTrait);
 
-                        foreach (string tag in newTrait.CustomTags)
-                        {
-                            if (!CustomTraitFilterList.Contains(tag))
-                            {
-                                CustomTraitFilterList.Add(tag);
-                            }
-                        }
-
+                        UpdateTraitCustomTags();
                         ApplyTraitFilters();
                         if (FilteredTraitList.Contains(newTrait))
                         {
@@ -510,7 +504,7 @@ namespace AssetManager
             RefreshButtonState();
         }
 
-        private void SearchRemovePlaceholderTextAction(object arg)
+        private void TraitSearchRemovePlaceholderTextAction(object arg)
         {
             if (TraitSearchText == _searchPlaceholderText)
             {
@@ -518,7 +512,7 @@ namespace AssetManager
             }
         }
 
-        private void SearchAddPlaceholderTextAction(object arg)
+        private void TraitSearchAddPlaceholderTextAction(object arg)
         {
             if (string.IsNullOrWhiteSpace(TraitSearchText))
             {
@@ -542,6 +536,7 @@ namespace AssetManager
                     HiddenTraitList.Remove(SelectedTrait);
                     FavoriteTraitList.Remove(SelectedTrait);
                     SelectedTrait = null;
+                    UpdateTraitCustomTags();
                     ApplyTraitFilters();
                 }
             }
@@ -553,10 +548,9 @@ namespace AssetManager
             {
                 MasterTraitList.Add(SelectedTrait);
                 FavoriteTraitList.Remove(SelectedTrait);
-                HiddenTraitList.Remove(SelectedTrait);
 
                 SelectedTrait = null;
-
+                UpdateTraitCustomTags();
                 ApplyTraitFilters();
             }
         }
@@ -566,11 +560,10 @@ namespace AssetManager
             if (SelectedTrait != null && HiddenTraitList.Contains(SelectedTrait))
             {
                 MasterTraitList.Add(SelectedTrait);
-                FavoriteTraitList.Remove(SelectedTrait);
                 HiddenTraitList.Remove(SelectedTrait);
 
                 SelectedTrait = null;
-
+                UpdateTraitCustomTags();
                 ApplyTraitFilters();
             }
         }
@@ -646,14 +639,8 @@ namespace AssetManager
                             foreach (Trait trait in ImportReader.ReadTraitCsv(importPath))
                             {
                                 MasterTraitList.Add(trait);
-                                foreach (string tag in trait.CustomTags)
-                                {
-                                    if (!CustomTraitFilterList.Contains(tag))
-                                    {
-                                        CustomTraitFilterList.Add(tag);
-                                    }
-                                }
                             }
+                            UpdateTraitCustomTags();
                             ApplyTraitFilters();
                             break;
                         case SourceType.Feat:
