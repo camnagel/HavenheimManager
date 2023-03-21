@@ -189,20 +189,17 @@ namespace AssetManager.Editors
             Trait.Url = TraitUrl;
             Trait.Notes = TraitNotes;
             Trait.Source = TraitSource.StringToSource();
+
+            Trait.Prereqs.Clear();
             foreach (string prereq in Prereqs)
             {
-                if (!Trait.Prereqs.Contains(prereq))
-                {
-                    Trait.Prereqs.Add(prereq);
-                }
+                Trait.Prereqs.Add(prereq);
             }
 
+            Trait.CustomTags.Clear();
             foreach (string tag in CustomTags)
             {
-                if (!Trait.CustomTags.Contains(tag))
-                {
-                    Trait.CustomTags.Add(tag);
-                }
+                Trait.CustomTags.Add(tag);
             }
 
             Trait.CoreTags.Clear();

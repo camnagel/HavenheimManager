@@ -187,20 +187,17 @@ namespace AssetManager.Editors
             Feat.Url = FeatUrl;
             Feat.Notes = FeatNotes;
             Feat.Source = FeatSource.StringToSource();
+
+            Feat.Prereqs.Clear();
             foreach (string prereq in Prereqs)
             {
-                if (!Feat.Prereqs.Contains(prereq))
-                {
-                    Feat.Prereqs.Add(prereq);
-                }
+                Feat.Prereqs.Add(prereq);
             }
 
+            Feat.CustomTags.Clear();
             foreach (string tag in CustomTags)
             {
-                if (!Feat.CustomTags.Contains(tag))
-                {
-                    Feat.CustomTags.Add(tag);
-                }
+                Feat.CustomTags.Add(tag);
             }
 
             Feat.CoreTags.Clear();
