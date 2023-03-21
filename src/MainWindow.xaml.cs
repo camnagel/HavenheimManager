@@ -13,39 +13,47 @@ namespace AssetManager
         {
             this.DataContext = vm;
             InitializeComponent();
-            foreach (var item in Enum.GetValues(typeof(Core)))
+
+            foreach (Core item in Enum.GetValues(typeof(Core)))
             {
-                vm.CoreTraitFilterList.Add(((Core)item).GetEnumDescription());
+                vm.CoreTraitFilterList.Add(item.GetEnumDescription());
+                vm.CoreFeatFilterList.Add(item.GetEnumDescription());
             }
 
-            foreach (var item in Enum.GetValues(typeof(Source)))
+            foreach (Source item in Enum.GetValues(typeof(Source)))
             {
-                vm.SourceTraitFilterList.Add(((Source)item).GetEnumDescription());
+                vm.SourceTraitFilterList.Add(item.GetEnumDescription());
+                vm.SourceFeatFilterList.Add(item.GetEnumDescription());
             }
 
-            foreach (var item in Enum.GetValues(typeof(Skill)))
+            foreach (Skill item in Enum.GetValues(typeof(Skill)))
             {
-                vm.SkillTraitFilterList.Add(((Skill)item).GetEnumDescription());
+                vm.SkillTraitFilterList.Add(item.GetEnumDescription());
+                vm.SkillFeatFilterList.Add(item.GetEnumDescription());
             }
 
-            foreach (var item in Enum.GetValues(typeof(Combat)))
+            foreach (Combat item in Enum.GetValues(typeof(Combat)))
             {
-                vm.CombatTraitFilterList.Add(((Combat)item).GetEnumDescription());
+                vm.CombatTraitFilterList.Add(item.GetEnumDescription());
+                vm.CombatFeatFilterList.Add(item.GetEnumDescription());
             }
 
-            foreach (var item in Enum.GetValues(typeof(Role)))
+            foreach (Role item in Enum.GetValues(typeof(Role)))
             {
-                vm.RoleTraitFilterList.Add(((Role)item).GetEnumDescription());
+                vm.RoleTraitFilterList.Add(item.GetEnumDescription());
+                vm.RoleFeatFilterList.Add(item.GetEnumDescription());
             }
 
-            foreach (var item in Enum.GetValues(typeof(School)))
+            foreach (School item in Enum.GetValues(typeof(School)))
             {
-                vm.SchoolTraitFilterList.Add(((School)item).GetEnumDescription());
+                vm.SchoolTraitFilterList.Add(item.GetEnumDescription());
+                vm.SchoolFeatFilterList.Add(item.GetEnumDescription());
             }
 
-            foreach (var item in Enum.GetValues(typeof(Class)))
+            foreach (Class item in Enum.GetValues(typeof(Class)))
             {
-                vm.ClassTraitFilterList.Add(((Class)item).GetEnumDescription());
+                vm.ClassTraitFilterList.Add(item.GetEnumDescription());
+                vm.ClassFeatFilterList.Add(item.GetEnumDescription());
             }
         }
     }

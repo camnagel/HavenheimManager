@@ -66,7 +66,7 @@
                                 </StackPanel>
 
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,20,0">
-                                    <Expander Name="CoreExpander" Header="Core" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Core" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding CoreTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
@@ -82,7 +82,7 @@
                                         </ListBox>
                                     </Expander>
 
-                                    <Expander Name="SkillExpander" Header="Skills" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Skills" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding SkillTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
@@ -98,7 +98,7 @@
                                         </ListBox>
                                     </Expander>
 
-                                    <Expander Name="ClassExpander" Header="Class" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Class" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding ClassTraitFilterList}" Height="500" 
                                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
@@ -115,7 +115,7 @@
                                         </ListBox>
                                     </Expander>
 
-                                    <Expander Name="CombatExpander" Header="Combat" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Combat" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding CombatTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
@@ -131,7 +131,7 @@
                                         </ListBox>
                                     </Expander>
 
-                                    <Expander Name="RoleExpander" Header="Role" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Role" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding RoleTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
@@ -147,7 +147,7 @@
                                         </ListBox>
                                     </Expander>
 
-                                    <Expander Name="SchoolExpander" Header="Spells" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Spells" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding SchoolTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
@@ -163,7 +163,7 @@
                                         </ListBox>
                                     </Expander>
 
-                                    <Expander Name="SourceExpander" Header="Source" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Source" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding SourceTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
@@ -179,7 +179,7 @@
                                         </ListBox>
                                     </Expander>
 
-                                    <Expander Name="CustomExpander" Header="Custom" FontSize="10" FontWeight="Bold">
+                                    <Expander Header="Custom" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding CustomTraitFilterList}" Height="500" 
                                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
@@ -306,7 +306,296 @@
                 </TabItem>
 
                 <TabItem Header="Feats" Background="LightGray" Width="100" Height="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Left" Width="2360" Margin="10,10,0,0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="20">
+                                <TextBlock>Name</TextBlock>
+                                <TextBlock Margin="130, 0, 0, 0">Filters</TextBlock>
+                                <TextBlock Margin="138, 0, 0, 0">Selected Feat</TextBlock>
+                                <TextBlock Margin="610, 0, 0, 0">Favorites</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,10,0">
+                                    <TextBox Text="{Binding FeatSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5" Height="20">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding FeatSearchAddPlaceholderTextCommand}" />
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="GotFocus">
+                                                <i:InvokeCommandAction Command="{Binding FeatSearchRemovePlaceholderTextCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <ListBox ItemsSource="{Binding FilteredFeatList}" Background="DimGray" Width="150" Height="875" 
+                                             SelectedItem="{Binding SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="AliceBlue">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
 
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,20,0">
+                                    <Expander Header="Core" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding CoreFeatFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.CoreFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Skills" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding SkillFeatFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.SkillFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Class" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding ClassFeatFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.ClassFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Combat" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding CombatFeatFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.CombatFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Role" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding RoleFeatFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.RoleFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Spells" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding SchoolFeatFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.SchoolFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Source" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding SourceFeatFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.SourceFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Custom" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding CustomFeatFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.CustomFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="500" Height="900">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="20">
+                                        <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
+                                        <TextBox Text="{Binding SelectedFeat.Name}" Width="256" Height="20" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+
+                                        <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
+                                        <TextBox Text="{Binding SelectedFeat.Source}" Width="150" Height="20" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                                        <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
+                                        <TextBox Text="{Binding SelectedFeat.Url}" Width="480" Height="20" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+                                    </StackPanel>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>
+                                    <TextBox Text="{Binding SelectedFeat.Description}" Width="500" Height="600" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+
+                                    <StackPanel Orientation="Horizontal" Height="110" Margin="0, 5, 0, 0">
+                                        <StackPanel Orientation="Vertical" Width="150">
+                                            <TextBlock Height="20">Prerequisites:</TextBlock>
+                                            <ListBox Height="90" Background="DimGray" Foreground="AliceBlue" 
+                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                     ItemsSource="{Binding SelectedFeat.Prereqs}" 
+                                                     SelectedItem="{Binding SelectedFeatReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                        <TextBlock Text="&#x2794;" VerticalAlignment="Center"/>
+                                        <TextBox Text="{Binding SelectedFeat.Name}" IsReadOnly="True" Height="20" Width="150" Margin="5, 0, 5, 0"/>
+                                        <TextBlock Text="&#x2794;" VerticalAlignment="Center"/>
+                                        <StackPanel Orientation="Vertical" Width="150">
+                                            <TextBlock Height="20">Required By:</TextBlock>
+                                            <ListBox Height="90" Background="DimGray" Foreground="AliceBlue" 
+                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                     ItemsSource="{Binding SelectedFeat.Postreqs}" 
+                                                     SelectedItem="{Binding SelectedFeatReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Notes:</TextBlock>
+                                    <TextBox Text="{Binding SelectedFeat.Notes}" Width="500" Height="100" Background="DimGray" Foreground="AliceBlue" IsReadOnly="False"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="10, 0, 0, 0">
+                                    <TextBlock>Antirequisites:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.Antireqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="107"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.CoreTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Skill Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.SkillTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Class Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.ClassTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Combat Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.CombatTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.RoleTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.SchoolTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">
+                                    <ListBox ItemsSource="{Binding FavoriteFeatList}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="540"
+                                             SelectedItem="{Binding SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Hidden</TextBlock>
+                                    <Expander>
+                                        <ListBox ItemsSource="{Binding HiddenFeatList}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="317"
+                                                 SelectedItem="{Binding SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="{Binding Path=Name}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1500" Height="50">
+                                <Button Content="Favorite"
+                                        Command="{Binding AddFavoriteFeatCommand}"
+                                        Width="60" Height="30" Margin="5,0,10,0"/>
+
+                                <Button Content="Hide"
+                                        Command="{Binding AddHiddenFeatCommand}"
+                                        Width="60" Height="30" Margin="5,0,10,0"/>
+
+                                <Button Content="Edit"
+                                        Command="{Binding EditFeatCommand}"
+                                        Width="60" Height="30" Margin="280,0,10,0"/>
+
+                                <Button Content="New"
+                                        Command="{Binding NewFeatCommand}"
+                                        Width="60" Height="30" Margin="50,0,50,0"/>
+
+                                <Button Content="Remove"
+                                        Command="{Binding RemoveFeatCommand}"
+                                        Width="60" Height="30" Margin="0,0,100,0"/>
+
+                                <Button Content="Unfavorite"
+                                        Command="{Binding RemoveFavoriteFeatCommand}"
+                                        Width="60" Height="30" Margin="195,0,10,0"/>
+
+                                <Button Content="Show"
+                                        Command="{Binding RemoveHiddenFeatCommand}"
+                                        Width="60" Height="30" Margin="10,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
 
                 <TabItem Header="Spells" Background="LightGray" Width="100" Height="20">

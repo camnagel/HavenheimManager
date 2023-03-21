@@ -30,7 +30,14 @@ namespace AssetManager.Import
             using (var stream = new StreamReader(filePath))
             using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
             {
-                yield break;
+                reader.Context.RegisterClassMap<FeatMap>();
+                foreach (Feat feat in reader.GetRecords<Feat>())
+                {
+                    if (feat.Name.Length > 0)
+                    {
+                        yield return feat;
+                    }
+                }
             }
         }
 
