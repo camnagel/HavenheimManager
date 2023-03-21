@@ -109,7 +109,9 @@ namespace AssetManager.Editors
 
         public IList<CheckboxKvp> RoleTags { get; set; } = new List<CheckboxKvp>();
 
-        public IList<CheckboxKvp> SchoolTags { get; set; } = new List<CheckboxKvp>();
+        public IList<CheckboxKvp> MagicTags { get; set; } = new List<CheckboxKvp>();
+
+        public IList<CheckboxKvp> BonusTags { get; set; } = new List<CheckboxKvp>();
 
         public DelegateCommand AcceptTraitCommand { get; }
         public DelegateCommand CancelCommand { get; }
@@ -169,10 +171,16 @@ namespace AssetManager.Editors
                 RoleTags.Add(new CheckboxKvp(tag, trait.RoleTags.Contains(item)));
             }
 
-            foreach (School item in Enum.GetValues(typeof(School)))
+            foreach (Magic item in Enum.GetValues(typeof(Magic)))
             {
                 string tag = item.GetEnumDescription();
-                SchoolTags.Add(new CheckboxKvp(tag, trait.SchoolTags.Contains(item)));
+                MagicTags.Add(new CheckboxKvp(tag, trait.MagicTags.Contains(item)));
+            }
+
+            foreach (Bonus item in Enum.GetValues(typeof(Bonus)))
+            {
+                string tag = item.GetEnumDescription();
+                BonusTags.Add(new CheckboxKvp(tag, trait.BonusTags.Contains(item)));
             }
 
             foreach (Class item in Enum.GetValues(typeof(Class)))
@@ -247,12 +255,21 @@ namespace AssetManager.Editors
                 }
             }
 
-            Trait.SchoolTags.Clear();
-            foreach (CheckboxKvp tag in SchoolTags)
+            Trait.MagicTags.Clear();
+            foreach (CheckboxKvp tag in MagicTags)
             {
                 if (tag.Value)
                 {
-                    Trait.SchoolTags.Add(tag.Key.StringToSchool());
+                    Trait.MagicTags.Add(tag.Key.StringToMagic());
+                }
+            }
+
+            Trait.BonusTags.Clear();
+            foreach (CheckboxKvp tag in BonusTags)
+            {
+                if (tag.Value)
+                {
+                    Trait.BonusTags.Add(tag.Key.StringToBonus());
                 }
             }
 

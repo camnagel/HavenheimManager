@@ -83,7 +83,8 @@
                                     </Expander>
 
                                     <Expander Header="Skills" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding SkillTraitFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding SkillTraitFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
@@ -116,7 +117,8 @@
                                     </Expander>
 
                                     <Expander Header="Combat" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding CombatTraitFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding CombatTraitFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
@@ -132,7 +134,8 @@
                                     </Expander>
 
                                     <Expander Header="Role" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding RoleTraitFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding RoleTraitFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
@@ -148,13 +151,29 @@
                                     </Expander>
 
                                     <Expander Header="Spells" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding SchoolTraitFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding MagicTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
                                                         <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
                                                             {RelativeSource AncestorType=ListBox},
-                                                            Path=DataContext.SchoolTraitCheckboxCommand}" 
+                                                            Path=DataContext.MagicTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding BonusTraitFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.BonusTraitCheckboxCommand}" 
                                                                   CommandParameter="{Binding}"
                                                                   Content="{Binding}"/>
                                                     </StackPanel>
@@ -220,10 +239,10 @@
 
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="10, 0, 0, 0">
                                     <TextBlock Margin="0, 0, 0, 0">Prereqs:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.Prereqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="160"/>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.Prereqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="117"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="128"/>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
                                     
                                     <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
                                     <ListBox ItemsSource="{Binding SelectedTrait.CoreTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
@@ -241,7 +260,10 @@
                                     <ListBox ItemsSource="{Binding SelectedTrait.RoleTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
                                     
                                     <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedTrait.SchoolTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.MagicTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Bonus Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedTrait.BonusTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">
@@ -356,7 +378,8 @@
                                     </Expander>
 
                                     <Expander Header="Skills" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding SkillFeatFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding SkillFeatFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
@@ -389,7 +412,8 @@
                                     </Expander>
 
                                     <Expander Header="Combat" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding CombatFeatFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding CombatFeatFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
@@ -405,7 +429,8 @@
                                     </Expander>
 
                                     <Expander Header="Role" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding RoleFeatFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding RoleFeatFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
@@ -421,13 +446,29 @@
                                     </Expander>
 
                                     <Expander Header="Spells" FontSize="10" FontWeight="Bold">
-                                        <ListBox ItemsSource="{Binding SchoolFeatFilterList}" Background="LightGray">
+                                        <ListBox ItemsSource="{Binding MagicFeatFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
                                                         <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
                                                             {RelativeSource AncestorType=ListBox},
-                                                            Path=DataContext.SchoolFeatCheckboxCommand}" 
+                                                            Path=DataContext.MagicFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding BonusFeatFilterList}" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.BonusFeatCheckboxCommand}" 
                                                                   CommandParameter="{Binding}"
                                                                   Content="{Binding}"/>
                                                     </StackPanel>
@@ -513,28 +554,31 @@
 
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="10, 0, 0, 0">
                                     <TextBlock>Antirequisites:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.Antireqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="107"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.Antireqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="117"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.CoreTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.CoreTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Skill Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.SkillTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.SkillTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Class Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.ClassTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.ClassTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Combat Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.CombatTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.CombatTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.RoleTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.RoleTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
 
                                     <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
-                                    <ListBox ItemsSource="{Binding SelectedFeat.SchoolTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="90"/>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.MagicTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+
+                                    <TextBlock Margin="0, 5, 0, 0">Bonus Tags:</TextBlock>
+                                    <ListBox ItemsSource="{Binding SelectedFeat.BonusTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">

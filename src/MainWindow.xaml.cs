@@ -44,10 +44,16 @@ namespace AssetManager
                 vm.RoleFeatFilterList.Add(item.GetEnumDescription());
             }
 
-            foreach (School item in Enum.GetValues(typeof(School)))
+            foreach (Magic item in Enum.GetValues(typeof(Magic)))
             {
-                vm.SchoolTraitFilterList.Add(item.GetEnumDescription());
-                vm.SchoolFeatFilterList.Add(item.GetEnumDescription());
+                vm.MagicTraitFilterList.Add(item.GetEnumDescription());
+                vm.MagicFeatFilterList.Add(item.GetEnumDescription());
+            }
+
+            foreach (Bonus item in Enum.GetValues(typeof(Bonus)))
+            {
+                vm.BonusTraitFilterList.Add(item.GetEnumDescription());
+                vm.BonusFeatFilterList.Add(item.GetEnumDescription());
             }
 
             foreach (Class item in Enum.GetValues(typeof(Class)))

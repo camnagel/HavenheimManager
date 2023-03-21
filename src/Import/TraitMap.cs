@@ -19,7 +19,8 @@ namespace AssetManager.Import
             Map(x => x.CoreTags).TypeConverter<CoreConverter<Core>>().Index(8);
             Map(x => x.SkillTags).TypeConverter<SkillConverter<Skill>>().Index(9);
             Map(x => x.CombatTags).TypeConverter<CombatConverter<Combat>>().Index(10);
-            Map(x => x.SchoolTags).TypeConverter<SchoolConverter<School>>().Index(11);
+            Map(x => x.MagicTags).TypeConverter<MagicConverter<Magic>>().Index(11);
+            Map(x => x.BonusTags).TypeConverter<BonusConverter<Bonus>>().Index(12);
         }
     }
 }

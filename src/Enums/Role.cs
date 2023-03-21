@@ -10,8 +10,16 @@ namespace AssetManager.Enums
         Ranged,
         [Description("Switch Attacker")]
         SwitchAttacker,
+        [Description("Area Attacker")]
+        AreaAttacker,
         [Description("Tank")]
         Tank,
+        [Description("Guard")]
+        Guard,
+        [Description("Scout")]
+        Scout,
+        [Description("Ambusher")]
+        Ambusher,
         [Description("Leader")]
         Leader,
         [Description("Blaster")]

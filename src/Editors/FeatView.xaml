@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AssetManager.Editors"
         mc:Ignorable="d"
-        Title="FeatView" Height="1000" Width="695" Background="DarkGray">
+        Title="FeatView" Height="1000" Width="835" Background="DarkGray">
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal"  Margin="10, 10, 10, 10">
@@ -44,6 +44,30 @@
                                 Width="60" Height="20"/>
                     </StackPanel>
 
+                    <TextBlock Margin="0, 5, 0, 0">Postreqs:</TextBlock>
+                    <ListBox ItemsSource="{Binding Postreqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"
+                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddPrereqCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0"/>
+                        <Button Content="Remove"
+                                Command="{Binding RemovePrereqCommand}"
+                                Width="60" Height="20"/>
+                    </StackPanel>
+
+                    <TextBlock Margin="0, 5, 0, 0">Antireqs:</TextBlock>
+                    <ListBox ItemsSource="{Binding Antireqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"
+                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddPrereqCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0"/>
+                        <Button Content="Remove"
+                                Command="{Binding RemovePrereqCommand}"
+                                Width="60" Height="20"/>
+                    </StackPanel>
+
                     <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
                     <ListBox ItemsSource="{Binding CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"
                              SelectedItem="{Binding SelectedCustomTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -55,8 +79,9 @@
                                 Command="{Binding RemoveCustomTagCommand}"
                                 Width="60" Height="20"/>
                     </StackPanel>
-
-                    <Expander Name="CoreExpander" Header="Core" FontSize="10" FontWeight="Bold" Margin="0, 10, 0, 0">
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="0, 0, 10, 0">
+                    <Expander Header="Core" FontSize="10" FontWeight="Bold" Margin="0, 10, 0, 0">
                         <ListBox ItemsSource="{Binding CoreTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -71,7 +96,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="SkillExpander" Header="Skills" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Skills" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding SkillTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -86,7 +111,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="ClassExpander" Header="Class" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Class" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding ClassTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -101,7 +126,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="CombatExpander" Header="Combat" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Combat" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding CombatTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -116,7 +141,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="RoleExpander" Header="Role" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Role" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding RoleTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -131,8 +156,23 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="SchoolExpander" Header="Spells" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding SchoolTags}" Background="LightGray" 
+                    <Expander Header="Spells" FontSize="10" FontWeight="Bold">
+                        <ListBox ItemsSource="{Binding MagicTags}" Background="LightGray" 
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <CheckBox FontWeight="Normal" 
+                                                  IsChecked="{Binding Path=Value}"
+                                                  Content="{Binding Path=Key}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
+
+                    <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
+                        <ListBox ItemsSource="{Binding BonusTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -151,7 +191,7 @@
                 <Button Content="Save" Width="100" Height="30" Margin="10,0,0,0" Command="{Binding AcceptFeatCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
 
-                <Button Content="Cancel" Width="100" Height="30" Margin="460,0,0,0" Command="{Binding CancelCommand}"
+                <Button Content="Cancel" Width="100" Height="30" Margin="600,0,0,0" Command="{Binding CancelCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
             </StackPanel>
         </StackPanel>

@@ -132,17 +132,34 @@ namespace AssetManager.Import
         }
     }
 
-    public class SchoolConverter<T> : DefaultTypeConverter
+    public class MagicConverter<T> : DefaultTypeConverter
     {
         public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
         {
-            HashSet<School> tagSet = new HashSet<School>();
+            HashSet<Magic> tagSet = new HashSet<Magic>();
             if (tags is { Length: > 0 })
             {
                 List<string> splitTags = tags.Split(',').ToList();
                 foreach (string tag in splitTags)
                 {
-                    tagSet.Add(tag.StringToSchool());
+                    tagSet.Add(tag.StringToMagic());
+                }
+            }
+            return tagSet;
+        }
+    }
+
+    public class BonusConverter<T> : DefaultTypeConverter
+    {
+        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        {
+            HashSet<Bonus> tagSet = new HashSet<Bonus>();
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToBonus());
                 }
             }
             return tagSet;

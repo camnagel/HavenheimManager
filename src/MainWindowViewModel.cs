@@ -29,7 +29,7 @@ namespace AssetManager
 
         private string _saveFileName = "";
 
-        private static readonly Regex _whitespaceFilter = new Regex(@"[\s',-]+");
+        private static readonly Regex _whitespaceFilter = new Regex(@"[\s-',()]+");
 
         private static readonly string _searchPlaceholderText = "Search...";
 
@@ -45,12 +45,15 @@ namespace AssetManager
             SaveCommand = new DelegateCommand(SaveAction);
             SaveAsCommand = new DelegateCommand(SaveAsAction);
             ImportCommand = new DelegateCommand(ImportAction);
+            
+            // Traits
             CoreTraitCheckboxCommand = new DelegateCommand(TraitCoreFilterAction);
             SkillTraitCheckboxCommand = new DelegateCommand(TraitSkillFilterAction);
             ClassTraitCheckboxCommand = new DelegateCommand(TraitClassFilterAction);
             CombatTraitCheckboxCommand = new DelegateCommand(TraitCombatFilterAction);
             RoleTraitCheckboxCommand = new DelegateCommand(TraitRoleFilterAction);
-            SchoolTraitCheckboxCommand = new DelegateCommand(TraitSchoolFilterAction);
+            MagicTraitCheckboxCommand = new DelegateCommand(TraitMagicFilterAction);
+            BonusTraitCheckboxCommand = new DelegateCommand(TraitBonusFilterAction);
             SourceTraitCheckboxCommand = new DelegateCommand(TraitSourceFilterAction);
             CustomTraitCheckboxCommand = new DelegateCommand(TraitCustomFilterAction);
             AddFavoriteTraitCommand = new DelegateCommand(AddFavoriteTraitAction);
@@ -62,12 +65,15 @@ namespace AssetManager
             RemoveHiddenTraitCommand = new DelegateCommand(RemoveHiddenTraitAction);
             TraitSearchRemovePlaceholderTextCommand = new DelegateCommand(TraitSearchRemovePlaceholderTextAction);
             TraitSearchAddPlaceholderTextCommand = new DelegateCommand(TraitSearchAddPlaceholderTextAction);
+            
+            // Feats
             CoreFeatCheckboxCommand = new DelegateCommand(FeatCoreFilterAction);
             SkillFeatCheckboxCommand = new DelegateCommand(FeatSkillFilterAction);
             ClassFeatCheckboxCommand = new DelegateCommand(FeatClassFilterAction);
             CombatFeatCheckboxCommand = new DelegateCommand(FeatCombatFilterAction);
             RoleFeatCheckboxCommand = new DelegateCommand(FeatRoleFilterAction);
-            SchoolFeatCheckboxCommand = new DelegateCommand(FeatSchoolFilterAction);
+            MagicFeatCheckboxCommand = new DelegateCommand(FeatMagicFilterAction);
+            BonusFeatCheckboxCommand = new DelegateCommand(FeatBonusFilterAction);
             SourceFeatCheckboxCommand = new DelegateCommand(FeatSourceFilterAction);
             CustomFeatCheckboxCommand = new DelegateCommand(FeatCustomFilterAction);
             AddFavoriteFeatCommand = new DelegateCommand(AddFavoriteFeatAction);
@@ -94,7 +100,8 @@ namespace AssetManager
         public ObservableCollection<string> ClassTraitFilterList { get; set; } = new();
         public ObservableCollection<string> CombatTraitFilterList { get; set; } = new();
         public ObservableCollection<string> RoleTraitFilterList { get; set; } = new();
-        public ObservableCollection<string> SchoolTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> MagicTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> BonusTraitFilterList { get; set; } = new();
         public ObservableCollection<string> SourceTraitFilterList { get; set; } = new();
         
         private Trait? _selectedTrait;
@@ -137,7 +144,8 @@ namespace AssetManager
         private HashSet<Class> ClassTraitFilters = new HashSet<Class>();
         private HashSet<Combat> CombatTraitFilters = new HashSet<Combat>();
         private HashSet<Role> RoleTraitFilters = new HashSet<Role>();
-        private HashSet<School> SchoolTraitFilters = new HashSet<School>();
+        private HashSet<Magic> MagicTraitFilters = new HashSet<Magic>();
+        private HashSet<Bonus> BonusTraitFilters = new HashSet<Bonus>();
         private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
         private HashSet<string> CustomTraitFilters = new HashSet<string>();
 
@@ -147,7 +155,8 @@ namespace AssetManager
         public DelegateCommand ClassTraitCheckboxCommand { get; }
         public DelegateCommand CombatTraitCheckboxCommand { get; }
         public DelegateCommand RoleTraitCheckboxCommand { get; }
-        public DelegateCommand SchoolTraitCheckboxCommand { get; }
+        public DelegateCommand MagicTraitCheckboxCommand { get; }
+        public DelegateCommand BonusTraitCheckboxCommand { get; }
         public DelegateCommand SourceTraitCheckboxCommand { get; }
         public DelegateCommand CustomTraitCheckboxCommand { get; }
 
@@ -258,19 +267,38 @@ namespace AssetManager
             }
         }
 
-        private void TraitSchoolFilterAction(object arg)
+        private void TraitMagicFilterAction(object arg)
         {
             if (arg is string filter)
             {
-                School toggleSchool = filter.StringToSchool();
+                Magic toggleMagic = filter.StringToMagic();
 
-                if (SchoolTraitFilters.Contains(toggleSchool))
+                if (MagicTraitFilters.Contains(toggleMagic))
                 {
-                    SchoolTraitFilters.Remove(toggleSchool);
+                    MagicTraitFilters.Remove(toggleMagic);
                 }
                 else
                 {
-                    SchoolTraitFilters.Add(toggleSchool);
+                    MagicTraitFilters.Add(toggleMagic);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
+        private void TraitBonusFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Bonus toggleBonus = filter.StringToBonus();
+
+                if (BonusTraitFilters.Contains(toggleBonus))
+                {
+                    BonusTraitFilters.Remove(toggleBonus);
+                }
+                else
+                {
+                    BonusTraitFilters.Add(toggleBonus);
                 }
 
                 ApplyTraitFilters();
@@ -348,9 +376,14 @@ namespace AssetManager
                 possibleTraits = possibleTraits.Where(x => x.RoleTags.Contains(filter)).ToList();
             }
 
-            foreach (School filter in SchoolTraitFilters)
+            foreach (Magic filter in MagicTraitFilters)
             {
-                possibleTraits = possibleTraits.Where(x => x.SchoolTags.Contains(filter)).ToList();
+                possibleTraits = possibleTraits.Where(x => x.MagicTags.Contains(filter)).ToList();
+            }
+
+            foreach (Bonus filter in BonusTraitFilters)
+            {
+                possibleTraits = possibleTraits.Where(x => x.BonusTags.Contains(filter)).ToList();
             }
 
             foreach (Source filter in SourceTraitFilters)
@@ -597,7 +630,8 @@ namespace AssetManager
         public ObservableCollection<string> ClassFeatFilterList { get; set; } = new();
         public ObservableCollection<string> CombatFeatFilterList { get; set; } = new();
         public ObservableCollection<string> RoleFeatFilterList { get; set; } = new();
-        public ObservableCollection<string> SchoolFeatFilterList { get; set; } = new();
+        public ObservableCollection<string> MagicFeatFilterList { get; set; } = new();
+        public ObservableCollection<string> BonusFeatFilterList { get; set; } = new();
         public ObservableCollection<string> SourceFeatFilterList { get; set; } = new();
 
         private Feat? _selectedFeat;
@@ -661,7 +695,8 @@ namespace AssetManager
         private HashSet<Class> ClassFeatFilters = new HashSet<Class>();
         private HashSet<Combat> CombatFeatFilters = new HashSet<Combat>();
         private HashSet<Role> RoleFeatFilters = new HashSet<Role>();
-        private HashSet<School> SchoolFeatFilters = new HashSet<School>();
+        private HashSet<Magic> MagicFeatFilters = new HashSet<Magic>();
+        private HashSet<Bonus> BonusFeatFilters = new HashSet<Bonus>();
         private HashSet<Source> SourceFeatFilters = new HashSet<Source>();
         private HashSet<string> CustomFeatFilters = new HashSet<string>();
 
@@ -671,7 +706,8 @@ namespace AssetManager
         public DelegateCommand ClassFeatCheckboxCommand { get; }
         public DelegateCommand CombatFeatCheckboxCommand { get; }
         public DelegateCommand RoleFeatCheckboxCommand { get; }
-        public DelegateCommand SchoolFeatCheckboxCommand { get; }
+        public DelegateCommand MagicFeatCheckboxCommand { get; }
+        public DelegateCommand BonusFeatCheckboxCommand { get; }
         public DelegateCommand SourceFeatCheckboxCommand { get; }
         public DelegateCommand CustomFeatCheckboxCommand { get; }
 
@@ -782,19 +818,38 @@ namespace AssetManager
             }
         }
 
-        private void FeatSchoolFilterAction(object arg)
+        private void FeatMagicFilterAction(object arg)
         {
             if (arg is string filter)
             {
-                School toggleSchool = filter.StringToSchool();
+                Magic toggleMagic = filter.StringToMagic();
 
-                if (SchoolFeatFilters.Contains(toggleSchool))
+                if (MagicFeatFilters.Contains(toggleMagic))
                 {
-                    SchoolFeatFilters.Remove(toggleSchool);
+                    MagicFeatFilters.Remove(toggleMagic);
                 }
                 else
                 {
-                    SchoolFeatFilters.Add(toggleSchool);
+                    MagicFeatFilters.Add(toggleMagic);
+                }
+
+                ApplyFeatFilters();
+            }
+        }
+
+        private void FeatBonusFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Bonus toggleBonus = filter.StringToBonus();
+
+                if (BonusFeatFilters.Contains(toggleBonus))
+                {
+                    BonusFeatFilters.Remove(toggleBonus);
+                }
+                else
+                {
+                    BonusFeatFilters.Add(toggleBonus);
                 }
 
                 ApplyFeatFilters();
@@ -872,9 +927,14 @@ namespace AssetManager
                 possibleFeats = possibleFeats.Where(x => x.RoleTags.Contains(filter)).ToList();
             }
 
-            foreach (School filter in SchoolFeatFilters)
+            foreach (Magic filter in MagicFeatFilters)
             {
-                possibleFeats = possibleFeats.Where(x => x.SchoolTags.Contains(filter)).ToList();
+                possibleFeats = possibleFeats.Where(x => x.MagicTags.Contains(filter)).ToList();
+            }
+
+            foreach (Bonus filter in BonusFeatFilters)
+            {
+                possibleFeats = possibleFeats.Where(x => x.BonusTags.Contains(filter)).ToList();
             }
 
             foreach (Source filter in SourceFeatFilters)
@@ -1225,7 +1285,7 @@ namespace AssetManager
             ClassTraitCheckboxCommand.RaiseCanExecuteChanged();
             CombatTraitCheckboxCommand.RaiseCanExecuteChanged();
             RoleTraitCheckboxCommand.RaiseCanExecuteChanged();
-            SchoolTraitCheckboxCommand.RaiseCanExecuteChanged();
+            MagicTraitCheckboxCommand.RaiseCanExecuteChanged();
             SourceTraitCheckboxCommand.RaiseCanExecuteChanged();
         }
 

@@ -2,7 +2,7 @@
 
 namespace AssetManager.Enums
 {
-    public enum School
+    public enum Magic
     {
         [Description("Abjuration")]
         Abjuration,
@@ -25,6 +25,10 @@ namespace AssetManager.Enums
         [Description("Offensive")]
         Offensive,
         [Description("Defensive")]
-        Defensive
+        Defensive,
+        [Description("Caster Level")]
+        CasterLevel,
+        [Description("Concentration")]
+        Concentration
     }
 }

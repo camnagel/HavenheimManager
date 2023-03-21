@@ -7,7 +7,7 @@ namespace AssetManager.Enums
 {
     public static class EnumExtensions
     {
-        private static readonly Regex _whitespaceFilter = new Regex(@"\s+");
+        private static readonly Regex _whitespaceFilter = new Regex(@"[\s-',()]+");
 
         public static Skill StringToSkill(this string skillName)
         {
@@ -39,8 +39,30 @@ namespace AssetManager.Enums
                     return Skill.Heal;
                 case "intimidate":
                     return Skill.Intimidate;
-                case "knowledge":
-                    return Skill.Knowledge;
+                case "knowledgeall":
+                    return Skill.KnowledgeAll;
+                case "knowledgearcane":
+                    return Skill.KnowledgeArcane;
+                case "knowledgedungeoneering":
+                    return Skill.KnowledgeDungeoneering;
+                case "knowledgeengineering":
+                    return Skill.KnowledgeEngineering;
+                case "knowledgegeography":
+                    return Skill.KnowledgeGeography;
+                case "knowledgehistory":
+                    return Skill.KnowledgeHistory;
+                case "knowledgelocal":
+                    return Skill.KnowledgeLocal;
+                case "knowledgenature":
+                    return Skill.KnowledgeNature;
+                case "knowledgenobility":
+                    return Skill.KnowledgeNobility;
+                case "knowledgeplanes":
+                    return Skill.KnowledgePlanes;
+                case "knowledgepsionic":
+                    return Skill.KnowledgePsionic;
+                case "knowledgereligion":
+                    return Skill.KnowledgeReligion;
                 case "linguistics":
                     return Skill.Linguistics;
                 case "perception":
@@ -69,6 +91,8 @@ namespace AssetManager.Enums
                     return Skill.Alternate;
                 case "all":
                     return Skill.All;
+                case "classskill":
+                    return Skill.Class;
             }
 
             throw new ArgumentOutOfRangeException(nameof(skillName), "Could not determine requested skill: " + skillName);
@@ -193,35 +217,93 @@ namespace AssetManager.Enums
             throw new ArgumentOutOfRangeException(nameof(sourceName), "Could not determine requested source: " + sourceName);
         }
 
-        public static School StringToSchool(this string schoolName)
+        public static Bonus StringToBonus(this string bonusName)
         {
-            switch (_whitespaceFilter.Replace(schoolName.ToLower(), ""))
+            switch (_whitespaceFilter.Replace(bonusName.ToLower(), ""))
             {
-                case "abjuration":
-                    return School.Abjuration;
-                case "conjuration":
-                    return School.Conjuration;
-                case "divination":
-                    return School.Divination;
-                case "enchantment":
-                    return School.Enchantment;
-                case "evocation":
-                    return School.Evocation;
-                case "illusion":
-                    return School.Illusion;
-                case "necromancy":
-                    return School.Necromancy;
-                case "transmutation":
-                    return School.Transmutation;
-                case "universal":
-                    return School.Universal;
-                case "offensive":
-                    return School.Offensive;
-                case "defensive":
-                    return School.Defensive;
+                case "alchemical":
+                    return Bonus.Alchemical;
+                case "armor":
+                    return Bonus.Armor;
+                case "bab":
+                    return Bonus.BAB;
+                case "circumstance":
+                    return Bonus.Circumstance;
+                case "competence":
+                    return Bonus.Competence;
+                case "deflection":
+                    return Bonus.Deflection;
+                case "dodge":
+                    return Bonus.Dodge;
+                case "enhancement":
+                    return Bonus.Enhancement;
+                case "inherent":
+                    return Bonus.Inherent;
+                case "insight":
+                    return Bonus.Insight;
+                case "luck":
+                    return Bonus.Luck;
+                case "morale":
+                    return Bonus.Morale;
+                case "naturalarmor":
+                    return Bonus.NaturalArmor;
+                case "profane":
+                    return Bonus.Profane;
+                case "racial":
+                    return Bonus.Racial;
+                case "resistance":
+                    return Bonus.Resistance;
+                case "sacred":
+                    return Bonus.Sacred;
+                case "shield":
+                    return Bonus.Shield;
+                case "size":
+                    return Bonus.Size;
+                case "trait":
+                    return Bonus.Trait;
+                case "untyped":
+                    return Bonus.Untyped;
+                case "none":
+                case "":
+                    return Bonus.None;
             }
 
-            throw new ArgumentOutOfRangeException(nameof(schoolName), "Could not determine requested school: " + schoolName);
+            throw new ArgumentOutOfRangeException(nameof(bonusName), "Could not determine requested bonus: " + bonusName);
+        }
+
+        public static Magic StringToMagic(this string magicName)
+        {
+            switch (_whitespaceFilter.Replace(magicName.ToLower(), ""))
+            {
+                case "abjuration":
+                    return Magic.Abjuration;
+                case "conjuration":
+                    return Magic.Conjuration;
+                case "divination":
+                    return Magic.Divination;
+                case "enchantment":
+                    return Magic.Enchantment;
+                case "evocation":
+                    return Magic.Evocation;
+                case "illusion":
+                    return Magic.Illusion;
+                case "necromancy":
+                    return Magic.Necromancy;
+                case "transmutation":
+                    return Magic.Transmutation;
+                case "universal":
+                    return Magic.Universal;
+                case "offensive":
+                    return Magic.Offensive;
+                case "defensive":
+                    return Magic.Defensive;
+                case "casterlevel":
+                    return Magic.CasterLevel;
+                case "concentration":
+                    return Magic.Concentration;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(magicName), "Could not determine requested magic: " + magicName);
         }
 
         public static Role StringToRole(this string roleName)
@@ -234,8 +316,16 @@ namespace AssetManager.Enums
                     return Role.Ranged;
                 case "switchattacker":
                     return Role.SwitchAttacker;
+                case "areaattacker":
+                    return Role.AreaAttacker;
                 case "tank":
                     return Role.Tank;
+                case "guard":
+                    return Role.Guard;
+                case "scout":
+                    return Role.Scout;
+                case "ambusher":
+                    return Role.Ambusher;
                 case "leader":
                     return Role.Leader;
                 case "blaster":
@@ -285,6 +375,10 @@ namespace AssetManager.Enums
                     return Core.HitPoints;
                 case "wealth":
                     return Core.Wealth;
+                case "social":
+                    return Core.Social;
+                case "sustenance":
+                    return Core.Sustenance;
             }
 
             throw new ArgumentOutOfRangeException(nameof(coreName), "Could not determine requested core: " + coreName);
@@ -292,42 +386,78 @@ namespace AssetManager.Enums
 
         public static Combat StringToCombat(this string combatName)
         {
-            switch (combatName.ToLower())
+            switch (_whitespaceFilter.Replace(combatName.ToLower(), ""))
             {
                 case "initiative":
                     return Combat.Initiative;
                 case "ac":
                     return Combat.AC;
+                case "saves":
+                    return Combat.Saves;
+                case "spellcasting":
+                    return Combat.Spellcasting;
                 case "attack":
                     return Combat.Attack;
                 case "damage":
                     return Combat.Damage;
+                case "range":
+                    return Combat.Range;
                 case "critical":
                     return Combat.Critical;
                 case "nonlethal":
                     return Combat.Nonlethal;
-                case "combat manuver":
+                case "combatmaneuver":
                     return Combat.CombatManeuver;
+                case "bullrush":
+                    return Combat.BullRush;
+                case "dirtytrick":
+                    return Combat.DirtyTrick;
+                case "disarm":
+                    return Combat.Disarm;
+                case "drag":
+                    return Combat.Drag;
+                case "grapple":
+                    return Combat.Grapple;
+                case "overrun":
+                    return Combat.Overrun;
+                case "reposition":
+                    return Combat.Reposition;
+                case "steal":
+                    return Combat.Steal;
+                case "sunder":
+                    return Combat.Sunder;
+                case "trip":
+                    return Combat.Trip;
                 case "unarmed":
                     return Combat.Unarmed;
                 case "weapon":
                     return Combat.Weapon;
-                case "two weapon":
+                case "twoweapon":
                     return Combat.TwoWeapon;
-                case "two handed":
+                case "twohanded":
                     return Combat.TwoHanded;
                 case "bow":
                     return Combat.Bow;
                 case "thrown":
                     return Combat.Thrown;
-                case "attacks of opportunity":
+                case "attacksofopportunity":
                     return Combat.AttacksOfOpportunity;
-                case "simple weapons":
+                case "feint":
+                    return Combat.Feint;
+                case "simpleweapons":
                     return Combat.SimpleWeapons;
-                case "martial weapons":
+                case "martialweapons":
                     return Combat.MartialWeapons;
-                case "exotic weapons":
+                case "exoticweapons":
                     return Combat.ExoticWeapons;
+                case "bludgeoning":
+                    return Combat.Bludgeoning;
+                case "piercing":
+                    return Combat.Piercing;
+                case "slashing":
+                    return Combat.Slashing;
+                case "creaturetype":
+                    return Combat.Creature;
             }
 
             throw new ArgumentOutOfRangeException(nameof(combatName), "Could not determine requested combat: " + combatName);
@@ -386,7 +516,7 @@ namespace AssetManager.Enums
             return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
         }
 
-        public static string GetEnumDescription(this School enumValue)
+        public static string GetEnumDescription(this Magic enumValue)
         {
             var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 
@@ -405,6 +535,15 @@ namespace AssetManager.Enums
         }
 
         public static string GetEnumDescription(this Source enumValue)
+        {
+            var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+
+            var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
+        }
+
+        public static string GetEnumDescription(this Bonus enumValue)
         {
             var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 

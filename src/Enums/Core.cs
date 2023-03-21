@@ -19,6 +19,10 @@ namespace AssetManager.Enums
         [Description("Hit Points")]
         HitPoints,
         [Description("Wealth")]
-        Wealth
+        Wealth,
+        [Description("Social")]
+        Social,
+        [Description("Sustenance")]
+        Sustenance
     }
 }

@@ -56,7 +56,7 @@
                                 Width="60" Height="20"/>
                     </StackPanel>
 
-                    <Expander Name="CoreExpander" Header="Core" FontSize="10" FontWeight="Bold" Margin="0, 10, 0, 0">
+                    <Expander Header="Core" FontSize="10" FontWeight="Bold" Margin="0, 10, 0, 0">
                         <ListBox ItemsSource="{Binding CoreTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -71,7 +71,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="SkillExpander" Header="Skills" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Skills" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding SkillTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -86,7 +86,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="ClassExpander" Header="Class" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Class" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding ClassTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -101,7 +101,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="CombatExpander" Header="Combat" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Combat" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding CombatTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -116,7 +116,7 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="RoleExpander" Header="Role" FontSize="10" FontWeight="Bold">
+                    <Expander Header="Role" FontSize="10" FontWeight="Bold">
                         <ListBox ItemsSource="{Binding RoleTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
@@ -131,8 +131,23 @@
                         </ListBox>
                     </Expander>
 
-                    <Expander Name="SchoolExpander" Header="Spells" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding SchoolTags}" Background="LightGray" 
+                    <Expander Header="Spells" FontSize="10" FontWeight="Bold">
+                        <ListBox ItemsSource="{Binding MagicTags}" Background="LightGray" 
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <CheckBox FontWeight="Normal" 
+                                                  IsChecked="{Binding Path=Value}"
+                                                  Content="{Binding Path=Key}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
+
+                    <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
+                        <ListBox ItemsSource="{Binding BonusTags}" Background="LightGray" 
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>

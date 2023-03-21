@@ -33,6 +33,8 @@ namespace AssetManager.Containers
 
         public HashSet<Role> RoleTags { get; set; } = new HashSet<Role>();
 
-        public HashSet<School> SchoolTags { get; set; } = new HashSet<School>();
+        public HashSet<Magic> MagicTags { get; set; } = new HashSet<Magic>();
+
+        public HashSet<Bonus> BonusTags { get; set; } = new HashSet<Bonus>();
     }
 }

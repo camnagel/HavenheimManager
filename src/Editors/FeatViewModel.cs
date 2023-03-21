@@ -80,6 +80,28 @@ namespace AssetManager.Editors
             }
         }
 
+        private string _selectedPostreq;
+        public string? SelectedPostreq
+        {
+            get => _selectedPostreq;
+            set
+            {
+                _selectedPostreq = value ?? string.Empty;
+                OnPropertyChanged("SelectedPostreq");
+            }
+        }
+
+        private string _selectedAntireq;
+        public string? SelectedAntireq
+        {
+            get => _selectedAntireq;
+            set
+            {
+                _selectedAntireq = value ?? string.Empty;
+                OnPropertyChanged("SelectedAntireq");
+            }
+        }
+
         private string _selectedCustomTag;
         public string? SelectedCustomTag
         {
@@ -97,6 +119,10 @@ namespace AssetManager.Editors
 
         public ObservableCollection<string> Prereqs { get; set; } = new ObservableCollection<string>();
 
+        public ObservableCollection<string> Postreqs { get; set; } = new ObservableCollection<string>();
+
+        public ObservableCollection<string> Antireqs { get; set; } = new ObservableCollection<string>();
+
         public IList<CheckboxKvp> CoreTags { get; set; } = new List<CheckboxKvp>();
 
         public IList<CheckboxKvp> SkillTags { get; set; } = new List<CheckboxKvp>();
@@ -107,7 +133,9 @@ namespace AssetManager.Editors
 
         public IList<CheckboxKvp> RoleTags { get; set; } = new List<CheckboxKvp>();
 
-        public IList<CheckboxKvp> SchoolTags { get; set; } = new List<CheckboxKvp>();
+        public IList<CheckboxKvp> MagicTags { get; set; } = new List<CheckboxKvp>();
+
+        public IList<CheckboxKvp> BonusTags { get; set; } = new List<CheckboxKvp>();
 
         public DelegateCommand AcceptFeatCommand { get; }
         public DelegateCommand CancelCommand { get; }
@@ -115,6 +143,10 @@ namespace AssetManager.Editors
         public DelegateCommand RemoveCustomTagCommand { get; }
         public DelegateCommand AddPrereqCommand { get; }
         public DelegateCommand RemovePrereqCommand { get; }
+        public DelegateCommand AddPostreqCommand { get; }
+        public DelegateCommand RemovePostreqCommand { get; }
+        public DelegateCommand AddAntireqCommand { get; }
+        public DelegateCommand RemoveAntireqCommand { get; }
 
         public FeatViewModel(Feat feat)
         {
@@ -122,6 +154,10 @@ namespace AssetManager.Editors
             CancelCommand = new DelegateCommand(CancelAction);
             AddPrereqCommand = new DelegateCommand(AddPrereqAction);
             RemovePrereqCommand = new DelegateCommand(RemovePrereqAction);
+            AddPostreqCommand = new DelegateCommand(AddPostreqAction);
+            RemovePostreqCommand = new DelegateCommand(RemovePostreqAction);
+            AddAntireqCommand = new DelegateCommand(AddAntireqAction);
+            RemoveAntireqCommand = new DelegateCommand(RemoveAntireqAction);
             AddCustomTagCommand = new DelegateCommand(AddCustomTagAction);
             RemoveCustomTagCommand = new DelegateCommand(RemoveCustomTagAction);
 
@@ -136,6 +172,16 @@ namespace AssetManager.Editors
             foreach (string prereq in Feat.Prereqs)
             {
                 Prereqs.Add(prereq);
+            }
+
+            foreach (string postreq in Feat.Postreqs)
+            {
+                Postreqs.Add(postreq);
+            }
+
+            foreach (string antireq in Feat.Antireqs)
+            {
+                Antireqs.Add(antireq);
             }
 
             foreach (string tag in Feat.CustomTags)
@@ -167,10 +213,16 @@ namespace AssetManager.Editors
                 RoleTags.Add(new CheckboxKvp(tag, Feat.RoleTags.Contains(item)));
             }
 
-            foreach (School item in Enum.GetValues(typeof(School)))
+            foreach (Magic item in Enum.GetValues(typeof(Magic)))
             {
                 string tag = item.GetEnumDescription();
-                SchoolTags.Add(new CheckboxKvp(tag, Feat.SchoolTags.Contains(item)));
+                MagicTags.Add(new CheckboxKvp(tag, Feat.MagicTags.Contains(item)));
+            }
+
+            foreach (Bonus item in Enum.GetValues(typeof(Bonus)))
+            {
+                string tag = item.GetEnumDescription();
+                BonusTags.Add(new CheckboxKvp(tag, Feat.BonusTags.Contains(item)));
             }
 
             foreach (Class item in Enum.GetValues(typeof(Class)))
@@ -192,6 +244,18 @@ namespace AssetManager.Editors
             foreach (string prereq in Prereqs)
             {
                 Feat.Prereqs.Add(prereq);
+            }
+
+            Feat.Postreqs.Clear();
+            foreach (string postreq in Postreqs)
+            {
+                Feat.Postreqs.Add(postreq);
+            }
+
+            Feat.Antireqs.Clear();
+            foreach (string antireq in Antireqs)
+            {
+                Feat.Antireqs.Add(antireq);
             }
 
             Feat.CustomTags.Clear();
@@ -245,12 +309,21 @@ namespace AssetManager.Editors
                 }
             }
 
-            Feat.SchoolTags.Clear();
-            foreach (CheckboxKvp tag in SchoolTags)
+            Feat.MagicTags.Clear();
+            foreach (CheckboxKvp tag in MagicTags)
             {
                 if (tag.Value)
                 {
-                    Feat.SchoolTags.Add(tag.Key.StringToSchool());
+                    Feat.MagicTags.Add(tag.Key.StringToMagic());
+                }
+            }
+
+            Feat.BonusTags.Clear();
+            foreach (CheckboxKvp tag in BonusTags)
+            {
+                if (tag.Value)
+                {
+                    Feat.BonusTags.Add(tag.Key.StringToBonus());
                 }
             }
 
@@ -274,6 +347,46 @@ namespace AssetManager.Editors
             {
                 Prereqs.Remove(SelectedPrereq);
                 SelectedPrereq = null;
+            }
+        }
+
+        private void AddPostreqAction(object arg)
+        {
+            InputBox box = new InputBox("Postreq:");
+            box.ShowDialog();
+
+            if (box.DialogResult == true)
+            {
+                Postreqs.Add(box.GetInput());
+            }
+        }
+
+        private void RemovePostreqAction(object arg)
+        {
+            if (SelectedPostreq != null)
+            {
+                Prereqs.Remove(SelectedPostreq);
+                SelectedPostreq = null;
+            }
+        }
+
+        private void AddAntireqAction(object arg)
+        {
+            InputBox box = new InputBox("Antireq:");
+            box.ShowDialog();
+
+            if (box.DialogResult == true)
+            {
+                Antireqs.Add(box.GetInput());
+            }
+        }
+
+        private void RemoveAntireqAction(object arg)
+        {
+            if (SelectedAntireq != null)
+            {
+                Antireqs.Remove(SelectedAntireq);
+                SelectedAntireq = null;
             }
         }
 

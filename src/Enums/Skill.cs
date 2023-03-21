@@ -30,8 +30,30 @@ namespace AssetManager.Enums
         Heal,
         [Description("Intimidate")]
         Intimidate,
-        [Description("Knowledge")]
-        Knowledge,
+        [Description("Knowledge (All)")]
+        KnowledgeAll,
+        [Description("Knowledge (Arcance)")]
+        KnowledgeArcane,
+        [Description("Knowledge (Dungeoneering)")]
+        KnowledgeDungeoneering,
+        [Description("Knowledge (Engineering)")]
+        KnowledgeEngineering,
+        [Description("Knowledge (Geography)")]
+        KnowledgeGeography,
+        [Description("Knowledge (History)")]
+        KnowledgeHistory,
+        [Description("Knowledge (Local)")]
+        KnowledgeLocal,
+        [Description("Knowledge (Nature)")]
+        KnowledgeNature,
+        [Description("Knowledge (Nobility)")]
+        KnowledgeNobility,
+        [Description("Knowledge (Planes)")]
+        KnowledgePlanes,
+        [Description("Knowledge (Psionic)")]
+        KnowledgePsionic,
+        [Description("Knowledge (Religion)")]
+        KnowledgeReligion,
         [Description("Linguistics")]
         Linguistics,
         [Description("Perception")]
@@ -59,6 +81,8 @@ namespace AssetManager.Enums
         [Description("Alternate")]
         Alternate,
         [Description("All")]
-        All
+        All,
+        [Description("Class Skill")]
+        Class
     }
 }
