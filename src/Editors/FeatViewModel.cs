@@ -116,7 +116,7 @@ namespace AssetManager.Editors
         public DelegateCommand AddPrereqCommand { get; }
         public DelegateCommand RemovePrereqCommand { get; }
 
-        public FeatViewModel(Feat Feat)
+        public FeatViewModel(Feat feat)
         {
             AcceptFeatCommand = new DelegateCommand(AcceptFeatAction);
             CancelCommand = new DelegateCommand(CancelAction);
@@ -125,7 +125,7 @@ namespace AssetManager.Editors
             AddCustomTagCommand = new DelegateCommand(AddCustomTagAction);
             RemoveCustomTagCommand = new DelegateCommand(RemoveCustomTagAction);
 
-            Feat = Feat;
+            Feat = feat;
 
             FeatName = Feat.Name;
             FeatDescription = Feat.Description;
