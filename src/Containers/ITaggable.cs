@@ -19,6 +19,8 @@ namespace AssetManager.Containers
 
         HashSet<Bonus> BonusTags { get; set; }
 
+        HashSet<Condition> ConditionTags { get; set; }
+
         IList<string> CustomTags { get; set; }
     }
 }

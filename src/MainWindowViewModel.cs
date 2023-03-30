@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using AssetManager.Editors;
+using Condition = AssetManager.Enums.Condition;
 using File = System.IO.File;
 
 namespace AssetManager
@@ -53,6 +54,7 @@ namespace AssetManager
             RoleTraitCheckboxCommand = new DelegateCommand(TraitRoleFilterAction);
             MagicTraitCheckboxCommand = new DelegateCommand(TraitMagicFilterAction);
             BonusTraitCheckboxCommand = new DelegateCommand(TraitBonusFilterAction);
+            ConditionTraitCheckboxCommand = new DelegateCommand(TraitConditionFilterAction);
             SourceTraitCheckboxCommand = new DelegateCommand(TraitSourceFilterAction);
             CustomTraitCheckboxCommand = new DelegateCommand(TraitCustomFilterAction);
             AddFavoriteTraitCommand = new DelegateCommand(AddFavoriteTraitAction);
@@ -73,6 +75,7 @@ namespace AssetManager
             RoleFeatCheckboxCommand = new DelegateCommand(FeatRoleFilterAction);
             MagicFeatCheckboxCommand = new DelegateCommand(FeatMagicFilterAction);
             BonusFeatCheckboxCommand = new DelegateCommand(FeatBonusFilterAction);
+            ConditionFeatCheckboxCommand = new DelegateCommand(FeatConditionFilterAction);
             SourceFeatCheckboxCommand = new DelegateCommand(FeatSourceFilterAction);
             CustomFeatCheckboxCommand = new DelegateCommand(FeatCustomFilterAction);
             AddFavoriteFeatCommand = new DelegateCommand(AddFavoriteFeatAction);
@@ -101,6 +104,7 @@ namespace AssetManager
         public ObservableCollection<string> RoleTraitFilterList { get; set; } = new();
         public ObservableCollection<string> MagicTraitFilterList { get; set; } = new();
         public ObservableCollection<string> BonusTraitFilterList { get; set; } = new();
+        public ObservableCollection<string> ConditionTraitFilterList { get; set; } = new();
         public ObservableCollection<string> SourceTraitFilterList { get; set; } = new();
         
         private Trait? _selectedTrait;
@@ -145,6 +149,7 @@ namespace AssetManager
         private HashSet<Role> RoleTraitFilters = new HashSet<Role>();
         private HashSet<Magic> MagicTraitFilters = new HashSet<Magic>();
         private HashSet<Bonus> BonusTraitFilters = new HashSet<Bonus>();
+        private HashSet<Condition> ConditionTraitFilters = new HashSet<Condition>();
         private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
         private HashSet<string> CustomTraitFilters = new HashSet<string>();
 
@@ -156,6 +161,7 @@ namespace AssetManager
         public DelegateCommand RoleTraitCheckboxCommand { get; }
         public DelegateCommand MagicTraitCheckboxCommand { get; }
         public DelegateCommand BonusTraitCheckboxCommand { get; }
+        public DelegateCommand ConditionTraitCheckboxCommand { get; }
         public DelegateCommand SourceTraitCheckboxCommand { get; }
         public DelegateCommand CustomTraitCheckboxCommand { get; }
 
@@ -304,6 +310,25 @@ namespace AssetManager
             }
         }
 
+        private void TraitConditionFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Condition toggleCondition = filter.StringToCondition();
+
+                if (ConditionTraitFilters.Contains(toggleCondition))
+                {
+                    ConditionTraitFilters.Remove(toggleCondition);
+                }
+                else
+                {
+                    ConditionTraitFilters.Add(toggleCondition);
+                }
+
+                ApplyTraitFilters();
+            }
+        }
+
         private void TraitSourceFilterAction(object arg)
         {
             if (arg is string filter)
@@ -380,6 +405,11 @@ namespace AssetManager
             foreach (Bonus filter in BonusTraitFilters)
             {
                 possibleTraits = possibleTraits.Where(x => x.BonusTags.Contains(filter)).ToList();
+            }
+
+            foreach (Condition filter in ConditionTraitFilters)
+            {
+                possibleTraits = possibleTraits.Where(x => x.ConditionTags.Contains(filter)).ToList();
             }
 
             foreach (Source filter in SourceTraitFilters)
@@ -628,6 +658,7 @@ namespace AssetManager
         public ObservableCollection<string> RoleFeatFilterList { get; set; } = new();
         public ObservableCollection<string> MagicFeatFilterList { get; set; } = new();
         public ObservableCollection<string> BonusFeatFilterList { get; set; } = new();
+        public ObservableCollection<string> ConditionFeatFilterList { get; set; } = new();
         public ObservableCollection<string> SourceFeatFilterList { get; set; } = new();
 
         private Feat? _selectedFeat;
@@ -693,6 +724,7 @@ namespace AssetManager
         private HashSet<Role> RoleFeatFilters = new HashSet<Role>();
         private HashSet<Magic> MagicFeatFilters = new HashSet<Magic>();
         private HashSet<Bonus> BonusFeatFilters = new HashSet<Bonus>();
+        private HashSet<Condition> ConditionFeatFilters = new HashSet<Condition>();
         private HashSet<Source> SourceFeatFilters = new HashSet<Source>();
         private HashSet<string> CustomFeatFilters = new HashSet<string>();
 
@@ -704,6 +736,7 @@ namespace AssetManager
         public DelegateCommand RoleFeatCheckboxCommand { get; }
         public DelegateCommand MagicFeatCheckboxCommand { get; }
         public DelegateCommand BonusFeatCheckboxCommand { get; }
+        public DelegateCommand ConditionFeatCheckboxCommand { get; }
         public DelegateCommand SourceFeatCheckboxCommand { get; }
         public DelegateCommand CustomFeatCheckboxCommand { get; }
 
@@ -852,6 +885,25 @@ namespace AssetManager
             }
         }
 
+        private void FeatConditionFilterAction(object arg)
+        {
+            if (arg is string filter)
+            {
+                Condition toggleCondition = filter.StringToCondition();
+
+                if (ConditionFeatFilters.Contains(toggleCondition))
+                {
+                    ConditionFeatFilters.Remove(toggleCondition);
+                }
+                else
+                {
+                    ConditionFeatFilters.Add(toggleCondition);
+                }
+
+                ApplyFeatFilters();
+            }
+        }
+
         private void FeatSourceFilterAction(object arg)
         {
             if (arg is string filter)
@@ -928,6 +980,11 @@ namespace AssetManager
             foreach (Bonus filter in BonusFeatFilters)
             {
                 possibleFeats = possibleFeats.Where(x => x.BonusTags.Contains(filter)).ToList();
+            }
+
+            foreach (Condition filter in ConditionFeatFilters)
+            {
+                possibleFeats = possibleFeats.Where(x => x.ConditionTags.Contains(filter)).ToList();
             }
 
             foreach (Source filter in SourceFeatFilters)

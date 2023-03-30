@@ -36,5 +36,7 @@ namespace AssetManager.Containers
         public HashSet<Magic> MagicTags { get; set; } = new HashSet<Magic>();
 
         public HashSet<Bonus> BonusTags { get; set; } = new HashSet<Bonus>();
+
+        public HashSet<Condition> ConditionTags { get; set; } = new HashSet<Condition>();
     }
 }

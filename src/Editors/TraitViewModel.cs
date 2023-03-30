@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using AssetManager.Containers;
 using AssetManager.Enums;
+using Condition = AssetManager.Enums.Condition;
 
 namespace AssetManager.Editors
 {
@@ -113,6 +114,8 @@ namespace AssetManager.Editors
 
         public IList<CheckboxKvp> BonusTags { get; set; } = new List<CheckboxKvp>();
 
+        public IList<CheckboxKvp> ConditionTags { get; set; } = new List<CheckboxKvp>();
+
         public DelegateCommand AcceptTraitCommand { get; }
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand AddCustomTagCommand { get; }
@@ -181,6 +184,12 @@ namespace AssetManager.Editors
             {
                 string tag = item.GetEnumDescription();
                 BonusTags.Add(new CheckboxKvp(tag, trait.BonusTags.Contains(item)));
+            }
+
+            foreach (Condition item in Enum.GetValues(typeof(Condition)))
+            {
+                string tag = item.GetEnumDescription();
+                ConditionTags.Add(new CheckboxKvp(tag, trait.ConditionTags.Contains(item)));
             }
 
             foreach (Class item in Enum.GetValues(typeof(Class)))
@@ -270,6 +279,15 @@ namespace AssetManager.Editors
                 if (tag.Value)
                 {
                     Trait.BonusTags.Add(tag.Key.StringToBonus());
+                }
+            }
+
+            Trait.ConditionTags.Clear();
+            foreach (CheckboxKvp tag in ConditionTags)
+            {
+                if (tag.Value)
+                {
+                    Trait.ConditionTags.Add(tag.Key.StringToCondition());
                 }
             }
 

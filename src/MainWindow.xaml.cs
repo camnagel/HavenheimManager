@@ -1,6 +1,7 @@
 ﻿using AssetManager.Enums;
 using System;
 using System.Windows;
+using Condition = AssetManager.Enums.Condition;
 
 namespace AssetManager
 {
@@ -54,6 +55,12 @@ namespace AssetManager
             {
                 vm.BonusTraitFilterList.Add(item.GetEnumDescription());
                 vm.BonusFeatFilterList.Add(item.GetEnumDescription());
+            }
+
+            foreach (Condition item in Enum.GetValues(typeof(Condition)))
+            {
+                vm.ConditionTraitFilterList.Add(item.GetEnumDescription());
+                vm.ConditionFeatFilterList.Add(item.GetEnumDescription());
             }
 
             foreach (Class item in Enum.GetValues(typeof(Class)))

@@ -160,6 +160,21 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </Expander>
+
+                    <Expander Header="Condition" FontSize="10" FontWeight="Bold">
+                        <ListBox ItemsSource="{Binding ConditionTags}" Background="LightGray" 
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <CheckBox FontWeight="Normal" 
+                                                  IsChecked="{Binding Path=Value}"
+                                                  Content="{Binding Path=Key}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal">

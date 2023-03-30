@@ -165,4 +165,21 @@ namespace AssetManager.Import
             return tagSet;
         }
     }
+
+    public class ConditionConverter<T> : DefaultTypeConverter
+    {
+        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        {
+            HashSet<Condition> tagSet = new HashSet<Condition>();
+            if (tags is { Length: > 0 })
+            {
+                List<string> splitTags = tags.Split(',').ToList();
+                foreach (string tag in splitTags)
+                {
+                    tagSet.Add(tag.StringToCondition());
+                }
+            }
+            return tagSet;
+        }
+    }
 }

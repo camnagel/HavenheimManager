@@ -356,6 +356,91 @@ namespace AssetManager.Enums
             throw new ArgumentOutOfRangeException(nameof(roleName), "Could not determine requested role: " + roleName);
         }
 
+        public static Condition StringToCondition(this string conditionName)
+        {
+            switch (conditionName.Sanitize())
+            {
+                case "alive":
+                    return Condition.Alive;
+                case "asleep":
+                    return Condition.Asleep;
+                case "bleed":
+                    return Condition.Bleed;
+                case "blinded":
+                    return Condition.Blinded;
+                case "broken":
+                    return Condition.Broken;
+                case "confused":
+                    return Condition.Confused;
+                case "cowering":
+                    return Condition.Cowering;
+                case "dazed":
+                    return Condition.Dazed;
+                case "dazzled":
+                    return Condition.Dazzled;
+                case "dead":
+                    return Condition.Dead;
+                case "deafened":
+                    return Condition.Deafened;
+                case "disabled":
+                    return Condition.Disabled;
+                case "dying":
+                    return Condition.Dying;
+                case "energy Drained":
+                    return Condition.EnergyDrained;
+                case "entangled":
+                    return Condition.Entangled;
+                case "exhausted":
+                    return Condition.Exhausted;
+                case "fascinated":
+                    return Condition.Fascinated;
+                case "fatigued":
+                    return Condition.Fatigued;
+                case "flat Footed":
+                    return Condition.FlatFooted;
+                case "flanking":
+                    return Condition.Flanking;
+                case "frightened":
+                    return Condition.Frightened;
+                case "grappled":
+                    return Condition.Grappled;
+                case "helpless":
+                    return Condition.Helpless;
+                case "hidden":
+                    return Condition.Hidden;
+                case "incorporeal":
+                    return Condition.Incorporeal;
+                case "invisible":
+                    return Condition.Invisible;
+                case "nauseated":
+                    return Condition.Nauseated;
+                case "panicked":
+                    return Condition.Panicked;
+                case "paralyzed":
+                    return Condition.Paralyzed;
+                case "petrified":
+                    return Condition.Petrified;
+                case "pinned":
+                    return Condition.Pinned;
+                case "prone":
+                    return Condition.Prone;
+                case "shaken":
+                    return Condition.Shaken;
+                case "sickened":
+                    return Condition.Sickened;
+                case "stable":
+                    return Condition.Stable;
+                case "staggered":
+                    return Condition.Staggered;
+                case "stunned":
+                    return Condition.Stunned;
+                case "unconscious":
+                    return Condition.Unconscious;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(conditionName), "Could not determine requested condition: " + conditionName);
+        }
+
         public static Core StringToCore(this string coreName)
         {
             switch (coreName.Sanitize())
@@ -545,6 +630,15 @@ namespace AssetManager.Enums
         }
 
         public static string GetEnumDescription(this Bonus enumValue)
+        {
+            var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+
+            var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
+        }
+
+        public static string GetEnumDescription(this Condition enumValue)
         {
             var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 

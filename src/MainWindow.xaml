@@ -182,6 +182,23 @@
                                         </ListBox>
                                     </Expander>
 
+                                    <Expander Header="Condition" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding ConditionTraitFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.ConditionTraitCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
                                     <Expander Header="Source" FontSize="10" FontWeight="Bold">
                                         <ListBox ItemsSource="{Binding SourceTraitFilterList}" Background="LightGray">
                                             <ListBox.ItemTemplate>
@@ -469,6 +486,23 @@
                                                         <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
                                                             {RelativeSource AncestorType=ListBox},
                                                             Path=DataContext.BonusFeatCheckboxCommand}" 
+                                                                  CommandParameter="{Binding}"
+                                                                  Content="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+
+                                    <Expander Header="Condition" FontSize="10" FontWeight="Bold">
+                                        <ListBox ItemsSource="{Binding ConditionFeatFilterList}" Height="500" 
+                                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ListBox},
+                                                            Path=DataContext.ConditionFeatCheckboxCommand}" 
                                                                   CommandParameter="{Binding}"
                                                                   Content="{Binding}"/>
                                                     </StackPanel>
