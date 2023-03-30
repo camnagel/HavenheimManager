@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AssetManager.Editors"
         mc:Ignorable="d"
-        Title="TraitView" Height="1000" Width="695" Background="DarkGray">
+        Title="Trait Editor" Height="1000" Width="695" Background="DarkGray">
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal"  Margin="10, 10, 10, 10">
