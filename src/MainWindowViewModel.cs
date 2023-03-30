@@ -29,8 +29,6 @@ namespace AssetManager
 
         private string _saveFileName = "";
 
-        private static readonly Regex _whitespaceFilter = new Regex(@"[\s-',()]+");
-
         private static readonly string _searchPlaceholderText = "Search...";
 
         // Asset Commands
@@ -345,11 +343,8 @@ namespace AssetManager
         {
             FilteredTraitList.Clear();
             List<Trait> possibleTraits = TraitSearchText != _searchPlaceholderText && TraitSearchText != "" ? 
-                MasterTraitList.Where(
-                    x => _whitespaceFilter.Replace(
-                        x.Name.ToLower(), "").Contains(
-                        _whitespaceFilter.Replace(_traitSearchText.ToLower(), "")))
-                               .ToList() : MasterTraitList;
+                MasterTraitList.Where(x => x.Name.Sanitize()
+                                            .Contains(_traitSearchText.Sanitize())).ToList() : MasterTraitList;
 
             foreach (Core filter in CoreTraitFilters)
             {
@@ -662,10 +657,10 @@ namespace AssetManager
             set
             {
                 _selectedFeatReq = value ?? "";
-                string sanitizedSelection = _whitespaceFilter.Replace(_selectedFeatReq.ToLower(), "");
+                string sanitizedSelection = _selectedFeatReq.Sanitize();
                 foreach (Feat possibleFeat in MasterFeatList)
                 {
-                    if (_whitespaceFilter.Replace(possibleFeat.Name.ToLower(), "") == sanitizedSelection)
+                    if (possibleFeat.Name.Sanitize() == sanitizedSelection)
                     {
                         SelectedFeat = possibleFeat;
                         _selectedFeatReq = "";
@@ -676,13 +671,13 @@ namespace AssetManager
             }
         }
 
-        private string _FeatSearchText = _searchPlaceholderText;
+        private string _featSearchText = _searchPlaceholderText;
         public string FeatSearchText
         {
-            get => _FeatSearchText;
+            get => _featSearchText;
             set
             {
-                _FeatSearchText = value;
+                _featSearchText = value;
                 ApplyFeatFilters();
 
                 OnPropertyChanged("FeatSearchText");
@@ -896,11 +891,8 @@ namespace AssetManager
         {
             FilteredFeatList.Clear();
             List<Feat> possibleFeats = FeatSearchText != _searchPlaceholderText && FeatSearchText != "" ?
-                MasterFeatList.Where(
-                    x => _whitespaceFilter.Replace(
-                        x.Name.ToLower(), "").Contains(
-                        _whitespaceFilter.Replace(_FeatSearchText.ToLower(), "")))
-                               .ToList() : MasterFeatList;
+                MasterFeatList.Where(x => x.Name.Sanitize()
+                                           .Contains(_featSearchText.Sanitize())).ToList() : MasterFeatList;
 
             foreach (Core filter in CoreFeatFilters)
             {
@@ -968,6 +960,31 @@ namespace AssetManager
             }
         }
 
+        private void UpdateFeatReqs()
+        {
+            foreach (Feat feat in MasterFeatList)
+            {
+                string sanitizedName = feat.Name.Sanitize();
+                foreach (Feat possibleReq in MasterFeatList)
+                {
+                    string possibleFeatSanitizedName = possibleReq.Name.Sanitize();
+                    if (sanitizedName == possibleFeatSanitizedName) continue;
+
+                    // Antireqs
+                    if (possibleReq.Antireqs.Select(x => x.Sanitize()).Contains(sanitizedName))
+                    {
+                        feat.Antireqs.Add(possibleReq.Name);
+                    }
+
+                    // Postreqs
+                    if (possibleReq.Prereqs.Select(x => x.Sanitize()).Contains(sanitizedName))
+                    {
+                        feat.Postreqs.Add(possibleReq.Name);
+                    }
+                }
+            }
+        }
+
         private void AddFavoriteFeatAction(object arg)
         {
             if (SelectedFeat != null && !FavoriteFeatList.Contains(SelectedFeat))
@@ -1014,6 +1031,7 @@ namespace AssetManager
                             MasterFeatList.Remove(SelectedFeat);
                             MasterFeatList.Add(newFeat);
 
+                            UpdateFeatReqs();
                             UpdateFeatCustomTags();
                             ApplyFeatFilters();
                             if (FilteredFeatList.Contains(newFeat))
@@ -1082,6 +1100,7 @@ namespace AssetManager
                     {
                         MasterFeatList.Add(newFeat);
 
+                        UpdateFeatReqs();
                         UpdateFeatCustomTags();
                         ApplyFeatFilters();
                         if (FilteredFeatList.Contains(newFeat))
@@ -1149,6 +1168,7 @@ namespace AssetManager
                 FavoriteFeatList.Remove(SelectedFeat);
 
                 SelectedFeat = null;
+                UpdateFeatReqs();
                 UpdateFeatCustomTags();
                 ApplyFeatFilters();
             }
@@ -1162,6 +1182,7 @@ namespace AssetManager
                 HiddenFeatList.Remove(SelectedFeat);
 
                 SelectedFeat = null;
+                UpdateFeatReqs();
                 UpdateFeatCustomTags();
                 ApplyFeatFilters();
             }
@@ -1247,6 +1268,7 @@ namespace AssetManager
                             {
                                 MasterFeatList.Add(feat);
                             }
+                            UpdateFeatReqs();
                             UpdateFeatCustomTags();
                             ApplyFeatFilters();
                             break;

@@ -8,10 +8,11 @@ namespace AssetManager.Enums
     public static class EnumExtensions
     {
         private static readonly Regex _whitespaceFilter = new Regex(@"[\s-',()]+");
+        public static string Sanitize(this string input) => _whitespaceFilter.Replace(input.ToLower(), "");
 
         public static Skill StringToSkill(this string skillName)
         {
-            switch (_whitespaceFilter.Replace(skillName.ToLower(), ""))
+            switch (skillName.Sanitize())
             {
                 case "acrobatics":
                     return Skill.Acrobatics;
@@ -100,7 +101,7 @@ namespace AssetManager.Enums
 
         public static Class StringToClass(this string className)
         {
-            switch (_whitespaceFilter.Replace(className.ToLower(), ""))
+            switch (className.Sanitize())
             {
                 case "alchemist":
                     return Class.Alchemist;
@@ -201,7 +202,7 @@ namespace AssetManager.Enums
 
         public static Source StringToSource(this string sourceName)
         {
-            switch (_whitespaceFilter.Replace(sourceName.ToLower(), ""))
+            switch (sourceName.Sanitize())
             {
                 case "standard":
                 case "":
@@ -219,7 +220,7 @@ namespace AssetManager.Enums
 
         public static Bonus StringToBonus(this string bonusName)
         {
-            switch (_whitespaceFilter.Replace(bonusName.ToLower(), ""))
+            switch (bonusName.Sanitize())
             {
                 case "alchemical":
                     return Bonus.Alchemical;
@@ -273,7 +274,7 @@ namespace AssetManager.Enums
 
         public static Magic StringToMagic(this string magicName)
         {
-            switch (_whitespaceFilter.Replace(magicName.ToLower(), ""))
+            switch (magicName.Sanitize())
             {
                 case "abjuration":
                     return Magic.Abjuration;
@@ -308,7 +309,7 @@ namespace AssetManager.Enums
 
         public static Role StringToRole(this string roleName)
         {
-            switch (_whitespaceFilter.Replace(roleName.ToLower(), ""))
+            switch (roleName.Sanitize())
             {
                 case "melee":
                     return Role.Melee;
@@ -357,7 +358,7 @@ namespace AssetManager.Enums
 
         public static Core StringToCore(this string coreName)
         {
-            switch (_whitespaceFilter.Replace(coreName.ToLower(), ""))
+            switch (coreName.Sanitize())
             {
                 case "strength":
                     return Core.Strength;
@@ -386,7 +387,7 @@ namespace AssetManager.Enums
 
         public static Combat StringToCombat(this string combatName)
         {
-            switch (_whitespaceFilter.Replace(combatName.ToLower(), ""))
+            switch (combatName.Sanitize())
             {
                 case "initiative":
                     return Combat.Initiative;
@@ -465,7 +466,7 @@ namespace AssetManager.Enums
 
         public static SourceType StringToSourceType(this string sourceTypeName)
         {
-            switch (_whitespaceFilter.Replace(sourceTypeName.ToLower(), ""))
+            switch (sourceTypeName.Sanitize())
             {
                 case "feat":
                     return SourceType.Feat;

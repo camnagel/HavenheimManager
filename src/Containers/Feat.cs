@@ -9,11 +9,11 @@ namespace AssetManager.Containers
 
         public string Description { get; set; }
 
-        public IList<string> Prereqs { get; set; } = new List<string>();
+        public HashSet<string> Prereqs { get; set; } = new HashSet<string>();
 
-        public IList<string> Postreqs { get; set; } = new List<string>();
+        public HashSet<string> Postreqs { get; set; } = new HashSet<string>();
 
-        public IList<string> Antireqs { get; set; } = new List<string>();
+        public HashSet<string> Antireqs { get; set; } = new HashSet<string>();
 
         public string Url { get; set; }
 

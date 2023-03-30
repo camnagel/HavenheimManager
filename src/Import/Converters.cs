@@ -34,7 +34,7 @@ namespace AssetManager.Import
     {
         public override object ConvertFromString(string? prereqs, IReaderRow row, MemberMapData data)
         {
-            List<string> prereqList = new List<string>();
+            HashSet<string> prereqList = new HashSet<string>();
             if (prereqs is { Length: > 0 })
             {
                 List<string> splitTags = prereqs.Split(',').ToList();

@@ -9,7 +9,7 @@ namespace AssetManager.Containers
 
         string Description { get; set; }
 
-        IList<string> Prereqs { get; set; }
+        HashSet<string> Prereqs { get; set; }
 
         string Url { get; set; }
 
