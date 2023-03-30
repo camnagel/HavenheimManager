@@ -153,6 +153,17 @@ namespace AssetManager
         private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
         private HashSet<string> CustomTraitFilters = new HashSet<string>();
 
+        private bool _activeTraitFilters => CoreTraitFilters.Any() ||
+                                            SkillTraitFilters.Any() ||
+                                            ClassTraitFilters.Any() ||
+                                            CombatTraitFilters.Any() ||
+                                            RoleTraitFilters.Any() ||
+                                            ConditionTraitFilters.Any() ||
+                                            SourceTraitFilters.Any() ||
+                                            CustomTraitFilters.Any() ||
+                                            MagicTraitFilters.Any() ||
+                                            BonusTraitFilters.Any();
+
         // Trait Checkbox Commands
         public DelegateCommand CoreTraitCheckboxCommand { get; }
         public DelegateCommand SkillTraitCheckboxCommand { get; }
@@ -368,10 +379,91 @@ namespace AssetManager
         private void ApplyTraitFilters()
         {
             FilteredTraitList.Clear();
-            List<Trait> possibleTraits = TraitSearchText != _searchPlaceholderText && TraitSearchText != "" ? 
+            List<Trait> possibleTraits = TraitSearchText != _searchPlaceholderText && TraitSearchText != "" ?
                 MasterTraitList.Where(x => x.Name.Sanitize()
-                                            .Contains(_traitSearchText.Sanitize())).ToList() : MasterTraitList;
+                                           .Contains(_traitSearchText.Sanitize())).ToList() : MasterTraitList;
 
+            foreach (Source filter in SourceTraitFilters)
+            {
+                possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
+            }
+
+            foreach (Trait trait in BroadTraitFilter(possibleTraits))
+            {
+                FilteredTraitList.Add(trait);
+            }
+        }
+
+        private IEnumerable<Trait> BroadTraitFilter(List<Trait> possibleTraits)
+        {
+            if (!_activeTraitFilters)
+            {
+                foreach (Trait trait in possibleTraits)
+                {
+                    yield return trait;
+                }
+                yield break;
+            }
+
+            foreach (Trait trait in possibleTraits)
+            {
+                if (CoreTraitFilters.Any(filter => trait.CoreTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (SkillTraitFilters.Any(filter => trait.SkillTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (ClassTraitFilters.Any(filter => trait.ClassTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (CombatTraitFilters.Any(filter => trait.CombatTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (RoleTraitFilters.Any(filter => trait.RoleTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (MagicTraitFilters.Any(filter => trait.MagicTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (BonusTraitFilters.Any(filter => trait.BonusTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (ConditionTraitFilters.Any(filter => trait.ConditionTags.Contains(filter)))
+                {
+                    yield return trait;
+                    continue;
+                }
+
+                if (CustomTraitFilters.Any(filter => trait.CustomTags.Contains(filter)))
+                {
+                    yield return trait;
+                }
+            }
+        }
+
+        private IEnumerable<Trait> StrictTraitFilter(List<Trait> possibleTraits)
+        {
             foreach (Core filter in CoreTraitFilters)
             {
                 possibleTraits = possibleTraits.Where(x => x.CoreTags.Contains(filter)).ToList();
@@ -412,11 +504,6 @@ namespace AssetManager
                 possibleTraits = possibleTraits.Where(x => x.ConditionTags.Contains(filter)).ToList();
             }
 
-            foreach (Source filter in SourceTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
-            }
-
             foreach (string filter in CustomTraitFilters)
             {
                 possibleTraits = possibleTraits.Where(x => x.CustomTags.Contains(filter)).ToList();
@@ -424,7 +511,7 @@ namespace AssetManager
 
             foreach (Trait trait in possibleTraits)
             {
-                FilteredTraitList.Add(trait);
+                yield return trait;
             }
         }
 
@@ -728,6 +815,17 @@ namespace AssetManager
         private HashSet<Source> SourceFeatFilters = new HashSet<Source>();
         private HashSet<string> CustomFeatFilters = new HashSet<string>();
 
+        private bool _activeFeatFilters => CoreFeatFilters.Any() ||
+                                           SkillFeatFilters.Any() ||
+                                           ClassFeatFilters.Any() ||
+                                           CombatFeatFilters.Any() ||
+                                           RoleFeatFilters.Any() ||
+                                           ConditionFeatFilters.Any() ||
+                                           SourceFeatFilters.Any() ||
+                                           CustomFeatFilters.Any() ||
+                                           MagicFeatFilters.Any() ||
+                                           BonusFeatFilters.Any();
+
         // Feat Checkbox Commands
         public DelegateCommand CoreFeatCheckboxCommand { get; }
         public DelegateCommand SkillFeatCheckboxCommand { get; }
@@ -947,6 +1045,87 @@ namespace AssetManager
                 MasterFeatList.Where(x => x.Name.Sanitize()
                                            .Contains(_featSearchText.Sanitize())).ToList() : MasterFeatList;
 
+            foreach (Source filter in SourceFeatFilters)
+            {
+                possibleFeats = possibleFeats.Where(x => x.Source == filter).ToList();
+            }
+
+            foreach (Feat feat in BroadFeatFilter(possibleFeats))
+            {
+                FilteredFeatList.Add(feat);
+            }
+        }
+
+        private IEnumerable<Feat> BroadFeatFilter(List<Feat> possibleFeats)
+        {
+            if (!_activeFeatFilters)
+            {
+                foreach (Feat feat in possibleFeats)
+                {
+                    yield return feat;
+                }
+                yield break;
+            }
+
+            foreach (Feat feat in possibleFeats)
+            {
+                if (CoreFeatFilters.Any(filter => feat.CoreTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (SkillFeatFilters.Any(filter => feat.SkillTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (ClassFeatFilters.Any(filter => feat.ClassTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (CombatFeatFilters.Any(filter => feat.CombatTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (RoleFeatFilters.Any(filter => feat.RoleTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (MagicFeatFilters.Any(filter => feat.MagicTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (BonusFeatFilters.Any(filter => feat.BonusTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (ConditionFeatFilters.Any(filter => feat.ConditionTags.Contains(filter)))
+                {
+                    yield return feat;
+                    continue;
+                }
+
+                if (CustomFeatFilters.Any(filter => feat.CustomTags.Contains(filter)))
+                {
+                    yield return feat;
+                }
+            }
+        }
+
+        private IEnumerable<Feat> StrictFeatFilter(List<Feat> possibleFeats)
+        {
             foreach (Core filter in CoreFeatFilters)
             {
                 possibleFeats = possibleFeats.Where(x => x.CoreTags.Contains(filter)).ToList();
@@ -987,19 +1166,14 @@ namespace AssetManager
                 possibleFeats = possibleFeats.Where(x => x.ConditionTags.Contains(filter)).ToList();
             }
 
-            foreach (Source filter in SourceFeatFilters)
-            {
-                possibleFeats = possibleFeats.Where(x => x.Source == filter).ToList();
-            }
-
             foreach (string filter in CustomFeatFilters)
             {
                 possibleFeats = possibleFeats.Where(x => x.CustomTags.Contains(filter)).ToList();
             }
 
-            foreach (Feat Feat in possibleFeats)
+            foreach (Feat feat in possibleFeats)
             {
-                FilteredFeatList.Add(Feat);
+                yield return feat;
             }
         }
 
