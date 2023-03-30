@@ -4,6 +4,8 @@ namespace AssetManager.Enums
 {
     public enum Combat
     {
+        [Description("Movement")]
+        Movement,
         [Description("Initiative")]
         Initiative,
         [Description("AC")]
@@ -48,6 +50,10 @@ namespace AssetManager.Enums
         Unarmed,
         [Description("Weapon")]
         Weapon,
+        [Description("Performance")]
+        Performance,
+        [Description("Mounted Combat")]
+        MountedCombat,
         [Description("Two-Weapon")]
         TwoWeapon,
         [Description("Two-Handed")]

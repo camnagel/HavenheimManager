@@ -22,7 +22,7 @@ namespace AssetManager.Enums
         Wealth,
         [Description("Social")]
         Social,
-        [Description("Sustenance")]
-        Sustenance
+        [Description("Recovery")]
+        Recovery
     }
 }

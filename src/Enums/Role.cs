@@ -43,6 +43,8 @@ namespace AssetManager.Enums
         [Description("Information")]
         Information,
         [Description("Crafter")]
-        Crafter
+        Crafter,
+        [Description("Mounted")]
+        Mounted
     }
 }

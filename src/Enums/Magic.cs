@@ -29,6 +29,10 @@ namespace AssetManager.Enums
         [Description("Caster Level")]
         CasterLevel,
         [Description("Concentration")]
-        Concentration
+        Concentration,
+        [Description("Metamagic")]
+        Metamagic,
+        [Description("Saves")]
+        Saves,
     }
 }

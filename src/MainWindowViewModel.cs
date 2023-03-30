@@ -1029,7 +1029,8 @@ namespace AssetManager
                     if (sanitizedName == possibleFeatSanitizedName) continue;
 
                     // Antireqs
-                    if (possibleReq.Antireqs.Select(x => x.Sanitize()).Contains(sanitizedName))
+                    if (possibleReq.Antireqs.Select(x => x.Sanitize()).Contains(sanitizedName) &&
+                        !feat.Antireqs.Select(x => x.Sanitize()).Contains(possibleFeatSanitizedName))
                     {
                         feat.Antireqs.Add(possibleReq.Name);
                     }

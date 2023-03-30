@@ -302,6 +302,10 @@ namespace AssetManager.Enums
                     return Magic.CasterLevel;
                 case "concentration":
                     return Magic.Concentration;
+                case "metamagic":
+                    return Magic.Metamagic;
+                case "saves":
+                    return Magic.Saves;
             }
 
             throw new ArgumentOutOfRangeException(nameof(magicName), "Could not determine requested magic: " + magicName);
@@ -351,6 +355,8 @@ namespace AssetManager.Enums
                     return Role.Information;
                 case "crafter":
                     return Role.Crafter;
+                case "mounted":
+                    return Role.Mounted;
             }
 
             throw new ArgumentOutOfRangeException(nameof(roleName), "Could not determine requested role: " + roleName);
@@ -386,7 +392,7 @@ namespace AssetManager.Enums
                     return Condition.Disabled;
                 case "dying":
                     return Condition.Dying;
-                case "energy Drained":
+                case "energydrained":
                     return Condition.EnergyDrained;
                 case "entangled":
                     return Condition.Entangled;
@@ -396,7 +402,7 @@ namespace AssetManager.Enums
                     return Condition.Fascinated;
                 case "fatigued":
                     return Condition.Fatigued;
-                case "flat Footed":
+                case "flatfooted":
                     return Condition.FlatFooted;
                 case "flanking":
                     return Condition.Flanking;
@@ -463,8 +469,8 @@ namespace AssetManager.Enums
                     return Core.Wealth;
                 case "social":
                     return Core.Social;
-                case "sustenance":
-                    return Core.Sustenance;
+                case "recovery":
+                    return Core.Recovery;
             }
 
             throw new ArgumentOutOfRangeException(nameof(coreName), "Could not determine requested core: " + coreName);
@@ -474,6 +480,8 @@ namespace AssetManager.Enums
         {
             switch (combatName.Sanitize())
             {
+                case "movement":
+                    return Combat.Movement;
                 case "initiative":
                     return Combat.Initiative;
                 case "ac":
@@ -544,6 +552,10 @@ namespace AssetManager.Enums
                     return Combat.Slashing;
                 case "creaturetype":
                     return Combat.Creature;
+                case "performance":
+                    return Combat.Performance;
+                case "mountedcombat":
+                    return Combat.MountedCombat;
             }
 
             throw new ArgumentOutOfRangeException(nameof(combatName), "Could not determine requested combat: " + combatName);
