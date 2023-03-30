@@ -1,4 +1,5 @@
 ﻿using AssetManager.Containers;
+using AssetManager.Editors;
 using AssetManager.Enums;
 using AssetManager.Import;
 using Microsoft.Win32;
@@ -8,9 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Windows;
-using AssetManager.Editors;
 using Condition = AssetManager.Enums.Condition;
 using File = System.IO.File;
 
@@ -379,9 +378,9 @@ namespace AssetManager
         private void ApplyTraitFilters()
         {
             FilteredTraitList.Clear();
-            List<Trait> possibleTraits = TraitSearchText != _searchPlaceholderText && TraitSearchText != "" ?
-                MasterTraitList.Where(x => x.Name.Sanitize()
-                                           .Contains(_traitSearchText.Sanitize())).ToList() : MasterTraitList;
+            List<Trait> possibleTraits = (TraitSearchText != _searchPlaceholderText && TraitSearchText != "" ?
+                MasterTraitList.Where(x => x.Name.Sanitize().Contains(_traitSearchText.Sanitize())).ToList() : 
+                MasterTraitList).Where(x => !FavoriteTraitList.Contains(x) && !HiddenTraitList.Contains(x)).ToList();
 
             foreach (Source filter in SourceTraitFilters)
             {
@@ -520,6 +519,9 @@ namespace AssetManager
             CustomTraitFilterList.Clear();
             foreach (Trait trait in MasterTraitList)
             {
+                if (FavoriteTraitList.Contains(trait) || HiddenTraitList.Contains(trait))
+                    continue;
+
                 foreach (string tag in trait.CustomTags)
                 {
                     if (!CustomTraitFilterList.Contains(tag))
@@ -535,7 +537,6 @@ namespace AssetManager
             if (SelectedTrait != null && !FavoriteTraitList.Contains(SelectedTrait))
             {
                 FavoriteTraitList.Add(SelectedTrait);
-                MasterTraitList.Remove(SelectedTrait);
                 HiddenTraitList.Remove(SelectedTrait);
 
                 UpdateTraitCustomTags();
@@ -549,7 +550,6 @@ namespace AssetManager
             if (SelectedTrait != null && !HiddenTraitList.Contains(SelectedTrait))
             {
                 HiddenTraitList.Add(SelectedTrait);
-                MasterTraitList.Remove(SelectedTrait);
                 FavoriteTraitList.Remove(SelectedTrait);
 
                 UpdateTraitCustomTags();
@@ -576,25 +576,21 @@ namespace AssetManager
                             MasterTraitList.Remove(SelectedTrait);
                             MasterTraitList.Add(newTrait);
 
+                            if (FavoriteTraitList.Contains(SelectedTrait))
+                            {
+                                FavoriteTraitList.Remove(SelectedTrait);
+                                FavoriteTraitList.Add(newTrait);
+                            }
+
+                            else if (HiddenTraitList.Contains(SelectedTrait))
+                            {
+                                HiddenTraitList.Remove(SelectedTrait);
+                                HiddenTraitList.Add(newTrait);
+                            }
+
                             UpdateTraitCustomTags();
                             ApplyTraitFilters();
-                            if (FilteredTraitList.Contains(newTrait))
-                            {
-                                SelectedTrait = newTrait;
-                            }
-                        }
-
-                        if (FavoriteTraitList.Contains(SelectedTrait))
-                        {
-                            FavoriteTraitList.Remove(SelectedTrait);
-                            FavoriteTraitList.Add(newTrait);
-                            SelectedTrait = newTrait;
-                        }
-
-                        else if (HiddenTraitList.Contains(SelectedTrait))
-                        {
-                            HiddenTraitList.Remove(SelectedTrait);
-                            HiddenTraitList.Add(newTrait);
+                            
                             SelectedTrait = newTrait;
                         }
                     }
@@ -630,9 +626,7 @@ namespace AssetManager
                 if (configWindow.ShowDialog() == true)
                 {
                     Trait newTrait = vm.GetTrait();
-                    if (MasterTraitList.Select(x => x.Name).Contains(newTrait.Name) || 
-                        FavoriteTraitList.Select(x => x.Name).Contains(newTrait.Name) ||
-                        HiddenTraitList.Select(x => x.Name).Contains(newTrait.Name)) 
+                    if (MasterTraitList.Select(x => x.Name).Contains(newTrait.Name)) 
                     {
                         string messageBoxText = "Trait with same name already exists";
                         string caption = "Duplicate";
@@ -707,7 +701,6 @@ namespace AssetManager
         {
             if (SelectedTrait != null && FavoriteTraitList.Contains(SelectedTrait))
             {
-                MasterTraitList.Add(SelectedTrait);
                 FavoriteTraitList.Remove(SelectedTrait);
 
                 SelectedTrait = null;
@@ -720,7 +713,6 @@ namespace AssetManager
         {
             if (SelectedTrait != null && HiddenTraitList.Contains(SelectedTrait))
             {
-                MasterTraitList.Add(SelectedTrait);
                 HiddenTraitList.Remove(SelectedTrait);
 
                 SelectedTrait = null;
@@ -1041,9 +1033,9 @@ namespace AssetManager
         private void ApplyFeatFilters()
         {
             FilteredFeatList.Clear();
-            List<Feat> possibleFeats = FeatSearchText != _searchPlaceholderText && FeatSearchText != "" ?
-                MasterFeatList.Where(x => x.Name.Sanitize()
-                                           .Contains(_featSearchText.Sanitize())).ToList() : MasterFeatList;
+            List<Feat> possibleFeats = (FeatSearchText != _searchPlaceholderText && FeatSearchText != "" ?
+                MasterFeatList.Where(x => x.Name.Sanitize().Contains(_featSearchText.Sanitize())).ToList() : 
+                MasterFeatList).Where(x => !FavoriteFeatList.Contains(x) && !HiddenFeatList.Contains(x)).ToList();
 
             foreach (Source filter in SourceFeatFilters)
             {
@@ -1180,9 +1172,12 @@ namespace AssetManager
         private void UpdateFeatCustomTags()
         {
             CustomFeatFilterList.Clear();
-            foreach (Feat Feat in MasterFeatList)
+            foreach (Feat feat in MasterFeatList)
             {
-                foreach (string tag in Feat.CustomTags)
+                if (FavoriteFeatList.Contains(feat) || HiddenFeatList.Contains(feat))
+                    continue;
+
+                foreach (string tag in feat.CustomTags)
                 {
                     if (!CustomFeatFilterList.Contains(tag))
                     {
@@ -1223,7 +1218,6 @@ namespace AssetManager
             if (SelectedFeat != null && !FavoriteFeatList.Contains(SelectedFeat))
             {
                 FavoriteFeatList.Add(SelectedFeat);
-                MasterFeatList.Remove(SelectedFeat);
                 HiddenFeatList.Remove(SelectedFeat);
 
                 UpdateFeatCustomTags();
@@ -1237,7 +1231,6 @@ namespace AssetManager
             if (SelectedFeat != null && !HiddenFeatList.Contains(SelectedFeat))
             {
                 HiddenFeatList.Add(SelectedFeat);
-                MasterFeatList.Remove(SelectedFeat);
                 FavoriteFeatList.Remove(SelectedFeat);
 
                 UpdateFeatCustomTags();
@@ -1264,26 +1257,22 @@ namespace AssetManager
                             MasterFeatList.Remove(SelectedFeat);
                             MasterFeatList.Add(newFeat);
 
+                            if (FavoriteFeatList.Contains(SelectedFeat))
+                            {
+                                FavoriteFeatList.Remove(SelectedFeat);
+                                FavoriteFeatList.Add(newFeat);
+                            }
+
+                            if (HiddenFeatList.Contains(SelectedFeat))
+                            {
+                                HiddenFeatList.Remove(SelectedFeat);
+                                HiddenFeatList.Add(newFeat);
+                            }
+
                             UpdateFeatReqs();
                             UpdateFeatCustomTags();
                             ApplyFeatFilters();
-                            if (FilteredFeatList.Contains(newFeat))
-                            {
-                                SelectedFeat = newFeat;
-                            }
-                        }
-
-                        if (FavoriteFeatList.Contains(SelectedFeat))
-                        {
-                            FavoriteFeatList.Remove(SelectedFeat);
-                            FavoriteFeatList.Add(newFeat);
-                            SelectedFeat = newFeat;
-                        }
-
-                        else if (HiddenFeatList.Contains(SelectedFeat))
-                        {
-                            HiddenFeatList.Remove(SelectedFeat);
-                            HiddenFeatList.Add(newFeat);
+                            
                             SelectedFeat = newFeat;
                         }
                     }
@@ -1319,9 +1308,7 @@ namespace AssetManager
                 if (configWindow.ShowDialog() == true)
                 {
                     Feat newFeat = vm.GetFeat();
-                    if (MasterFeatList.Select(x => x.Name).Contains(newFeat.Name) ||
-                        FavoriteFeatList.Select(x => x.Name).Contains(newFeat.Name) ||
-                        HiddenFeatList.Select(x => x.Name).Contains(newFeat.Name))
+                    if (MasterFeatList.Select(x => x.Name).Contains(newFeat.Name))
                     {
                         string messageBoxText = "Feat with same name already exists";
                         string caption = "Duplicate";
@@ -1397,11 +1384,9 @@ namespace AssetManager
         {
             if (SelectedFeat != null && FavoriteFeatList.Contains(SelectedFeat))
             {
-                MasterFeatList.Add(SelectedFeat);
                 FavoriteFeatList.Remove(SelectedFeat);
 
                 SelectedFeat = null;
-                UpdateFeatReqs();
                 UpdateFeatCustomTags();
                 ApplyFeatFilters();
             }
@@ -1411,11 +1396,9 @@ namespace AssetManager
         {
             if (SelectedFeat != null && HiddenFeatList.Contains(SelectedFeat))
             {
-                MasterFeatList.Add(SelectedFeat);
                 HiddenFeatList.Remove(SelectedFeat);
 
                 SelectedFeat = null;
-                UpdateFeatReqs();
                 UpdateFeatCustomTags();
                 ApplyFeatFilters();
             }
