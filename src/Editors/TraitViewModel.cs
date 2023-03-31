@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using AssetManager.Containers;
 using AssetManager.Enums;
+using AssetManager.Handlers;
 using Condition = AssetManager.Enums.Condition;
 
 namespace AssetManager.Editors
@@ -336,6 +337,17 @@ namespace AssetManager.Editors
 
         private void AcceptTraitAction(object arg)
         {
+            if (TraitName == null || string.IsNullOrEmpty(RegexHandler.SanitizationFilter.Replace(TraitName, "")))
+            {
+                string messageBoxText = "Trait must have a name";
+                string caption = "Error";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+
+                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+                return;
+            }
+
             if (arg is Window window)
             {
                 window.DialogResult = true;

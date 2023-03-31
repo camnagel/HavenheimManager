@@ -1,14 +1,13 @@
-﻿using System;
-using System.ComponentModel;
-using System.Text.RegularExpressions;
+﻿using AssetManager.Handlers;
 using AssetManager.Import;
+using System;
+using System.ComponentModel;
 
 namespace AssetManager.Enums
 {
     public static class EnumExtensions
     {
-        private static readonly Regex _whitespaceFilter = new Regex(@"[\s-',()]+");
-        public static string Sanitize(this string input) => _whitespaceFilter.Replace(input.ToLower(), "");
+        public static string Sanitize(this string input) => RegexHandler.SanitizationFilter.Replace(input.ToLower(), "");
 
         public static Skill StringToSkill(this string skillName)
         {

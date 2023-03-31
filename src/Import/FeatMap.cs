@@ -24,6 +24,7 @@ namespace AssetManager.Import
             Map(x => x.MagicTags).TypeConverter<MagicConverter<Magic>>().Index(13);
             Map(x => x.BonusTags).TypeConverter<BonusConverter<Bonus>>().Index(14);
             Map(x => x.ConditionTags).TypeConverter<ConditionConverter<Condition>>().Index(15);
+            Map(x => x.Level).TypeConverter<LevelConverter<string>>().Index(16);
         }
     }
 }

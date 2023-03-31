@@ -1,5 +1,6 @@
 ﻿using AssetManager.Containers;
 using AssetManager.Enums;
+using AssetManager.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,61 +12,88 @@ namespace AssetManager.Editors
 {
     public class FeatViewModel : INotifyPropertyChanged
     {
-        private string _FeatName;
+        private string _featName = "";
         public string FeatName
         {
-            get => _FeatName;
+            get => _featName;
             set
             {
-                _FeatName = value;
-
+                _featName = value;
                 OnPropertyChanged("FeatName");
             }
         }
 
-        private string _FeatDescription;
+        private string _featDescription;
         public string FeatDescription
         {
-            get => _FeatDescription;
+            get => _featDescription;
             set
             {
-                _FeatDescription = value;
+                _featDescription = value;
 
                 OnPropertyChanged("FeatDescription");
             }
         }
 
-        private string _FeatUrl;
+        private string _featUrl;
         public string FeatUrl
         {
-            get => _FeatUrl;
+            get => _featUrl;
             set
             {
-                _FeatUrl = value;
+                _featUrl = value;
 
                 OnPropertyChanged("FeatUrl");
             }
         }
 
-        private string _FeatNotes;
-        public string FeatNotes
+        private string _featLevel;
+        public string FeatLevel
         {
-            get => _FeatNotes;
+            get => _featLevel;
             set
             {
-                _FeatNotes = value;
+                if (value == "")
+                {
+                    _featLevel = "0";
+                    OnPropertyChanged("FeatLevel");
+                }
+                if (!RegexHandler.NumberFilter.IsMatch(value) && int.Parse(value) is <= 20 and >= 0)
+                {
+                    _featLevel = value;
+                    OnPropertyChanged("FeatLevel");
+                }
+                else
+                {
+                    string messageBoxText = "Level must be an integer between 0 and 20";
+                    string caption = "Error";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Error;
+
+                    MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+                }
+            }
+        }
+
+        private string _featNotes;
+        public string FeatNotes
+        {
+            get => _featNotes;
+            set
+            {
+                _featNotes = value;
 
                 OnPropertyChanged("FeatNotes");
             }
         }
 
-        private string _FeatSource;
+        private string _featSource;
         public string FeatSource
         {
-            get => _FeatSource;
+            get => _featSource;
             set
             {
-                _FeatSource = value;
+                _featSource = value;
                 OnPropertyChanged("FeatSource");
             }
         }
@@ -169,6 +197,7 @@ namespace AssetManager.Editors
             FeatName = Feat.Name;
             FeatDescription = Feat.Description;
             FeatUrl = Feat.Url;
+            FeatLevel = Feat.Level.ToString();
             FeatNotes = Feat.Notes;
             FeatSource = (Feat.Source != Source.Unknown) ? Feat.Source.GetEnumDescription() : "";
 
@@ -246,8 +275,9 @@ namespace AssetManager.Editors
             Feat.Name = FeatName;
             Feat.Description = FeatDescription;
             Feat.Url = FeatUrl;
+            Feat.Level = int.Parse(FeatLevel);
             Feat.Notes = FeatNotes;
-            Feat.Source = FeatSource.StringToSource();
+            Feat.Source = FeatSource != "Select Source" ? FeatSource.StringToSource() : Source.Standard;
 
             Feat.Prereqs.Clear();
             foreach (string prereq in Prereqs)
@@ -430,6 +460,17 @@ namespace AssetManager.Editors
 
         private void AcceptFeatAction(object arg)
         {
+            if (FeatName == null || string.IsNullOrEmpty(RegexHandler.SanitizationFilter.Replace(FeatName, "")))
+            {
+                string messageBoxText = "Feat must have a name";
+                string caption = "Error";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+
+                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+                return;
+            }
+
             if (arg is Window window)
             {
                 window.DialogResult = true;

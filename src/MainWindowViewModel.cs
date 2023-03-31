@@ -9,7 +9,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
+using AssetManager.Handlers;
 using Condition = AssetManager.Enums.Condition;
 using File = System.IO.File;
 
@@ -86,6 +88,10 @@ namespace AssetManager
             RemoveHiddenFeatCommand = new DelegateCommand(RemoveHiddenFeatAction);
             FeatSearchRemovePlaceholderTextCommand = new DelegateCommand(FeatSearchRemovePlaceholderTextAction);
             FeatSearchAddPlaceholderTextCommand = new DelegateCommand(FeatSearchAddPlaceholderTextAction);
+            FeatMinLevelRemovePlaceholderTextCommand = new DelegateCommand(FeatMinLevelRemovePlaceholderTextAction);
+            FeatMinLevelAddPlaceholderTextCommand = new DelegateCommand(FeatMinLevelAddPlaceholderTextAction);
+            FeatMaxLevelRemovePlaceholderTextCommand = new DelegateCommand(FeatMaxLevelRemovePlaceholderTextAction);
+            FeatMaxLevelAddPlaceholderTextCommand = new DelegateCommand(FeatMaxLevelAddPlaceholderTextAction);
         }
 
         #region Traits
@@ -795,6 +801,79 @@ namespace AssetManager
             }
         }
 
+        private static readonly int _featMinLevelPlaceholder = 0;
+        private static readonly int _featMaxLevelPlaceholder = 20;
+
+        private string _featMinLevel = _featMinLevelPlaceholder.ToString();
+        public string FeatMinLevel
+        {
+            get => _featMinLevel;
+            set
+            {
+                if (value == "")
+                {
+                    _featMinLevel = value;
+                    OnPropertyChanged("FeatMinLevel");
+                    return;
+                }
+                if (!RegexHandler.NumberFilter.IsMatch(value))
+                {
+                    int input = int.Parse(value);
+                    if (value == _featMinLevel)
+                    {
+                        return;
+                    }
+                    _featMinLevel = input > int.Parse(_featMaxLevel) ? _featMaxLevel : value;
+                    ApplyFeatFilters();
+                    OnPropertyChanged("FeatMinLevel");
+                }
+                else
+                {
+                    string messageBoxText = "Level must be an integer between 0 and 20";
+                    string caption = "Error";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Error;
+
+                    MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+                }
+            }
+        }
+
+        private string _featMaxLevel = _featMaxLevelPlaceholder.ToString();
+        public string FeatMaxLevel
+        {
+            get => _featMaxLevel;
+            set
+            {
+                if (value == "")
+                {
+                    _featMaxLevel = value;
+                    OnPropertyChanged("FeatMaxLevel");
+                    return;
+                }
+                if (!RegexHandler.NumberFilter.IsMatch(value) && int.Parse(value) <= 20)
+                {
+                    int input = int.Parse(value);
+                    if (value == _featMaxLevel)
+                    {
+                        return;
+                    }
+                    _featMaxLevel = input < int.Parse(_featMinLevel) ? _featMinLevel : value;
+                    ApplyFeatFilters();
+                    OnPropertyChanged("FeatMaxLevel");
+                }
+                else
+                {
+                    string messageBoxText = "Level must be an integer between 0 and 20";
+                    string caption = "Error";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Error;
+
+                    MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+                }
+            }
+        }
+
         // Feat Filter Lists
         private HashSet<Core> CoreFeatFilters = new HashSet<Core>();
         private HashSet<Skill> SkillFeatFilters = new HashSet<Skill>();
@@ -829,6 +908,10 @@ namespace AssetManager
         public DelegateCommand ConditionFeatCheckboxCommand { get; }
         public DelegateCommand SourceFeatCheckboxCommand { get; }
         public DelegateCommand CustomFeatCheckboxCommand { get; }
+        public DelegateCommand FeatMinLevelRemovePlaceholderTextCommand { get; }
+        public DelegateCommand FeatMinLevelAddPlaceholderTextCommand { get; }
+        public DelegateCommand FeatMaxLevelRemovePlaceholderTextCommand { get; }
+        public DelegateCommand FeatMaxLevelAddPlaceholderTextCommand { get; }
 
         // Feat Control Bar Commands
         public DelegateCommand FeatSearchRemovePlaceholderTextCommand { get; }
@@ -1035,7 +1118,8 @@ namespace AssetManager
             FilteredFeatList.Clear();
             List<Feat> possibleFeats = (FeatSearchText != _searchPlaceholderText && FeatSearchText != "" ?
                 MasterFeatList.Where(x => x.Name.Sanitize().Contains(_featSearchText.Sanitize())).ToList() : 
-                MasterFeatList).Where(x => !FavoriteFeatList.Contains(x) && !HiddenFeatList.Contains(x)).ToList();
+                MasterFeatList).Where(x => !FavoriteFeatList.Contains(x) && !HiddenFeatList.Contains(x) &&
+                                           x.Level <= int.Parse(FeatMaxLevel) && x.Level >= int.Parse(FeatMinLevel)).ToList();
 
             foreach (Source filter in SourceFeatFilters)
             {
@@ -1355,6 +1439,38 @@ namespace AssetManager
             if (string.IsNullOrWhiteSpace(FeatSearchText))
             {
                 FeatSearchText = _searchPlaceholderText;
+            }
+        }
+
+        private void FeatMinLevelRemovePlaceholderTextAction(object arg)
+        {
+            if (FeatMinLevel == _featMinLevelPlaceholder.ToString())
+            {
+                FeatMinLevel = "";
+            }
+        }
+
+        private void FeatMinLevelAddPlaceholderTextAction(object arg)
+        {
+            if (string.IsNullOrWhiteSpace(FeatMinLevel))
+            {
+                FeatMinLevel = _featMinLevelPlaceholder.ToString();
+            }
+        }
+
+        private void FeatMaxLevelRemovePlaceholderTextAction(object arg)
+        {
+            if (FeatMaxLevel == _featMaxLevelPlaceholder.ToString())
+            {
+                FeatMaxLevel = "";
+            }
+        }
+
+        private void FeatMaxLevelAddPlaceholderTextAction(object arg)
+        {
+            if (string.IsNullOrWhiteSpace(FeatMaxLevel))
+            {
+                FeatMaxLevel = _featMaxLevelPlaceholder.ToString();
             }
         }
 

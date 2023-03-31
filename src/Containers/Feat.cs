@@ -9,6 +9,8 @@ namespace AssetManager.Containers
 
         public string Description { get; set; }
 
+        public int Level { get; set; }
+
         public HashSet<string> Prereqs { get; set; } = new HashSet<string>();
 
         public HashSet<string> Postreqs { get; set; } = new HashSet<string>();

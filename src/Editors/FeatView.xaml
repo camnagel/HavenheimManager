@@ -21,7 +21,9 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
-                        <TextBox Text="{Binding FeatUrl}" Width="480" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                        <TextBox Text="{Binding FeatUrl}" Width="407" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                        <TextBlock Margin="15, 0, 3, 0">Level:</TextBlock>
+                        <TextBox Text="{Binding FeatLevel}" Width="25" Height="20" Background="DimGray" Foreground="AliceBlue"/>
                     </StackPanel>
 
                     <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>

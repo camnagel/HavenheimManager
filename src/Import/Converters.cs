@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AssetManager.Enums;
+using AssetManager.Handlers;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
@@ -180,6 +181,24 @@ namespace AssetManager.Import
                 }
             }
             return tagSet;
+        }
+    }
+
+    public class LevelConverter<T> : DefaultTypeConverter
+    {
+        public override object ConvertFromString(string? level, IReaderRow row, MemberMapData data)
+        {
+            if (string.IsNullOrEmpty(level))
+            {
+                return 0;
+            }
+
+            if (!RegexHandler.NumberFilter.IsMatch(level) && int.Parse(level) is <= 20 and >= 0)
+            {
+                return int.Parse(level);
+            }
+            
+            throw new ArgumentOutOfRangeException(nameof(level), "Level must be an int between 0 and 20");
         }
     }
 }
