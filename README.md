@@ -69,7 +69,7 @@ Users can filter, select, and favorite individual items to simplify character bu
 ## Roadmap
 
 - [x] Trait importing/handling
-- [ ] Feat importing/handling
+- [x] Feat importing/handling
 - [ ] Spell importing/handling
 - [ ] Items importing/handling
 - [ ] Character Creation
