@@ -1,19 +1,13 @@
-﻿using AssetManager.Containers;
-using AssetManager.Editors;
-using AssetManager.Enums;
-using AssetManager.Import;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Windows;
 using AssetManager.Extensions;
 using AssetManager.Handlers;
-using Condition = AssetManager.Enums.Condition;
+using AssetManager.Import;
+using Microsoft.Win32;
 using File = System.IO.File;
 
 namespace AssetManager
@@ -43,6 +37,7 @@ namespace AssetManager
         public FeatHandler FeatHandler { get; set; }
         public TraitHandler TraitHandler { get; set; }
         public ItemHandler ItemHandler { get; set; }
+        public CraftHandler CraftHandler { get; set; }
 
         public MainWindowViewModel()
         {
@@ -101,6 +96,10 @@ namespace AssetManager
 
             // Items
             ItemHandler = new ItemHandler(this);
+
+            // Crafting
+            CraftHandler = new CraftHandler(this);
+            CraftToolCheckboxCommand = new DelegateCommand(CraftHandler.CraftToolAction);
         }
 
         #region Traits
@@ -445,6 +444,97 @@ namespace AssetManager
         public DelegateCommand RemoveHiddenItemCommand { get; }
         #endregion
 
+        #region Crafting
+        // Crafting Modifiers Collections
+        public ObservableCollection<string> ActiveTool { get; set; } = new();
+        public ObservableCollection<string> ActiveWorkshop { get; set; } = new();
+        public ObservableCollection<string> SkillItemFilterList { get; set; } = new();
+        public ObservableCollection<string> ClassItemFilterList { get; set; } = new();
+        public ObservableCollection<string> CombatItemFilterList { get; set; } = new();
+        public ObservableCollection<string> RoleItemFilterList { get; set; } = new();
+        public ObservableCollection<string> MagicItemFilterList { get; set; } = new();
+        public ObservableCollection<string> BonusItemFilterList { get; set; } = new();
+        public ObservableCollection<string> SourceItemFilterList { get; set; } = new();
+
+        private Item? _selectedItem;
+        public Item? SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                if (value != null)
+                {
+                    SelectedItem = null;
+                }
+                _selectedItem = value;
+                CurrentItem.Clear();
+                if (value != null)
+                {
+                    CurrentItem.Add(value);
+                }
+
+                OnPropertyChanged("SelectedItem");
+            }
+        }
+
+        private string _selectedItemReq;
+        public string? SelectedItemReq
+        {
+            get => _selectedItemReq;
+            set
+            {
+                _selectedItemReq = value ?? "";
+                string sanitizedSelection = _selectedItemReq.Sanitize();
+                foreach (Item possibleItem in MasterItemList)
+                {
+                    if (possibleItem.Name.Sanitize() == sanitizedSelection)
+                    {
+                        SelectedItem = possibleItem;
+                        _selectedItemReq = "";
+                    }
+                }
+
+                OnPropertyChanged("SelectedItemReq");
+            }
+        }
+
+        private string _craftObjectName = "Item Name...";
+        public string CraftObjectName
+        {
+            get => _craftObjectName;
+            set
+            {
+                _craftObjectName = value;
+                CraftHandler.SetItemName(value);
+
+                OnPropertyChanged("CraftObjectName");
+            }
+        }
+
+        // Item Checkbox Commands
+        public DelegateCommand CraftToolCheckboxCommand { get; }
+        public DelegateCommand SkillItemCheckboxCommand { get; }
+        public DelegateCommand ClassItemCheckboxCommand { get; }
+        public DelegateCommand CombatItemCheckboxCommand { get; }
+        public DelegateCommand RoleItemCheckboxCommand { get; }
+        public DelegateCommand MagicItemCheckboxCommand { get; }
+        public DelegateCommand BonusItemCheckboxCommand { get; }
+        public DelegateCommand SourceItemCheckboxCommand { get; }
+        public DelegateCommand CustomItemCheckboxCommand { get; }
+
+        // Item Control Bar Commands
+        public DelegateCommand ItemSearchRemovePlaceholderTextCommand { get; }
+        public DelegateCommand ItemSearchAddPlaceholderTextCommand { get; }
+        public DelegateCommand AddFavoriteItemCommand { get; }
+        public DelegateCommand AddHiddenItemCommand { get; }
+        public DelegateCommand EditItemCommand { get; }
+        public DelegateCommand NewItemCommand { get; }
+        public DelegateCommand RemoveItemCommand { get; }
+        public DelegateCommand RemoveFavoriteItemCommand { get; }
+        public DelegateCommand RemoveHiddenItemCommand { get; }
+        #endregion
+
+        #region Menu
         private void LoadAction(object arg)
         {
             OpenFileDialog dialog = new()
@@ -549,6 +639,7 @@ namespace AssetManager
 
             RefreshButtonState();
         }
+        #endregion
 
         public void RefreshButtonState()
         {
