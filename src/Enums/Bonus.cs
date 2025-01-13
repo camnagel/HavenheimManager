@@ -9,7 +9,7 @@ namespace AssetManager.Enums
         [Description("Armor")]
         Armor,
         [Description("BAB")]
-        BAB,
+        Bab,
         [Description("Circumstance")]
         Circumstance,
         [Description("Competence")]

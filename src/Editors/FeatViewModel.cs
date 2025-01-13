@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using AssetManager.Extensions;
 using Condition = AssetManager.Enums.Condition;
 
 namespace AssetManager.Editors

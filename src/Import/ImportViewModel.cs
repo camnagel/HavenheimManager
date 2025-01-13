@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System.ComponentModel;
 using System.Windows;
+using AssetManager.Extensions;
 
 namespace AssetManager.Import
 {

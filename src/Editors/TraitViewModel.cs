@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using AssetManager.Containers;
 using AssetManager.Enums;
+using AssetManager.Extensions;
 using AssetManager.Handlers;
 using Condition = AssetManager.Enums.Condition;
 

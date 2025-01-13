@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AssetManager.Extensions;
 using Condition = AssetManager.Enums.Condition;
 
 namespace AssetManager.Handlers

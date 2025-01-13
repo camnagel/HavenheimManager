@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using AssetManager.Extensions;
 using Condition = AssetManager.Enums.Condition;
 
 namespace AssetManager.Handlers

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
+using AssetManager.Extensions;
 using AssetManager.Handlers;
 using Condition = AssetManager.Enums.Condition;
 using File = System.IO.File;
