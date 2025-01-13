@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AssetManager.Enums;
+using AssetManager.Extensions;
 using AssetManager.Handlers;
 using CsvHelper;
 using CsvHelper.Configuration;

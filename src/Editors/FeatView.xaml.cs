@@ -1,6 +1,7 @@
 ﻿using AssetManager.Enums;
 using System;
 using System.Windows;
+using AssetManager.Extensions;
 
 namespace AssetManager.Editors
 {
