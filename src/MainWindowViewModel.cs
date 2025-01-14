@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Windows;
 using AssetManager.Containers;
+using AssetManager.Enums;
 using AssetManager.Extensions;
 using AssetManager.Handlers;
 using AssetManager.Import;
@@ -101,6 +102,7 @@ namespace AssetManager
             // Crafting
             CraftHandler = new CraftHandler(this);
             CraftToolCheckboxCommand = new DelegateCommand(CraftHandler.CraftToolAction);
+            CraftWorkshopCheckboxCommand = new DelegateCommand(CraftHandler.CraftWorkshopAction);
         }
 
         #region Traits
@@ -448,7 +450,9 @@ namespace AssetManager
         #region Crafting
         // Crafting Modifiers Collections
         public ObservableCollection<string> ActiveTool { get; set; } = new();
+        public ObservableCollection<string> CraftingToolSelectionList { get; set; } = new();
         public ObservableCollection<string> ActiveWorkshop { get; set; } = new();
+        public ObservableCollection<string> CraftingWorkshopSelectionList { get; set; } = new();
 
         private string _craftObjectName = "Item Name...";
         public string CraftObjectName
@@ -463,8 +467,33 @@ namespace AssetManager
             }
         }
 
-        // Item Checkbox Commands
+        private int _craftRanks = 0;
+        public int CraftRanks
+        {
+            get => _craftRanks;
+            set
+            {
+                _craftRanks = value;
+                CraftHandler.SetCraftRanks(value);
+
+                OnPropertyChanged("CraftRanks");
+            }
+        }
+
+        private string _craftModifier = "N/A";
+        public string CraftModifier
+        {
+            get => _craftModifier;
+            set
+            {
+                _craftModifier = value;
+                OnPropertyChanged("CraftModifier");
+            }
+        }
+
+        // Craft Checkbox Commands
         public DelegateCommand CraftToolCheckboxCommand { get; }
+        public DelegateCommand CraftWorkshopCheckboxCommand { get; }
         #endregion
 
         #region Menu

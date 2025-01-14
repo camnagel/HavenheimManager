@@ -14,6 +14,52 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900"
                                 Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Margin="0, 0, 5 5">Crafting Modifier:</TextBlock>
+                            <TextBox Text="{Binding CraftModifier}" Width="40" Height="20" Background="DimGray"
+                                     Foreground="AliceBlue" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <TextBlock Margin="0, 0, 0, 5">Crafting Bonuses:</TextBlock>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Margin="0, 0, 5 5">Craft Ranks:</TextBlock>
+                            <TextBox Text="{Binding CraftRanks, UpdateSourceTrigger=PropertyChanged}" Width="40" Height="20" Background="AliceBlue"/>
+                        </StackPanel>
+
+                        <Expander Header="Tool" FontSize="10" FontWeight="Bold">
+                            <ListBox ItemsSource="{Binding CraftingToolSelectionList}" Background="LightGray">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <RadioButton GroupName="CraftTool" FontWeight="Normal"
+                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.CraftToolCheckboxCommand}"
+                                                         CommandParameter="{Binding}"
+                                                         Content="{Binding}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Expander>
+
+                        <Expander Header="Workshop" FontSize="10" FontWeight="Bold">
+                            <ListBox ItemsSource="{Binding CraftingWorkshopSelectionList}" Background="LightGray">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <RadioButton GroupName="CraftWorkshop" FontWeight="Normal"
+                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.CraftWorkshopCheckboxCommand}"
+                                                         CommandParameter="{Binding}"
+                                                         Content="{Binding}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Expander>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900"
+                                Margin="0,0,10,0">
                         <TextBlock Margin="0, 0, 0, 5">Item Name:</TextBlock>
                         <TextBox Text="{Binding CraftObjectName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"
                                  Height="20" />
