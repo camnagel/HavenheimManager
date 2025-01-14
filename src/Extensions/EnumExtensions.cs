@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reflection;
 using AssetManager.Enums;
 using AssetManager.Handlers;
 using AssetManager.Import;
@@ -9,89 +8,9 @@ namespace AssetManager.Extensions;
 
 public static class EnumExtensions
 {
-    public static string GetEnumDescription(this Core enumValue)
+    public static string GetEnumDescription<T>(this T enumValue) where T : Enum
     {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Skill enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Combat enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Class enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Magic enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Role enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Source enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Bonus enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        DescriptionAttribute[] descriptionAttributes =
-            (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
-    }
-
-    public static string GetEnumDescription(this Condition enumValue)
-    {
-        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 
         DescriptionAttribute[] descriptionAttributes =
             (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -342,7 +261,7 @@ public static class EnumExtensions
         }
 
         throw new ArgumentOutOfRangeException(nameof(combatName),
-                                              "Could not determine requested combat: " + combatName);
+            "Could not determine requested combat: " + combatName);
     }
 
     public static Condition StringToCondition(this string conditionName)
@@ -428,7 +347,7 @@ public static class EnumExtensions
         }
 
         throw new ArgumentOutOfRangeException(nameof(conditionName),
-                                              "Could not determine requested condition: " + conditionName);
+            "Could not determine requested condition: " + conditionName);
     }
 
     public static Core StringToCore(this string coreName)
@@ -655,7 +574,7 @@ public static class EnumExtensions
         }
 
         throw new ArgumentOutOfRangeException(nameof(sourceName),
-                                              "Could not determine requested source: " + sourceName);
+            "Could not determine requested source: " + sourceName);
     }
 
     public static SourceType StringToSourceType(this string sourceTypeName)
@@ -673,6 +592,81 @@ public static class EnumExtensions
         }
 
         throw new ArgumentOutOfRangeException(nameof(sourceTypeName),
-                                              "Could not determine requested source type: " + sourceTypeName);
+            "Could not determine requested source type: " + sourceTypeName);
+    }
+
+    public static Tool StringToTool(this string toolName)
+    {
+        switch (toolName.Sanitize())
+        {
+            case "none":
+                return Tool.None;
+            case "improvised":
+                return Tool.Improvised;
+            case "basic":
+                return Tool.Basic;
+            case "masterwork":
+                return Tool.Masterwork;
+            case "amazing":
+                return Tool.Amazing;
+        }
+
+        throw new ArgumentOutOfRangeException(nameof(toolName),
+            "Could not determine requested tool: " + toolName);
+    }
+
+    public static int ToolToBonus(this Tool tool)
+    {
+        switch (tool)
+        {
+            case Tool.Improvised:
+                return -4;
+            case Tool.Masterwork:
+                return 2;
+            case Tool.Amazing:
+                return 4;
+            case Tool.None:
+            case Tool.Basic:
+            default:
+                return 0;
+        }
+    }
+
+    public static int WorkshopToBonus(this Workshop workshop)
+    {
+        switch (workshop)
+        {
+            case Workshop.None:
+                return -10;
+            case Workshop.Improvised:
+                return -4;
+            case Workshop.Masterwork:
+                return 2;
+            case Workshop.Guild:
+                return 4;
+            case Workshop.Basic:
+            default:
+                return 0;
+        }
+    }
+
+    public static Workshop StringToWorkshop(this string workshopName)
+    {
+        switch (workshopName.Sanitize())
+        {
+            case "none":
+                return Workshop.None;
+            case "improvised":
+                return Workshop.Improvised;
+            case "basic":
+                return Workshop.Basic;
+            case "masterwork":
+                return Workshop.Masterwork;
+            case "guild":
+                return Workshop.Guild;
+        }
+
+        throw new ArgumentOutOfRangeException(nameof(workshopName),
+            "Could not determine requested workshop: " + workshopName);
     }
 }

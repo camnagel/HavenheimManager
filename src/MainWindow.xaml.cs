@@ -69,6 +69,16 @@ namespace AssetManager
                 vm.ClassTraitFilterList.Add(item.GetEnumDescription());
                 vm.ClassFeatFilterList.Add(item.GetEnumDescription());
             }
+
+            foreach (Tool item in Enum.GetValues(typeof(Tool)))
+            {
+                vm.CraftingToolSelectionList.Add(item.GetEnumDescription());
+            }
+
+            foreach (Workshop item in Enum.GetValues(typeof(Workshop)))
+            {
+                vm.CraftingWorkshopSelectionList.Add(item.GetEnumDescription());
+            }
         }
     }
 }
