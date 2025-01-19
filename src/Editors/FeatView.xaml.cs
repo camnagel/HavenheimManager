@@ -1,27 +1,26 @@
-﻿using AssetManager.Enums;
-using System;
+﻿using System;
 using System.Windows;
+using AssetManager.Enums;
 using AssetManager.Extensions;
 
-namespace AssetManager.Editors
+namespace AssetManager.Editors;
+
+/// <summary>
+///     Interaction logic for FeatView.xaml
+/// </summary>
+public partial class FeatView : Window
 {
-    /// <summary>
-    /// Interaction logic for FeatView.xaml
-    /// </summary>
-    public partial class FeatView : Window
+    public FeatView(FeatViewModel vm)
     {
-        public FeatView(FeatViewModel vm)
+        DataContext = vm;
+        InitializeComponent();
+
+        sourceBox.Items.Add("Select Source");
+        foreach (Source item in Enum.GetValues(typeof(Source)))
         {
-            this.DataContext = vm;
-            InitializeComponent();
-
-            sourceBox.Items.Add("Select Source");
-            foreach (Source item in Enum.GetValues(typeof(Source)))
-            {
-                sourceBox.Items.Add(item.GetEnumDescription());
-            }
-
-            sourceBox.SelectedIndex = vm.FeatSource.Length > 0 ? sourceBox.Items.IndexOf(vm.FeatSource) : 0;
+            sourceBox.Items.Add(item.GetEnumDescription());
         }
+
+        sourceBox.SelectedIndex = vm.FeatSource.Length > 0 ? sourceBox.Items.IndexOf(vm.FeatSource) : 0;
     }
 }

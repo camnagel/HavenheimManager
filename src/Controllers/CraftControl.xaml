@@ -56,31 +56,11 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </Expander>
-                    </StackPanel>
 
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900"
-                                Margin="0,0,10,0">
-                        <TextBlock Margin="0, 0, 0, 5">Item Name:</TextBlock>
-                        <TextBox Text="{Binding CraftObjectName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"
-                                 Height="20" />
-                        <TextBlock Margin="0, 0, 0, 5">Modifiers:</TextBlock>
-                        <Expander Header="Tool" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding ActiveTool}" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CraftToolCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
+                        <Button Content="Calculator"
+                                Command="{Binding CraftModifierBonusCalculatorCommand}"
+                                Width="60" Height="20" Margin="5,0,10,0" />
                     </StackPanel>
-
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500"
                                 Height="900">

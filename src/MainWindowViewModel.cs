@@ -103,6 +103,7 @@ namespace AssetManager
             CraftHandler = new CraftHandler(this);
             CraftToolCheckboxCommand = new DelegateCommand(CraftHandler.CraftToolAction);
             CraftWorkshopCheckboxCommand = new DelegateCommand(CraftHandler.CraftWorkshopAction);
+            CraftModifierBonusCalculatorCommand = new DelegateCommand(CraftHandler.CraftModifierBonusCalcAction);
         }
 
         #region Traits
@@ -494,6 +495,7 @@ namespace AssetManager
         // Craft Checkbox Commands
         public DelegateCommand CraftToolCheckboxCommand { get; }
         public DelegateCommand CraftWorkshopCheckboxCommand { get; }
+        public DelegateCommand CraftModifierBonusCalculatorCommand { get; }
         #endregion
 
         #region Menu

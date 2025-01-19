@@ -1,4 +1,4 @@
-﻿namespace AssetManager.Editors
+﻿namespace AssetManager.Containers
 {
     public class CheckboxKvp
     {
