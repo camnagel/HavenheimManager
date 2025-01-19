@@ -8,27 +8,27 @@ namespace AssetManager.Calculators;
 
 internal class BonusCalculator
 {
-    private readonly Dictionary<string, int> _alchemicalBonusList = new();
-    private readonly Dictionary<string, int> _armorBonusList = new();
-    private readonly Dictionary<string, int> _babBonusList = new();
-    private readonly Dictionary<string, KeyValuePair<string, int>> _circumstanceBonusList = new();
-    private readonly Dictionary<string, int> _competenceBonusList = new();
-    private readonly Dictionary<string, int> _deflectionBonusList = new();
-    private readonly Dictionary<string, int> _dodgeBonusList = new();
-    private readonly Dictionary<string, int> _enhanceBonusList = new();
-    private readonly Dictionary<string, int> _inherentBonusList = new();
-    private readonly Dictionary<string, int> _insightBonusList = new();
-    private readonly Dictionary<string, int> _luckBonusList = new();
-    private readonly Dictionary<string, int> _moraleBonusList = new();
-    private readonly Dictionary<string, KeyValuePair<string, int>> _natArmorBonusList = new();
-    private readonly Dictionary<string, int> _profaneBonusList = new();
-    private readonly Dictionary<string, int> _racialBonusList = new();
-    private readonly Dictionary<string, int> _resistanceBonusList = new();
-    private readonly Dictionary<string, int> _sacredBonusList = new();
-    private readonly Dictionary<string, int> _shieldBonusList = new();
-    private readonly Dictionary<string, int> _sizeBonusList = new();
-    private readonly Dictionary<string, int> _traitBonusList = new();
-    private readonly Dictionary<string, int> _untypedBonusList = new();
+    internal readonly Dictionary<string, int> AlchemicalBonusList = new();
+    internal readonly Dictionary<string, int> ArmorBonusList = new();
+    internal readonly Dictionary<string, int> BabBonusList = new();
+    internal readonly Dictionary<string, KeyValuePair<string, int>> CircumstanceBonusList = new();
+    internal readonly Dictionary<string, int> CompetenceBonusList = new();
+    internal readonly Dictionary<string, int> DeflectionBonusList = new();
+    internal readonly Dictionary<string, int> DodgeBonusList = new();
+    internal readonly Dictionary<string, int> EnhanceBonusList = new();
+    internal readonly Dictionary<string, int> InherentBonusList = new();
+    internal readonly Dictionary<string, int> InsightBonusList = new();
+    internal readonly Dictionary<string, int> LuckBonusList = new();
+    internal readonly Dictionary<string, int> MoraleBonusList = new();
+    internal readonly Dictionary<string, KeyValuePair<string, int>> NatArmorBonusList = new();
+    internal readonly Dictionary<string, int> ProfaneBonusList = new();
+    internal readonly Dictionary<string, int> RacialBonusList = new();
+    internal readonly Dictionary<string, int> ResistanceBonusList = new();
+    internal readonly Dictionary<string, int> SacredBonusList = new();
+    internal readonly Dictionary<string, int> ShieldBonusList = new();
+    internal readonly Dictionary<string, int> SizeBonusList = new();
+    internal readonly Dictionary<string, int> TraitBonusList = new();
+    internal readonly Dictionary<string, int> UntypedBonusList = new();
 
     internal int CurrentBonus => CalculateBonuses();
 
@@ -37,61 +37,61 @@ internal class BonusCalculator
         switch (bonusType)
         {
             case Bonus.Alchemical:
-                _alchemicalBonusList[bonusSource] = bonusValue;
+                AlchemicalBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Armor:
-                _armorBonusList[bonusSource] = bonusValue;
+                ArmorBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Bab:
-                _babBonusList[bonusSource] = bonusValue;
+                BabBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Competence:
-                _competenceBonusList[bonusSource] = bonusValue;
+                CompetenceBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Deflection:
-                _deflectionBonusList[bonusSource] = bonusValue;
+                DeflectionBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Dodge:
-                _dodgeBonusList[bonusSource] = bonusValue;
+                DodgeBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Enhancement:
-                _enhanceBonusList[bonusSource] = bonusValue;
+                EnhanceBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Inherent:
-                _inherentBonusList[bonusSource] = bonusValue;
+                InherentBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Insight:
-                _insightBonusList[bonusSource] = bonusValue;
+                InsightBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Luck:
-                _luckBonusList[bonusSource] = bonusValue;
+                LuckBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Morale:
-                _moraleBonusList[bonusSource] = bonusValue;
+                MoraleBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Profane:
-                _profaneBonusList[bonusSource] = bonusValue;
+                ProfaneBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Racial:
-                _racialBonusList[bonusSource] = bonusValue;
+                RacialBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Resistance:
-                _resistanceBonusList[bonusSource] = bonusValue;
+                ResistanceBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Sacred:
-                _sacredBonusList[bonusSource] = bonusValue;
+                SacredBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Shield:
-                _shieldBonusList[bonusSource] = bonusValue;
+                ShieldBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Size:
-                _sizeBonusList[bonusSource] = bonusValue;
+                SizeBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Trait:
-                _traitBonusList[bonusSource] = bonusValue;
+                TraitBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.Untyped:
-                _untypedBonusList[bonusSource] = bonusValue;
+                UntypedBonusList[bonusSource] = bonusValue;
                 return;
             case Bonus.None:
             case Bonus.Circumstance:
@@ -103,12 +103,12 @@ internal class BonusCalculator
 
     internal void AddCircumstanceBonus(string bonusSource, string circumstance, int bonusValue)
     {
-        _circumstanceBonusList[bonusSource] = new KeyValuePair<string, int>(circumstance, bonusValue);
+        CircumstanceBonusList[bonusSource] = new KeyValuePair<string, int>(circumstance, bonusValue);
     }
 
     internal void AddNaturalArmorBonus(string bonusSource, string circumstance, int bonusValue)
     {
-        _natArmorBonusList[bonusSource] = new KeyValuePair<string, int>(circumstance, bonusValue);
+        NatArmorBonusList[bonusSource] = new KeyValuePair<string, int>(circumstance, bonusValue);
     }
 
     internal void RemoveBonus(Bonus bonusType, string bonusSource)
@@ -116,67 +116,67 @@ internal class BonusCalculator
         switch (bonusType)
         {
             case Bonus.Alchemical:
-                _alchemicalBonusList.Remove(bonusSource);
+                AlchemicalBonusList.Remove(bonusSource);
                 return;
             case Bonus.Armor:
-                _armorBonusList.Remove(bonusSource);
+                ArmorBonusList.Remove(bonusSource);
                 return;
             case Bonus.Bab:
-                _babBonusList.Remove(bonusSource);
+                BabBonusList.Remove(bonusSource);
                 return;
             case Bonus.Competence:
-                _competenceBonusList.Remove(bonusSource);
+                CompetenceBonusList.Remove(bonusSource);
                 return;
             case Bonus.Deflection:
-                _deflectionBonusList.Remove(bonusSource);
+                DeflectionBonusList.Remove(bonusSource);
                 return;
             case Bonus.Dodge:
-                _dodgeBonusList.Remove(bonusSource);
+                DodgeBonusList.Remove(bonusSource);
                 return;
             case Bonus.Enhancement:
-                _enhanceBonusList.Remove(bonusSource);
+                EnhanceBonusList.Remove(bonusSource);
                 return;
             case Bonus.Inherent:
-                _inherentBonusList.Remove(bonusSource);
+                InherentBonusList.Remove(bonusSource);
                 return;
             case Bonus.Insight:
-                _insightBonusList.Remove(bonusSource);
+                InsightBonusList.Remove(bonusSource);
                 return;
             case Bonus.Luck:
-                _luckBonusList.Remove(bonusSource);
+                LuckBonusList.Remove(bonusSource);
                 return;
             case Bonus.Morale:
-                _moraleBonusList.Remove(bonusSource);
+                MoraleBonusList.Remove(bonusSource);
                 return;
             case Bonus.Profane:
-                _profaneBonusList.Remove(bonusSource);
+                ProfaneBonusList.Remove(bonusSource);
                 return;
             case Bonus.Racial:
-                _racialBonusList.Remove(bonusSource);
+                RacialBonusList.Remove(bonusSource);
                 return;
             case Bonus.Resistance:
-                _resistanceBonusList.Remove(bonusSource);
+                ResistanceBonusList.Remove(bonusSource);
                 return;
             case Bonus.Sacred:
-                _sacredBonusList.Remove(bonusSource);
+                SacredBonusList.Remove(bonusSource);
                 return;
             case Bonus.Shield:
-                _shieldBonusList.Remove(bonusSource);
+                ShieldBonusList.Remove(bonusSource);
                 return;
             case Bonus.Size:
-                _sizeBonusList.Remove(bonusSource);
+                SizeBonusList.Remove(bonusSource);
                 return;
             case Bonus.Trait:
-                _traitBonusList.Remove(bonusSource);
+                TraitBonusList.Remove(bonusSource);
                 return;
             case Bonus.Untyped:
-                _untypedBonusList.Remove(bonusSource);
+                UntypedBonusList.Remove(bonusSource);
                 return;
             case Bonus.Circumstance:
-                _circumstanceBonusList.Remove(bonusSource);
+                CircumstanceBonusList.Remove(bonusSource);
                 return;
             case Bonus.NaturalArmor:
-                _natArmorBonusList.Remove(bonusSource);
+                NatArmorBonusList.Remove(bonusSource);
                 return;
             case Bonus.None:
             default:
@@ -187,11 +187,11 @@ internal class BonusCalculator
     private int CalculateBonuses()
     {
         int totalBonus = CalculateSimpleBonuses();
-        totalBonus += _untypedBonusList.Values.Sum();
-        totalBonus += _dodgeBonusList.Values.Sum();
+        totalBonus += UntypedBonusList.Values.Sum();
+        totalBonus += DodgeBonusList.Values.Sum();
 
-        totalBonus += CalculateComplexBonuses(_circumstanceBonusList);
-        totalBonus += CalculateComplexBonuses(_natArmorBonusList);
+        totalBonus += CalculateComplexBonuses(CircumstanceBonusList);
+        totalBonus += CalculateComplexBonuses(NatArmorBonusList);
 
         return totalBonus;
     }
@@ -224,23 +224,23 @@ internal class BonusCalculator
     private int CalculateSimpleBonuses()
     {
         int totalBonus = 0;
-        totalBonus += _alchemicalBonusList.DefaultMax();
-        totalBonus += _armorBonusList.DefaultMax();
-        totalBonus += _babBonusList.DefaultMax();
-        totalBonus += _competenceBonusList.DefaultMax();
-        totalBonus += _deflectionBonusList.DefaultMax();
-        totalBonus += _enhanceBonusList.DefaultMax();
-        totalBonus += _inherentBonusList.DefaultMax();
-        totalBonus += _insightBonusList.DefaultMax();
-        totalBonus += _moraleBonusList.DefaultMax();
-        totalBonus += _luckBonusList.DefaultMax();
-        totalBonus += _profaneBonusList.DefaultMax();
-        totalBonus += _racialBonusList.DefaultMax();
-        totalBonus += _resistanceBonusList.DefaultMax();
-        totalBonus += _sacredBonusList.DefaultMax();
-        totalBonus += _shieldBonusList.DefaultMax();
-        totalBonus += _sizeBonusList.DefaultMax();
-        totalBonus += _traitBonusList.DefaultMax();
+        totalBonus += AlchemicalBonusList.DefaultMax();
+        totalBonus += ArmorBonusList.DefaultMax();
+        totalBonus += BabBonusList.DefaultMax();
+        totalBonus += CompetenceBonusList.DefaultMax();
+        totalBonus += DeflectionBonusList.DefaultMax();
+        totalBonus += EnhanceBonusList.DefaultMax();
+        totalBonus += InherentBonusList.DefaultMax();
+        totalBonus += InsightBonusList.DefaultMax();
+        totalBonus += MoraleBonusList.DefaultMax();
+        totalBonus += LuckBonusList.DefaultMax();
+        totalBonus += ProfaneBonusList.DefaultMax();
+        totalBonus += RacialBonusList.DefaultMax();
+        totalBonus += ResistanceBonusList.DefaultMax();
+        totalBonus += SacredBonusList.DefaultMax();
+        totalBonus += ShieldBonusList.DefaultMax();
+        totalBonus += SizeBonusList.DefaultMax();
+        totalBonus += TraitBonusList.DefaultMax();
 
         return totalBonus;
     }

@@ -1,4 +1,9 @@
-﻿using AssetManager.Calculators;
+﻿using System.Linq;
+using System.Windows;
+using System;
+using AssetManager.Calculators;
+using AssetManager.Containers;
+using AssetManager.Editors;
 using AssetManager.Enums;
 using AssetManager.Extensions;
 
@@ -50,6 +55,30 @@ public class CraftHandler
                 workshop.WorkshopToBonus());
             UpdateCraftingModifier();
         }
+    }
+
+    internal void CraftModifierBonusCalcAction(object arg)
+    {
+        try
+        {
+            var vm = new BonusCalcViewModel(_craftingModifierCalculator);
+            var configWindow = new BonusCalcView(vm);
+
+            if (configWindow.ShowDialog() == true)
+            {
+                // Update calculator values
+            }
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            string messageBoxText = "Exception when adding Item";
+            string caption = "Exception";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Error;
+            MessageBox.Show(messageBoxText, caption, button, icon);
+        }
+
+        _vm.RefreshButtonState();
     }
 
     private void UpdateCraftingModifier()
