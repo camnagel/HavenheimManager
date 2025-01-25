@@ -29,7 +29,7 @@ internal class BonusCalculator
     internal readonly Dictionary<string, int> SizeBonusList = new();
     internal readonly Dictionary<string, int> TraitBonusList = new();
     internal readonly Dictionary<string, int> UntypedBonusList = new();
-
+    
     internal int CurrentBonus => CalculateBonuses();
 
     internal void AddBonus(Bonus bonusType, string bonusSource, int bonusValue)
@@ -109,6 +109,31 @@ internal class BonusCalculator
     internal void AddNaturalArmorBonus(string bonusSource, string circumstance, int bonusValue)
     {
         NatArmorBonusList[bonusSource] = new KeyValuePair<string, int>(circumstance, bonusValue);
+    }
+
+    internal void Clear()
+    {
+        AlchemicalBonusList.Clear();
+        ArmorBonusList.Clear();
+        BabBonusList.Clear();
+        CompetenceBonusList.Clear();
+        DeflectionBonusList.Clear();
+        DodgeBonusList.Clear();
+        EnhanceBonusList.Clear();
+        InherentBonusList.Clear();
+        InsightBonusList.Clear();
+        LuckBonusList.Clear();
+        MoraleBonusList.Clear();
+        ProfaneBonusList.Clear();
+        RacialBonusList.Clear();
+        ResistanceBonusList.Clear();
+        SacredBonusList.Clear();
+        ShieldBonusList.Clear();
+        SizeBonusList.Clear();
+        TraitBonusList.Clear();
+        UntypedBonusList.Clear();
+        CircumstanceBonusList.Clear();
+        NatArmorBonusList.Clear();
     }
 
     internal void RemoveBonus(Bonus bonusType, string bonusSource)

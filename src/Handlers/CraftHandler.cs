@@ -1,8 +1,6 @@
-﻿using System.Linq;
+﻿using System;
 using System.Windows;
-using System;
 using AssetManager.Calculators;
-using AssetManager.Containers;
 using AssetManager.Editors;
 using AssetManager.Enums;
 using AssetManager.Extensions;
@@ -13,6 +11,8 @@ public class CraftHandler
 {
     private readonly BonusCalculator _craftingModifierCalculator;
     private readonly MainWindowViewModel _vm;
+
+    private Tool _currentTool = Tool.None;
 
     private string _itemName;
 
@@ -33,7 +33,17 @@ public class CraftHandler
         UpdateCraftingModifier();
     }
 
-    private Tool _currentTool = Tool.None;
+    internal void SetCraftEnhancementBonus(int value)
+    {
+        _craftingModifierCalculator.AddBonus(Bonus.Enhancement, "Crafting Tab", value);
+        UpdateCraftingModifier();
+    }
+
+    internal void SetCraftAlchemicalBonus(int value)
+    {
+        _craftingModifierCalculator.AddBonus(Bonus.Alchemical, "Crafting Tab", value);
+        UpdateCraftingModifier();
+    }
 
     internal void CraftToolAction(object arg)
     {
@@ -61,12 +71,12 @@ public class CraftHandler
     {
         try
         {
-            var vm = new BonusCalcViewModel(_craftingModifierCalculator);
-            var configWindow = new BonusCalcView(vm);
+            BonusCalcViewModel vm = new(_craftingModifierCalculator);
+            BonusCalcView configWindow = new(vm);
 
             if (configWindow.ShowDialog() == true)
             {
-                // Update calculator values
+                UpdateCraftingModifier();
             }
         }
         catch (ArgumentOutOfRangeException)
@@ -87,7 +97,8 @@ public class CraftHandler
         {
             _vm.CraftModifier = "N/A";
         }
-        else {
+        else
+        {
             _vm.CraftModifier = _craftingModifierCalculator.CurrentBonus.ToString();
         }
     }
