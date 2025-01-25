@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="BonusCalcView" Height="1000" Width="825" Background="DarkGray">
+        Title="BonusCalcView" Height="1100" Width="990" Background="DarkGray">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 10">
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 0">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                             Height="250">
                     <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Alchemical:</TextBlock>
@@ -49,9 +49,9 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                             Height="250" Margin="10, 0, 0, 0">
                     <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Armor:</TextBlock>
-                    <DataGrid ItemsSource="{Binding AlchemicalBonuses}" Background="DimGray" Foreground="AliceBlue"
+                    <DataGrid ItemsSource="{Binding ArmorBonuses}" Background="DimGray" Foreground="AliceBlue"
                               Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
-                              SelectedItem="{Binding SelectedAlchemicalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding SelectedArmorBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="DimGray" />
@@ -76,10 +76,10 @@
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
-                                Command="{Binding AddAlchemicalBonusCommand}"
+                                Command="{Binding AddArmorBonusCommand}"
                                 Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
-                                Command="{Binding RemoveAlchemicalBonusCommand}"
+                                Command="{Binding RemoveArmorBonusCommand}"
                                 Width="60" Height="20" />
                     </StackPanel>
                 </StackPanel>
@@ -87,9 +87,9 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                             Height="250" Margin="10, 0, 0, 0">
                     <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">BAB:</TextBlock>
-                    <DataGrid ItemsSource="{Binding AlchemicalBonuses}" Background="DimGray" Foreground="AliceBlue"
+                    <DataGrid ItemsSource="{Binding BabBonuses}" Background="DimGray" Foreground="AliceBlue"
                               Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
-                              SelectedItem="{Binding SelectedAlchemicalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding SelectedBabBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="DimGray" />
@@ -114,10 +114,10 @@
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
-                                Command="{Binding AddAlchemicalBonusCommand}"
+                                Command="{Binding AddBabBonusCommand}"
                                 Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
-                                Command="{Binding RemoveAlchemicalBonusCommand}"
+                                Command="{Binding RemoveBabBonusCommand}"
                                 Width="60" Height="20" />
                     </StackPanel>
                 </StackPanel>
@@ -125,9 +125,9 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                             Height="250" Margin="10, 0, 0, 0">
                     <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Competence:</TextBlock>
-                    <DataGrid ItemsSource="{Binding AlchemicalBonuses}" Background="DimGray" Foreground="AliceBlue"
+                    <DataGrid ItemsSource="{Binding CompetenceBonuses}" Background="DimGray" Foreground="AliceBlue"
                               Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
-                              SelectedItem="{Binding SelectedAlchemicalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding SelectedCompetenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="DimGray" />
@@ -152,10 +152,10 @@
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
-                                Command="{Binding AddAlchemicalBonusCommand}"
+                                Command="{Binding AddCompetenceBonusCommand}"
                                 Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
-                                Command="{Binding RemoveAlchemicalBonusCommand}"
+                                Command="{Binding RemoveCompetenceBonusCommand}"
                                 Width="60" Height="20" />
                     </StackPanel>
                 </StackPanel>
@@ -163,9 +163,9 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                             Height="250" Margin="10, 0, 0, 0">
                     <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Enhancement:</TextBlock>
-                    <DataGrid ItemsSource="{Binding AlchemicalBonuses}" Background="DimGray" Foreground="AliceBlue"
+                    <DataGrid ItemsSource="{Binding EnhancementBonuses}" Background="DimGray" Foreground="AliceBlue"
                               Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
-                              SelectedItem="{Binding SelectedAlchemicalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding SelectedEnhancementBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="DimGray" />
@@ -190,20 +190,670 @@
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
-                                Command="{Binding AddAlchemicalBonusCommand}"
+                                Command="{Binding AddEnhancementBonusCommand}"
                                 Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
-                                Command="{Binding RemoveAlchemicalBonusCommand}"
+                                Command="{Binding RemoveEnhancementBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Size:</TextBlock>
+                    <DataGrid ItemsSource="{Binding SizeBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedSizeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddSizeBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveSizeBonusCommand}"
                                 Width="60" Height="20" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Save" Width="100" Height="30" Margin="10,0,0,0" Command="{Binding AcceptFeatCommand}"
+
+            <StackPanel Orientation="Horizontal" Margin="10, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Deflection:</TextBlock>
+                    <DataGrid ItemsSource="{Binding DeflectionBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedDeflectionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddDeflectionBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveDeflectionBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Inherent:</TextBlock>
+                    <DataGrid ItemsSource="{Binding InherentBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedInherentBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddInherentBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveInherentBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Insight:</TextBlock>
+                    <DataGrid ItemsSource="{Binding InsightBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedInsightBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddInsightBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveInsightBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Luck:</TextBlock>
+                    <DataGrid ItemsSource="{Binding LuckBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedLuckBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddLuckBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveLuckBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Morale:</TextBlock>
+                    <DataGrid ItemsSource="{Binding MoraleBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedMoraleBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddMoraleBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveMoraleBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Trait:</TextBlock>
+                    <DataGrid ItemsSource="{Binding TraitBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedTraitBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddTraitBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveTraitBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Profane:</TextBlock>
+                    <DataGrid ItemsSource="{Binding ProfaneBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedProfaneBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddProfaneBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveProfaneBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Racial:</TextBlock>
+                    <DataGrid ItemsSource="{Binding RacialBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedRacialBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddRacialBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveRacialBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Resistance:</TextBlock>
+                    <DataGrid ItemsSource="{Binding ResistanceBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedResistanceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddResistanceBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveResistanceBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Sacred:</TextBlock>
+                    <DataGrid ItemsSource="{Binding SacredBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedSacredBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddSacredBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveSacredBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Shield:</TextBlock>
+                    <DataGrid ItemsSource="{Binding ShieldBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedShieldBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddShieldBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveShieldBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Dodge:</TextBlock>
+                    <DataGrid ItemsSource="{Binding DodgeBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedDodgeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddDodgeBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveDodgeBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Untyped:</TextBlock>
+                    <DataGrid ItemsSource="{Binding UntypedBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="150" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedUntypedBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="74" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddUntypedBonusCommand}"
+                                Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveUntypedBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Circumstance:</TextBlock>
+                    <DataGrid ItemsSource="{Binding CircumstanceBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="255" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedCircumstanceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="84" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Height" Value="20" />
+                                <Setter Property="Width" Value="84" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddCircumstanceBonusCommand}"
+                                Width="60" Height="20" Margin="50,0,30,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveCircumstanceBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Natural Armor:</TextBlock>
+                    <DataGrid ItemsSource="{Binding NaturalArmorBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="255" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedNaturalArmorBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="84" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Height" Value="20" />
+                                <Setter Property="Width" Value="84" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add"
+                                Command="{Binding AddNaturalArmorBonusCommand}"
+                                Width="60" Height="20" Margin="50,0,30,0" />
+                        <Button Content="Remove"
+                                Command="{Binding RemoveNaturalArmorBonusCommand}"
+                                Width="60" Height="20" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250"
+                            Height="250" Margin="20, 0, 0, 0">
+                    <TextBlock Margin="0, 0, 0, 0" TextAlignment="Center">Active Bonuses:</TextBlock>
+                    <DataGrid ItemsSource="{Binding ActiveBonuses}" Background="DimGray" Foreground="AliceBlue"
+                              Width="250" Height="200" HeadersVisibility="Column" MouseDown="DeselectRow"
+                              SelectedItem="{Binding SelectedNaturalArmorBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="DimGray" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Width" Value="82" />
+                                <Setter Property="Height" Value="25" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Height" Value="20" />
+                                <Setter Property="Width" Value="82" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5 5">Total Bonus:</TextBlock>
+                        <TextBox Text="{Binding BonusTotal}" Width="40" Height="20" Background="AliceBlue"
+                                 IsReadOnly="True" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                <Button Content="Accept" Width="100" Height="30" Margin="250,0,0,0" Command="{Binding AcceptChangesCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
 
-                <Button Content="Cancel" Width="100" Height="30" Margin="590,0,0,0" Command="{Binding CancelCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                <Button Content="Cancel" Width="100" Height="30" Margin="260,0,0,0" Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
             </StackPanel>
         </StackPanel>
     </Grid>

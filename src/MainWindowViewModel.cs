@@ -455,6 +455,17 @@ namespace AssetManager
         public ObservableCollection<string> ActiveWorkshop { get; set; } = new();
         public ObservableCollection<string> CraftingWorkshopSelectionList { get; set; } = new();
 
+        private Item _craftItem = new();
+        public Item? CraftItem
+        {
+            get => _craftItem;
+            private set
+            {
+                _craftItem = value ?? throw new ArgumentNullException(nameof(value));
+                OnPropertyChanged("SelectedItem");
+            }
+        }
+
         private string _craftObjectName = "Item Name...";
         public string CraftObjectName
         {
@@ -478,6 +489,32 @@ namespace AssetManager
                 CraftHandler.SetCraftRanks(value);
 
                 OnPropertyChanged("CraftRanks");
+            }
+        }
+
+        private int _craftEnhancement = 0;
+        public int CraftEnhancement
+        {
+            get => _craftEnhancement;
+            set
+            {
+                _craftEnhancement = value;
+                CraftHandler.SetCraftEnhancementBonus(value);
+
+                OnPropertyChanged("CraftEnhancement");
+            }
+        }
+
+        private int _craftAlchemical = 0;
+        public int CraftAlchemical
+        {
+            get => _craftAlchemical;
+            set
+            {
+                _craftAlchemical = value;
+                CraftHandler.SetCraftAlchemicalBonus(value);
+
+                OnPropertyChanged("CraftAlchemical");
             }
         }
 

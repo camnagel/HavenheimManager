@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using AssetManager.Enums;
+using AssetManager.Extensions;
 
-namespace AssetManager.Controllers
+namespace AssetManager.Controllers;
+
+/// <summary>
+///     Interaction logic for CraftControl.xaml
+/// </summary>
+public partial class CraftControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for CraftControl.xaml
-    /// </summary>
-    public partial class CraftControl : UserControl
+    public CraftControl()
     {
-        public CraftControl()
+        InitializeComponent();
+
+        CraftItemSourceBox.Items.Add("Select Source");
+        foreach (Source item in Enum.GetValues(typeof(Source)))
         {
-            InitializeComponent();
+            CraftItemSourceBox.Items.Add(item.GetEnumDescription());
         }
     }
 }
