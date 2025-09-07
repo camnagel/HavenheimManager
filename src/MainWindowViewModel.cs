@@ -98,6 +98,25 @@ namespace AssetManager
 
             // Items
             ItemHandler = new ItemHandler(this);
+            CoreItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemCoreFilterAction);
+            SkillItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemSkillFilterAction);
+            ClassItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemClassFilterAction);
+            CombatItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemCombatFilterAction);
+            RoleItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemRoleFilterAction);
+            MagicItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemMagicFilterAction);
+            BonusItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemBonusFilterAction);
+            ConditionItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemConditionFilterAction);
+            SourceItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemSourceFilterAction);
+            CustomItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemCustomFilterAction);
+            AddFavoriteItemCommand = new DelegateCommand(ItemHandler.AddFavoriteItemAction);
+            AddHiddenItemCommand = new DelegateCommand(ItemHandler.AddHiddenItemAction);
+            EditItemCommand = new DelegateCommand(ItemHandler.EditItemAction);
+            NewItemCommand = new DelegateCommand(ItemHandler.NewItemAction);
+            RemoveItemCommand = new DelegateCommand(ItemHandler.RemoveItemAction);
+            RemoveFavoriteItemCommand = new DelegateCommand(ItemHandler.RemoveFavoriteItemAction);
+            RemoveHiddenItemCommand = new DelegateCommand(ItemHandler.RemoveHiddenItemAction);
+            ItemSearchRemovePlaceholderTextCommand = new DelegateCommand(ItemHandler.ItemSearchRemovePlaceholderTextAction);
+            ItemSearchAddPlaceholderTextCommand = new DelegateCommand(ItemHandler.ItemSearchAddPlaceholderTextAction);
 
             // Crafting
             CraftHandler = new CraftHandler(this);
@@ -435,6 +454,7 @@ namespace AssetManager
         public DelegateCommand BonusItemCheckboxCommand { get; }
         public DelegateCommand SourceItemCheckboxCommand { get; }
         public DelegateCommand CustomItemCheckboxCommand { get; }
+        public DelegateCommand ConditionItemCheckboxCommand { get; }
 
         // Item Control Bar Commands
         public DelegateCommand ItemSearchRemovePlaceholderTextCommand { get; }
