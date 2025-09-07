@@ -39,6 +39,5 @@ namespace AssetManager.Containers
 
         public HashSet<Condition> ConditionTags { get; set; } = new HashSet<Condition>();
 
-        public 
     }
 }
