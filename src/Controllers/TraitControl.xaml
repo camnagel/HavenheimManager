@@ -21,20 +21,20 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="200" Height="900"
                                 Margin="0,0,10,0">
-                        <TextBox Text="{Binding TraitSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"
+                        <TextBox Text="{Binding TraitHandler.TraitSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"
                                  Height="20">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="LostFocus">
-                                    <b:InvokeCommandAction Command="{Binding TraitSearchAddPlaceholderTextCommand}" />
+                                    <b:InvokeCommandAction Command="{Binding TraitHandler.TraitSearchAddPlaceholderTextCommand}" />
                                 </b:EventTrigger>
                                 <b:EventTrigger EventName="GotFocus">
-                                    <b:InvokeCommandAction Command="{Binding TraitSearchRemovePlaceholderTextCommand}" />
+                                    <b:InvokeCommandAction Command="{Binding TraitHandler.TraitSearchRemovePlaceholderTextCommand}" />
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </TextBox>
-                        <ListBox ItemsSource="{Binding FilteredTraitList}" Background="DimGray" Width="200"
+                        <ListBox ItemsSource="{Binding TraitHandler.FilteredTraitList}" Background="DimGray" Width="200"
                                  Height="875"
-                                 SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 SelectedItem="{Binding TraitHandler.SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Foreground="AliceBlue">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -49,7 +49,7 @@
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="200" Height="900"
                                 Margin="0,0,20,0">
                         <Expander Header="Core" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CoreTraitFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding TraitHandler.CoreTraitFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
@@ -66,7 +66,7 @@
                         </Expander>
 
                         <Expander Header="Skills" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding SkillTraitFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding TraitHandler.SkillTraitFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -74,7 +74,7 @@
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.SkillTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.SkillTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -84,7 +84,7 @@
                         </Expander>
 
                         <Expander Header="Class" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding ClassTraitFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding TraitHandler.ClassTraitFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -92,7 +92,7 @@
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.ClassTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.ClassTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -102,7 +102,7 @@
                         </Expander>
 
                         <Expander Header="Combat" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CombatTraitFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding TraitHandler.CombatTraitFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -110,7 +110,7 @@
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CombatTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.CombatTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -120,7 +120,7 @@
                         </Expander>
 
                         <Expander Header="Role" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding RoleTraitFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding TraitHandler.RoleTraitFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -128,7 +128,7 @@
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.RoleTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.RoleTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -138,14 +138,14 @@
                         </Expander>
 
                         <Expander Header="Spells" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding MagicTraitFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding TraitHandler.MagicTraitFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.MagicTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.MagicTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -155,14 +155,14 @@
                         </Expander>
 
                         <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding BonusTraitFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding TraitHandler.BonusTraitFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.BonusTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.BonusTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -172,7 +172,7 @@
                         </Expander>
 
                         <Expander Header="Condition" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding ConditionTraitFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding TraitHandler.ConditionTraitFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -180,7 +180,7 @@
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.ConditionTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.ConditionTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -190,14 +190,14 @@
                         </Expander>
 
                         <Expander Header="Source" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding SourceTraitFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding TraitHandler.SourceTraitFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.SourceTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.SourceTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -207,7 +207,7 @@
                         </Expander>
 
                         <Expander Header="Custom" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CustomTraitFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding TraitHandler.CustomTraitFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -215,7 +215,7 @@
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CustomTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.CustomTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -230,72 +230,72 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
                                     Width="500" Height="20">
                             <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
-                            <TextBox Text="{Binding SelectedTrait.Name}" Width="256" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding TraitHandler.SelectedTrait.Name}" Width="256" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
 
                             <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
-                            <TextBox Text="{Binding SelectedTrait.Source}" Width="150" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding TraitHandler.SelectedTrait.Source}" Width="150" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                             <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
-                            <TextBox Text="{Binding SelectedTrait.Url}" Width="480" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding TraitHandler.SelectedTrait.Url}" Width="480" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
                         <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>
-                        <TextBox Text="{Binding SelectedTrait.Description}" Width="500" Height="700"
+                        <TextBox Text="{Binding TraitHandler.SelectedTrait.Description}" Width="500" Height="700"
                                  Background="DimGray" Foreground="AliceBlue" IsReadOnly="True" />
 
                         <TextBlock Margin="0, 5, 0, 0">Notes:</TextBlock>
-                        <TextBox Text="{Binding SelectedTrait.Notes}" Width="500" Height="115" Background="DimGray"
+                        <TextBox Text="{Binding TraitHandler.SelectedTrait.Notes}" Width="500" Height="115" Background="DimGray"
                                  Foreground="AliceBlue" IsReadOnly="False" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                                 Height="900" Margin="10, 0, 0, 0">
                         <TextBlock Margin="0, 0, 0, 0">Prereqs:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.Prereqs}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.Prereqs}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="117" />
 
                         <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.CustomTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.CustomTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.CoreTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.CoreTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Skill Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.SkillTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.SkillTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Class Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.ClassTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.ClassTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Combat Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.CombatTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.CombatTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.RoleTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.RoleTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.MagicTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.MagicTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Bonus Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedTrait.BonusTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding TraitHandler.SelectedTrait.BonusTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">
-                        <ListBox ItemsSource="{Binding FavoriteTraitList}" Background="DimGray" Foreground="AliceBlue"
+                        <ListBox ItemsSource="{Binding TraitHandler.FavoriteTraitList}" Background="DimGray" Foreground="AliceBlue"
                                  Width="150" Height="540"
-                                 SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                 SelectedItem="{Binding TraitHandler.SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -307,9 +307,9 @@
 
                         <TextBlock Margin="0, 5, 0, 0">Hidden</TextBlock>
                         <Expander>
-                            <ListBox ItemsSource="{Binding HiddenTraitList}" Background="DimGray"
+                            <ListBox ItemsSource="{Binding TraitHandler.HiddenTraitList}" Background="DimGray"
                                      Foreground="AliceBlue" Width="150" Height="317"
-                                     SelectedItem="{Binding SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                     SelectedItem="{Binding TraitHandler.SelectedTrait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
@@ -325,31 +325,31 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1500"
                             Height="50">
                     <Button Content="Favorite"
-                            Command="{Binding AddFavoriteTraitCommand}"
+                            Command="{Binding TraitHandler.AddFavoriteTraitCommand}"
                             Width="60" Height="30" Margin="25,0,30,0" />
 
                     <Button Content="Hide"
-                            Command="{Binding AddHiddenTraitCommand}"
+                            Command="{Binding TraitHandler.AddHiddenTraitCommand}"
                             Width="60" Height="30" Margin="0,0,25,0" />
 
                     <Button Content="Edit"
-                            Command="{Binding EditTraitCommand}"
+                            Command="{Binding TraitHandler.EditTraitCommand}"
                             Width="60" Height="30" Margin="330,0,0,0" />
 
                     <Button Content="New"
-                            Command="{Binding NewTraitCommand}"
+                            Command="{Binding TraitHandler.NewTraitCommand}"
                             Width="60" Height="30" Margin="60,0,60,0" />
 
                     <Button Content="Remove"
-                            Command="{Binding RemoveTraitCommand}"
+                            Command="{Binding TraitHandler.RemoveTraitCommand}"
                             Width="60" Height="30" Margin="0,0,100,0" />
 
                     <Button Content="Unfavorite"
-                            Command="{Binding RemoveFavoriteTraitCommand}"
+                            Command="{Binding TraitHandler.RemoveFavoriteTraitCommand}"
                             Width="60" Height="30" Margin="190,0,10,0" />
 
                     <Button Content="Show"
-                            Command="{Binding RemoveHiddenTraitCommand}"
+                            Command="{Binding TraitHandler.RemoveHiddenTraitCommand}"
                             Width="60" Height="30" Margin="0,0,0,0" />
                 </StackPanel>
             </StackPanel>

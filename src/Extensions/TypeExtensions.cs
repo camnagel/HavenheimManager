@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using HavenheimManager.Containers;
@@ -39,5 +40,13 @@ internal static class TypeExtensions
         }
 
         return ret;
+    }
+
+    internal static void Fill<T>(this ObservableCollection<string> collection, Type enumValue) where T : Enum
+    {
+        foreach (T value in Enum.GetValues(enumValue))
+        {
+            collection.Add(value.GetEnumDescription());
+        }
     }
 }

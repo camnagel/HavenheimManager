@@ -20,35 +20,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public MainWindowViewModel()
     {
-        // App
         LoadCommand = new DelegateCommand(LoadAction);
         SaveCommand = new DelegateCommand(SaveAction);
         SaveAsCommand = new DelegateCommand(SaveAsAction);
         ImportCommand = new DelegateCommand(ImportAction);
 
-        // Traits
+        // Handlers
         TraitHandler = new TraitHandler(this);
-        //CoreTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitCoreFilterAction);
-        SkillTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitSkillFilterAction);
-        ClassTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitClassFilterAction);
-        CombatTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitCombatFilterAction);
-        RoleTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitRoleFilterAction);
-        MagicTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitMagicFilterAction);
-        BonusTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitBonusFilterAction);
-        ConditionTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitConditionFilterAction);
-        SourceTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitSourceFilterAction);
-        CustomTraitCheckboxCommand = new DelegateCommand(TraitHandler.TraitCustomFilterAction);
-        AddFavoriteTraitCommand = new DelegateCommand(TraitHandler.AddFavoriteTraitAction);
-        AddHiddenTraitCommand = new DelegateCommand(TraitHandler.AddHiddenTraitAction);
-        EditTraitCommand = new DelegateCommand(TraitHandler.EditTraitAction);
-        NewTraitCommand = new DelegateCommand(TraitHandler.NewTraitAction);
-        RemoveTraitCommand = new DelegateCommand(TraitHandler.RemoveTraitAction);
-        RemoveFavoriteTraitCommand = new DelegateCommand(TraitHandler.RemoveFavoriteTraitAction);
-        RemoveHiddenTraitCommand = new DelegateCommand(TraitHandler.RemoveHiddenTraitAction);
-        TraitSearchRemovePlaceholderTextCommand =
-            new DelegateCommand(TraitHandler.TraitSearchRemovePlaceholderTextAction);
-        TraitSearchAddPlaceholderTextCommand = new DelegateCommand(TraitHandler.TraitSearchAddPlaceholderTextAction);
-
         // Feats
         FeatHandler = new FeatHandler(this);
         CoreFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatCoreFilterAction);
@@ -107,12 +85,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
 
     // Primary Object Collections
-    public List<Trait> MasterTraitList { get; } = new();
+    
     public List<Feat> MasterFeatList { get; } = new();
     public List<Item> MasterItemList { get; } = new();
 
     // Selected Object Backing Collections
-    public ObservableCollection<Trait> CurrentTrait { get; set; } = new();
+    
     public ObservableCollection<Feat> CurrentFeat { get; set; } = new();
     public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
     public ObservableCollection<Item> CurrentItem { get; set; } = new();
@@ -139,14 +117,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         SaveCommand.RaiseCanExecuteChanged();
         SaveAsCommand.RaiseCanExecuteChanged();
         ImportCommand.RaiseCanExecuteChanged();
-        //CoreTraitCheckboxCommand.RaiseCanExecuteChanged();
+
+        // Handlers
         TraitHandler.RefreshButtonState();
-        SkillTraitCheckboxCommand.RaiseCanExecuteChanged();
-        ClassTraitCheckboxCommand.RaiseCanExecuteChanged();
-        CombatTraitCheckboxCommand.RaiseCanExecuteChanged();
-        RoleTraitCheckboxCommand.RaiseCanExecuteChanged();
-        MagicTraitCheckboxCommand.RaiseCanExecuteChanged();
-        SourceTraitCheckboxCommand.RaiseCanExecuteChanged();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)
@@ -154,86 +127,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    #region Traits
+    
 
-    // Filtered Trait Collections
-    public ObservableCollection<Trait> FilteredTraitList { get; set; } = new();
-    public ObservableCollection<Trait> FavoriteTraitList { get; set; } = new();
-    public ObservableCollection<Trait> HiddenTraitList { get; set; } = new();
-
-    // Trait Tag Collections
-    public ObservableCollection<string> CustomTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> CoreTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> SkillTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> ClassTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> CombatTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> RoleTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> MagicTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> BonusTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> ConditionTraitFilterList { get; set; } = new();
-    public ObservableCollection<string> SourceTraitFilterList { get; set; } = new();
-
-    private Trait? _selectedTrait;
-
-    public Trait? SelectedTrait
-    {
-        get => _selectedTrait;
-        set
-        {
-            if (value != null)
-            {
-                SelectedTrait = null;
-            }
-
-            _selectedTrait = value;
-            CurrentTrait.Clear();
-            if (value != null)
-            {
-                CurrentTrait.Add(value);
-            }
-
-            OnPropertyChanged("SelectedTrait");
-        }
-    }
-
-    private string _traitSearchText = RegexHandler.SearchPlaceholderText;
-
-    public string TraitSearchText
-    {
-        get => _traitSearchText;
-        set
-        {
-            _traitSearchText = value;
-            TraitHandler.ApplyTraitFilters();
-
-            OnPropertyChanged("TraitSearchText");
-        }
-    }
-
-    // Trait Checkbox Commands
-    //public DelegateCommand CoreTraitCheckboxCommand { get; }
-    public DelegateCommand SkillTraitCheckboxCommand { get; }
-    public DelegateCommand ClassTraitCheckboxCommand { get; }
-    public DelegateCommand CombatTraitCheckboxCommand { get; }
-    public DelegateCommand RoleTraitCheckboxCommand { get; }
-    public DelegateCommand MagicTraitCheckboxCommand { get; }
-    public DelegateCommand BonusTraitCheckboxCommand { get; }
-    public DelegateCommand ConditionTraitCheckboxCommand { get; }
-    public DelegateCommand SourceTraitCheckboxCommand { get; }
-    public DelegateCommand CustomTraitCheckboxCommand { get; }
-
-    // Trait Control Bar Commands
-    public DelegateCommand TraitSearchRemovePlaceholderTextCommand { get; }
-    public DelegateCommand TraitSearchAddPlaceholderTextCommand { get; }
-    public DelegateCommand AddFavoriteTraitCommand { get; }
-    public DelegateCommand AddHiddenTraitCommand { get; }
-    public DelegateCommand EditTraitCommand { get; }
-    public DelegateCommand NewTraitCommand { get; }
-    public DelegateCommand RemoveTraitCommand { get; }
-    public DelegateCommand RemoveFavoriteTraitCommand { get; }
-    public DelegateCommand RemoveHiddenTraitCommand { get; }
-
-    #endregion
 
     #region Feats
 
@@ -687,7 +582,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     case SourceType.Trait:
                         foreach (Trait trait in ImportReader.ReadTraitCsv(importPath))
                         {
-                            MasterTraitList.Add(trait);
+                            TraitHandler.MasterTraitList.Add(trait);
                         }
 
                         TraitHandler.UpdateTraitCustomTags();
@@ -745,6 +640,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void SetAppMode(AppMode mode)
     {
+        ClearApp();
+
         switch (mode)
         {
             case Enums.AppMode.Pathfinder:
@@ -758,77 +655,17 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ClearApp()
     {
+        TraitHandler.Clear();
     }
 
     private void InitializePathfinder()
     {
+        
     }
 
     private void InitializeHavenheim()
     {
-        foreach (Core item in Enum.GetValues(typeof(Core)))
-        {
-            CoreTraitFilterList.Add(item.GetEnumDescription());
-            CoreFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Source item in Enum.GetValues(typeof(Source)))
-        {
-            SourceTraitFilterList.Add(item.GetEnumDescription());
-            SourceFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Skill item in Enum.GetValues(typeof(Skill)))
-        {
-            SkillTraitFilterList.Add(item.GetEnumDescription());
-            SkillFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Combat item in Enum.GetValues(typeof(Combat)))
-        {
-            CombatTraitFilterList.Add(item.GetEnumDescription());
-            CombatFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Role item in Enum.GetValues(typeof(Role)))
-        {
-            RoleTraitFilterList.Add(item.GetEnumDescription());
-            RoleFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Magic item in Enum.GetValues(typeof(Magic)))
-        {
-            MagicTraitFilterList.Add(item.GetEnumDescription());
-            MagicFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Bonus item in Enum.GetValues(typeof(Bonus)))
-        {
-            BonusTraitFilterList.Add(item.GetEnumDescription());
-            BonusFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Condition item in Enum.GetValues(typeof(Condition)))
-        {
-            ConditionTraitFilterList.Add(item.GetEnumDescription());
-            ConditionFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Class item in Enum.GetValues(typeof(Class)))
-        {
-            ClassTraitFilterList.Add(item.GetEnumDescription());
-            ClassFeatFilterList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Tool item in Enum.GetValues(typeof(Tool)))
-        {
-            CraftingToolSelectionList.Add(item.GetEnumDescription());
-        }
-
-        foreach (Workshop item in Enum.GetValues(typeof(Workshop)))
-        {
-            CraftingWorkshopSelectionList.Add(item.GetEnumDescription());
-        }
+        TraitHandler.InitializeHavenheim();
     }
 
     #endregion

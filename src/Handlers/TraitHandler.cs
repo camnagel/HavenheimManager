@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using HavenheimManager.Containers;
@@ -10,41 +12,139 @@ using Condition = HavenheimManager.Enums.Condition;
 
 namespace HavenheimManager.Handlers;
 
-public class TraitHandler
+public class TraitHandler : INotifyPropertyChanged
 {
-    private readonly MainWindowViewModel _vm;
-    private readonly HashSet<Bonus> BonusTraitFilters = new();
-    private readonly HashSet<Class> ClassTraitFilters = new();
-    private readonly HashSet<Combat> CombatTraitFilters = new();
-    private readonly HashSet<Condition> ConditionTraitFilters = new();
+    private readonly HashSet<Bonus> _bonusTraitFilters = new();
+    private readonly HashSet<Class> _classTraitFilters = new();
+    private readonly HashSet<Combat> _combatTraitFilters = new();
+    private readonly HashSet<Condition> _conditionTraitFilters = new();
 
     // Trait Filter Lists
-    private readonly HashSet<Core> CoreTraitFilters = new();
-    private readonly HashSet<string> CustomTraitFilters = new();
-    private readonly HashSet<Magic> MagicTraitFilters = new();
-    private readonly HashSet<Role> RoleTraitFilters = new();
-    private readonly HashSet<Skill> SkillTraitFilters = new();
-    private readonly HashSet<Source> SourceTraitFilters = new();
+    private readonly HashSet<Core> _coreTraitFilters = new();
+    private readonly HashSet<string> _customTraitFilters = new();
+    private readonly HashSet<Magic> _magicTraitFilters = new();
+    private readonly HashSet<Role> _roleTraitFilters = new();
+    private readonly HashSet<Skill> _skillTraitFilters = new();
+    private readonly HashSet<Source> _sourceTraitFilters = new();
 
-    public TraitHandler(MainWindowViewModel vm)
+    private Trait? _selectedTrait;
+
+    private string _traitSearchText = RegexHandler.SearchPlaceholderText;
+
+    public TraitHandler()
     {
-        _vm = vm;
-
         CoreTraitCheckboxCommand = new DelegateCommand(TraitCoreFilterAction);
+        SkillTraitCheckboxCommand = new DelegateCommand(TraitSkillFilterAction);
+        ClassTraitCheckboxCommand = new DelegateCommand(TraitClassFilterAction);
+        CombatTraitCheckboxCommand = new DelegateCommand(TraitCombatFilterAction);
+        RoleTraitCheckboxCommand = new DelegateCommand(TraitRoleFilterAction);
+        MagicTraitCheckboxCommand = new DelegateCommand(TraitMagicFilterAction);
+        BonusTraitCheckboxCommand = new DelegateCommand(TraitBonusFilterAction);
+        ConditionTraitCheckboxCommand = new DelegateCommand(TraitConditionFilterAction);
+        SourceTraitCheckboxCommand = new DelegateCommand(TraitSourceFilterAction);
+        CustomTraitCheckboxCommand = new DelegateCommand(TraitCustomFilterAction);
+        AddFavoriteTraitCommand = new DelegateCommand(AddFavoriteTraitAction);
+        AddHiddenTraitCommand = new DelegateCommand(AddHiddenTraitAction);
+        EditTraitCommand = new DelegateCommand(EditTraitAction);
+        NewTraitCommand = new DelegateCommand(NewTraitAction);
+        RemoveTraitCommand = new DelegateCommand(RemoveTraitAction);
+        RemoveFavoriteTraitCommand = new DelegateCommand(RemoveFavoriteTraitAction);
+        RemoveHiddenTraitCommand = new DelegateCommand(RemoveHiddenTraitAction);
+        TraitSearchRemovePlaceholderTextCommand =
+            new DelegateCommand(TraitSearchRemovePlaceholderTextAction);
+        TraitSearchAddPlaceholderTextCommand = new DelegateCommand(TraitSearchAddPlaceholderTextAction);
     }
 
+    // Trait Checkbox Commands
     public DelegateCommand CoreTraitCheckboxCommand { get; }
+    public DelegateCommand SkillTraitCheckboxCommand { get; }
+    public DelegateCommand ClassTraitCheckboxCommand { get; }
+    public DelegateCommand CombatTraitCheckboxCommand { get; }
+    public DelegateCommand RoleTraitCheckboxCommand { get; }
+    public DelegateCommand MagicTraitCheckboxCommand { get; }
+    public DelegateCommand BonusTraitCheckboxCommand { get; }
+    public DelegateCommand ConditionTraitCheckboxCommand { get; }
+    public DelegateCommand SourceTraitCheckboxCommand { get; }
+    public DelegateCommand CustomTraitCheckboxCommand { get; }
 
-    private bool _activeTraitFilters => CoreTraitFilters.Any() ||
-                                        SkillTraitFilters.Any() ||
-                                        ClassTraitFilters.Any() ||
-                                        CombatTraitFilters.Any() ||
-                                        RoleTraitFilters.Any() ||
-                                        ConditionTraitFilters.Any() ||
-                                        SourceTraitFilters.Any() ||
-                                        CustomTraitFilters.Any() ||
-                                        MagicTraitFilters.Any() ||
-                                        BonusTraitFilters.Any();
+    // Trait Control Bar Commands
+    public DelegateCommand TraitSearchRemovePlaceholderTextCommand { get; }
+    public DelegateCommand TraitSearchAddPlaceholderTextCommand { get; }
+    public DelegateCommand AddFavoriteTraitCommand { get; }
+    public DelegateCommand AddHiddenTraitCommand { get; }
+    public DelegateCommand EditTraitCommand { get; }
+    public DelegateCommand NewTraitCommand { get; }
+    public DelegateCommand RemoveTraitCommand { get; }
+    public DelegateCommand RemoveFavoriteTraitCommand { get; }
+    public DelegateCommand RemoveHiddenTraitCommand { get; }
+
+    // Filtered Trait Collections
+    public ObservableCollection<Trait> FilteredTraitList { get; set; } = new();
+    public ObservableCollection<Trait> FavoriteTraitList { get; set; } = new();
+    public ObservableCollection<Trait> HiddenTraitList { get; set; } = new();
+
+    // Master trait list
+    public List<Trait> MasterTraitList { get; } = new();
+
+    // Trait Tag Collections
+    public ObservableCollection<string> CustomTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> CoreTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> SkillTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> ClassTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> CombatTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> RoleTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> MagicTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> BonusTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> ConditionTraitFilterList { get; set; } = new();
+    public ObservableCollection<string> SourceTraitFilterList { get; set; } = new();
+
+    public Trait? SelectedTrait
+    {
+        get => _selectedTrait;
+        set
+        {
+            if (value != null)
+            {
+                SelectedTrait = null;
+            }
+
+            _selectedTrait = value;
+            CurrentTrait.Clear();
+            if (value != null)
+            {
+                CurrentTrait.Add(value);
+            }
+
+            OnPropertyChanged("SelectedTrait");
+        }
+    }
+
+    public ObservableCollection<Trait> CurrentTrait { get; set; } = new();
+
+    public string TraitSearchText
+    {
+        get => _traitSearchText;
+        set
+        {
+            _traitSearchText = value;
+            ApplyTraitFilters();
+
+            OnPropertyChanged("TraitSearchText");
+        }
+    }
+
+    private bool ActiveTraitFilters => _coreTraitFilters.Any() ||
+                                        _skillTraitFilters.Any() ||
+                                        _classTraitFilters.Any() ||
+                                        _combatTraitFilters.Any() ||
+                                        _roleTraitFilters.Any() ||
+                                        _conditionTraitFilters.Any() ||
+                                        _sourceTraitFilters.Any() ||
+                                        _customTraitFilters.Any() ||
+                                        _magicTraitFilters.Any() ||
+                                        _bonusTraitFilters.Any();
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     internal void TraitCoreFilterAction(object arg)
     {
@@ -52,13 +152,13 @@ public class TraitHandler
         {
             Core toggleCore = filter.StringToCore();
 
-            if (CoreTraitFilters.Contains(toggleCore))
+            if (_coreTraitFilters.Contains(toggleCore))
             {
-                CoreTraitFilters.Remove(toggleCore);
+                _coreTraitFilters.Remove(toggleCore);
             }
             else
             {
-                CoreTraitFilters.Add(toggleCore);
+                _coreTraitFilters.Add(toggleCore);
             }
 
             ApplyTraitFilters();
@@ -76,13 +176,13 @@ public class TraitHandler
         {
             Skill toggleSkill = filter.StringToSkill();
 
-            if (SkillTraitFilters.Contains(toggleSkill))
+            if (_skillTraitFilters.Contains(toggleSkill))
             {
-                SkillTraitFilters.Remove(toggleSkill);
+                _skillTraitFilters.Remove(toggleSkill);
             }
             else
             {
-                SkillTraitFilters.Add(toggleSkill);
+                _skillTraitFilters.Add(toggleSkill);
             }
 
             ApplyTraitFilters();
@@ -95,13 +195,13 @@ public class TraitHandler
         {
             Class toggleClass = filter.StringToClass();
 
-            if (ClassTraitFilters.Contains(toggleClass))
+            if (_classTraitFilters.Contains(toggleClass))
             {
-                ClassTraitFilters.Remove(toggleClass);
+                _classTraitFilters.Remove(toggleClass);
             }
             else
             {
-                ClassTraitFilters.Add(toggleClass);
+                _classTraitFilters.Add(toggleClass);
             }
 
             ApplyTraitFilters();
@@ -114,13 +214,13 @@ public class TraitHandler
         {
             Combat toggleCombat = filter.StringToCombat();
 
-            if (CombatTraitFilters.Contains(toggleCombat))
+            if (_combatTraitFilters.Contains(toggleCombat))
             {
-                CombatTraitFilters.Remove(toggleCombat);
+                _combatTraitFilters.Remove(toggleCombat);
             }
             else
             {
-                CombatTraitFilters.Add(toggleCombat);
+                _combatTraitFilters.Add(toggleCombat);
             }
 
             ApplyTraitFilters();
@@ -133,13 +233,13 @@ public class TraitHandler
         {
             Role toggleRole = filter.StringToRole();
 
-            if (RoleTraitFilters.Contains(toggleRole))
+            if (_roleTraitFilters.Contains(toggleRole))
             {
-                RoleTraitFilters.Remove(toggleRole);
+                _roleTraitFilters.Remove(toggleRole);
             }
             else
             {
-                RoleTraitFilters.Add(toggleRole);
+                _roleTraitFilters.Add(toggleRole);
             }
 
             ApplyTraitFilters();
@@ -152,13 +252,13 @@ public class TraitHandler
         {
             Magic toggleMagic = filter.StringToMagic();
 
-            if (MagicTraitFilters.Contains(toggleMagic))
+            if (_magicTraitFilters.Contains(toggleMagic))
             {
-                MagicTraitFilters.Remove(toggleMagic);
+                _magicTraitFilters.Remove(toggleMagic);
             }
             else
             {
-                MagicTraitFilters.Add(toggleMagic);
+                _magicTraitFilters.Add(toggleMagic);
             }
 
             ApplyTraitFilters();
@@ -171,13 +271,13 @@ public class TraitHandler
         {
             Bonus toggleBonus = filter.StringToBonus();
 
-            if (BonusTraitFilters.Contains(toggleBonus))
+            if (_bonusTraitFilters.Contains(toggleBonus))
             {
-                BonusTraitFilters.Remove(toggleBonus);
+                _bonusTraitFilters.Remove(toggleBonus);
             }
             else
             {
-                BonusTraitFilters.Add(toggleBonus);
+                _bonusTraitFilters.Add(toggleBonus);
             }
 
             ApplyTraitFilters();
@@ -190,13 +290,13 @@ public class TraitHandler
         {
             Condition toggleCondition = filter.StringToCondition();
 
-            if (ConditionTraitFilters.Contains(toggleCondition))
+            if (_conditionTraitFilters.Contains(toggleCondition))
             {
-                ConditionTraitFilters.Remove(toggleCondition);
+                _conditionTraitFilters.Remove(toggleCondition);
             }
             else
             {
-                ConditionTraitFilters.Add(toggleCondition);
+                _conditionTraitFilters.Add(toggleCondition);
             }
 
             ApplyTraitFilters();
@@ -209,13 +309,13 @@ public class TraitHandler
         {
             Source toggleSource = filter.StringToSource();
 
-            if (SourceTraitFilters.Contains(toggleSource))
+            if (_sourceTraitFilters.Contains(toggleSource))
             {
-                SourceTraitFilters.Remove(toggleSource);
+                _sourceTraitFilters.Remove(toggleSource);
             }
             else
             {
-                SourceTraitFilters.Add(toggleSource);
+                _sourceTraitFilters.Add(toggleSource);
             }
 
             ApplyTraitFilters();
@@ -226,13 +326,13 @@ public class TraitHandler
     {
         if (arg is string filter)
         {
-            if (CustomTraitFilters.Contains(filter))
+            if (_customTraitFilters.Contains(filter))
             {
-                CustomTraitFilters.Remove(filter);
+                _customTraitFilters.Remove(filter);
             }
             else
             {
-                CustomTraitFilters.Add(filter);
+                _customTraitFilters.Add(filter);
             }
 
             ApplyTraitFilters();
@@ -241,27 +341,58 @@ public class TraitHandler
 
     internal void ApplyTraitFilters()
     {
-        _vm.FilteredTraitList.Clear();
+        FilteredTraitList.Clear();
         List<Trait> possibleTraits =
-            (_vm.TraitSearchText != RegexHandler.SearchPlaceholderText && _vm.TraitSearchText != ""
-                ? _vm.MasterTraitList.Where(x => x.Name.Sanitize().Contains(_vm.TraitSearchText.Sanitize())).ToList()
-                : _vm.MasterTraitList)
-            .Where(x => !_vm.FavoriteTraitList.Contains(x) && !_vm.HiddenTraitList.Contains(x)).ToList();
+            (TraitSearchText != RegexHandler.SearchPlaceholderText && TraitSearchText != ""
+                ? MasterTraitList.Where(x => x.Name.Sanitize().Contains(TraitSearchText.Sanitize())).ToList()
+                : MasterTraitList)
+            .Where(x => !FavoriteTraitList.Contains(x) && !HiddenTraitList.Contains(x)).ToList();
 
-        foreach (Source filter in SourceTraitFilters)
+        foreach (Source filter in _sourceTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
         }
 
         foreach (Trait trait in BroadTraitFilter(possibleTraits))
         {
-            _vm.FilteredTraitList.Add(trait);
+            FilteredTraitList.Add(trait);
         }
+    }
+
+    internal void Clear()
+    {
+        CoreTraitFilterList.Clear();
+        SourceTraitFilterList.Clear();
+        SkillTraitFilterList.Clear();
+        CombatTraitFilterList.Clear();
+        RoleTraitFilterList.Clear();
+        MagicTraitFilterList.Clear();
+        BonusTraitFilterList.Clear();
+        ConditionTraitFilterList.Clear();
+        ClassTraitFilterList.Clear();
+    }
+
+    internal void InitializePathfinder()
+    {
+
+    }
+
+    internal void InitializeHavenheim()
+    {
+        CoreTraitFilterList.Fill<Core>(typeof(Core));
+        SourceTraitFilterList.Fill<Source>(typeof(Source));
+        SkillTraitFilterList.Fill<Skill>(typeof(Skill));
+        CombatTraitFilterList.Fill<Combat>(typeof(Combat));
+        RoleTraitFilterList.Fill<Role>(typeof(Role));
+        MagicTraitFilterList.Fill<Magic>(typeof(Magic));
+        BonusTraitFilterList.Fill<Bonus>(typeof(Bonus));
+        ConditionTraitFilterList.Fill<Condition>(typeof(Condition));
+        ClassTraitFilterList.Fill<Class>(typeof(Class));
     }
 
     private IEnumerable<Trait> BroadTraitFilter(List<Trait> possibleTraits)
     {
-        if (!_activeTraitFilters)
+        if (!ActiveTraitFilters)
         {
             foreach (Trait trait in possibleTraits)
             {
@@ -273,55 +404,55 @@ public class TraitHandler
 
         foreach (Trait trait in possibleTraits)
         {
-            if (CoreTraitFilters.Any(filter => trait.CoreTags.Contains(filter)))
+            if (_coreTraitFilters.Any(filter => trait.CoreTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (SkillTraitFilters.Any(filter => trait.SkillTags.Contains(filter)))
+            if (_skillTraitFilters.Any(filter => trait.SkillTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (ClassTraitFilters.Any(filter => trait.ClassTags.Contains(filter)))
+            if (_classTraitFilters.Any(filter => trait.ClassTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (CombatTraitFilters.Any(filter => trait.CombatTags.Contains(filter)))
+            if (_combatTraitFilters.Any(filter => trait.CombatTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (RoleTraitFilters.Any(filter => trait.RoleTags.Contains(filter)))
+            if (_roleTraitFilters.Any(filter => trait.RoleTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (MagicTraitFilters.Any(filter => trait.MagicTags.Contains(filter)))
+            if (_magicTraitFilters.Any(filter => trait.MagicTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (BonusTraitFilters.Any(filter => trait.BonusTags.Contains(filter)))
+            if (_bonusTraitFilters.Any(filter => trait.BonusTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (ConditionTraitFilters.Any(filter => trait.ConditionTags.Contains(filter)))
+            if (_conditionTraitFilters.Any(filter => trait.ConditionTags.Contains(filter)))
             {
                 yield return trait;
                 continue;
             }
 
-            if (CustomTraitFilters.Any(filter => trait.CustomTags.Contains(filter)))
+            if (_customTraitFilters.Any(filter => trait.CustomTags.Contains(filter)))
             {
                 yield return trait;
             }
@@ -330,47 +461,47 @@ public class TraitHandler
 
     private IEnumerable<Trait> StrictTraitFilter(List<Trait> possibleTraits)
     {
-        foreach (Core filter in CoreTraitFilters)
+        foreach (Core filter in _coreTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.CoreTags.Contains(filter)).ToList();
         }
 
-        foreach (Skill filter in SkillTraitFilters)
+        foreach (Skill filter in _skillTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.SkillTags.Contains(filter)).ToList();
         }
 
-        foreach (Class filter in ClassTraitFilters)
+        foreach (Class filter in _classTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.ClassTags.Contains(filter)).ToList();
         }
 
-        foreach (Combat filter in CombatTraitFilters)
+        foreach (Combat filter in _combatTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.CombatTags.Contains(filter)).ToList();
         }
 
-        foreach (Role filter in RoleTraitFilters)
+        foreach (Role filter in _roleTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.RoleTags.Contains(filter)).ToList();
         }
 
-        foreach (Magic filter in MagicTraitFilters)
+        foreach (Magic filter in _magicTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.MagicTags.Contains(filter)).ToList();
         }
 
-        foreach (Bonus filter in BonusTraitFilters)
+        foreach (Bonus filter in _bonusTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.BonusTags.Contains(filter)).ToList();
         }
 
-        foreach (Condition filter in ConditionTraitFilters)
+        foreach (Condition filter in _conditionTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.ConditionTags.Contains(filter)).ToList();
         }
 
-        foreach (string filter in CustomTraitFilters)
+        foreach (string filter in _customTraitFilters)
         {
             possibleTraits = possibleTraits.Where(x => x.CustomTags.Contains(filter)).ToList();
         }
@@ -383,19 +514,19 @@ public class TraitHandler
 
     internal void UpdateTraitCustomTags()
     {
-        _vm.CustomTraitFilterList.Clear();
-        foreach (Trait trait in _vm.MasterTraitList)
+        CustomTraitFilterList.Clear();
+        foreach (Trait trait in MasterTraitList)
         {
-            if (_vm.FavoriteTraitList.Contains(trait) || _vm.HiddenTraitList.Contains(trait))
+            if (FavoriteTraitList.Contains(trait) || HiddenTraitList.Contains(trait))
             {
                 continue;
             }
 
             foreach (string tag in trait.CustomTags)
             {
-                if (!_vm.CustomTraitFilterList.Contains(tag))
+                if (!CustomTraitFilterList.Contains(tag))
                 {
-                    _vm.CustomTraitFilterList.Add(tag);
+                    CustomTraitFilterList.Add(tag);
                 }
             }
         }
@@ -403,27 +534,27 @@ public class TraitHandler
 
     internal void AddFavoriteTraitAction(object arg)
     {
-        if (_vm.SelectedTrait != null && !_vm.FavoriteTraitList.Contains(_vm.SelectedTrait))
+        if (SelectedTrait != null && !FavoriteTraitList.Contains(SelectedTrait))
         {
-            _vm.FavoriteTraitList.Add(_vm.SelectedTrait);
-            _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
+            FavoriteTraitList.Add(SelectedTrait);
+            HiddenTraitList.Remove(SelectedTrait);
 
             UpdateTraitCustomTags();
             ApplyTraitFilters();
-            _vm.SelectedTrait = null;
+            SelectedTrait = null;
         }
     }
 
     internal void AddHiddenTraitAction(object arg)
     {
-        if (_vm.SelectedTrait != null && !_vm.HiddenTraitList.Contains(_vm.SelectedTrait))
+        if (SelectedTrait != null && !HiddenTraitList.Contains(SelectedTrait))
         {
-            _vm.HiddenTraitList.Add(_vm.SelectedTrait);
-            _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
+            HiddenTraitList.Add(SelectedTrait);
+            FavoriteTraitList.Remove(SelectedTrait);
 
             UpdateTraitCustomTags();
             ApplyTraitFilters();
-            _vm.SelectedTrait = null;
+            SelectedTrait = null;
         }
     }
 
@@ -431,36 +562,36 @@ public class TraitHandler
     {
         try
         {
-            if (_vm.SelectedTrait != null)
+            if (SelectedTrait != null)
             {
-                TraitViewModel vm = new(_vm.SelectedTrait);
+                TraitViewModel vm = new(SelectedTrait);
                 TraitView configWindow = new(vm);
 
                 if (configWindow.ShowDialog() == true)
                 {
                     Trait newTrait = vm.GetTrait();
 
-                    if (_vm.MasterTraitList.Contains(_vm.SelectedTrait))
+                    if (MasterTraitList.Contains(SelectedTrait))
                     {
-                        _vm.MasterTraitList.Remove(_vm.SelectedTrait);
-                        _vm.MasterTraitList.Add(newTrait);
+                        MasterTraitList.Remove(SelectedTrait);
+                        MasterTraitList.Add(newTrait);
 
-                        if (_vm.FavoriteTraitList.Contains(_vm.SelectedTrait))
+                        if (FavoriteTraitList.Contains(SelectedTrait))
                         {
-                            _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
-                            _vm.FavoriteTraitList.Add(newTrait);
+                            FavoriteTraitList.Remove(SelectedTrait);
+                            FavoriteTraitList.Add(newTrait);
                         }
 
-                        else if (_vm.HiddenTraitList.Contains(_vm.SelectedTrait))
+                        else if (HiddenTraitList.Contains(SelectedTrait))
                         {
-                            _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
-                            _vm.HiddenTraitList.Add(newTrait);
+                            HiddenTraitList.Remove(SelectedTrait);
+                            HiddenTraitList.Add(newTrait);
                         }
 
                         UpdateTraitCustomTags();
                         ApplyTraitFilters();
 
-                        _vm.SelectedTrait = newTrait;
+                        SelectedTrait = newTrait;
                     }
                 }
             }
@@ -482,7 +613,7 @@ public class TraitHandler
             MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        _vm.RefreshButtonState();
+        RefreshButtonState();
     }
 
     internal void NewTraitAction(object arg)
@@ -495,7 +626,7 @@ public class TraitHandler
             if (configWindow.ShowDialog() == true)
             {
                 Trait newTrait = vm.GetTrait();
-                if (_vm.MasterTraitList.Select(x => x.Name).Contains(newTrait.Name))
+                if (MasterTraitList.Select(x => x.Name).Contains(newTrait.Name))
                 {
                     string messageBoxText = "Trait with same name already exists";
                     string caption = "Duplicate";
@@ -505,13 +636,13 @@ public class TraitHandler
                 }
                 else
                 {
-                    _vm.MasterTraitList.Add(newTrait);
+                    MasterTraitList.Add(newTrait);
 
                     UpdateTraitCustomTags();
                     ApplyTraitFilters();
-                    if (_vm.FilteredTraitList.Contains(newTrait))
+                    if (FilteredTraitList.Contains(newTrait))
                     {
-                        _vm.SelectedTrait = newTrait;
+                        SelectedTrait = newTrait;
                     }
                 }
             }
@@ -525,28 +656,28 @@ public class TraitHandler
             MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        _vm.RefreshButtonState();
+        RefreshButtonState();
     }
 
     internal void TraitSearchRemovePlaceholderTextAction(object arg)
     {
-        if (_vm.TraitSearchText == RegexHandler.SearchPlaceholderText)
+        if (TraitSearchText == RegexHandler.SearchPlaceholderText)
         {
-            _vm.TraitSearchText = "";
+            TraitSearchText = "";
         }
     }
 
     internal void TraitSearchAddPlaceholderTextAction(object arg)
     {
-        if (string.IsNullOrWhiteSpace(_vm.TraitSearchText))
+        if (string.IsNullOrWhiteSpace(TraitSearchText))
         {
-            _vm.TraitSearchText = RegexHandler.SearchPlaceholderText;
+            TraitSearchText = RegexHandler.SearchPlaceholderText;
         }
     }
 
     internal void RemoveTraitAction(object arg)
     {
-        if (_vm.SelectedTrait != null)
+        if (SelectedTrait != null)
         {
             string messageBoxText = "Trait will be removed. Are you sure?";
             string caption = "Warning";
@@ -556,10 +687,10 @@ public class TraitHandler
 
             if (result == MessageBoxResult.Yes)
             {
-                _vm.MasterTraitList.Remove(_vm.SelectedTrait);
-                _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
-                _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
-                _vm.SelectedTrait = null;
+                MasterTraitList.Remove(SelectedTrait);
+                HiddenTraitList.Remove(SelectedTrait);
+                FavoriteTraitList.Remove(SelectedTrait);
+                SelectedTrait = null;
                 UpdateTraitCustomTags();
                 ApplyTraitFilters();
             }
@@ -568,11 +699,11 @@ public class TraitHandler
 
     internal void RemoveFavoriteTraitAction(object arg)
     {
-        if (_vm.SelectedTrait != null && _vm.FavoriteTraitList.Contains(_vm.SelectedTrait))
+        if (SelectedTrait != null && FavoriteTraitList.Contains(SelectedTrait))
         {
-            _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
+            FavoriteTraitList.Remove(SelectedTrait);
 
-            _vm.SelectedTrait = null;
+            SelectedTrait = null;
             UpdateTraitCustomTags();
             ApplyTraitFilters();
         }
@@ -580,13 +711,18 @@ public class TraitHandler
 
     internal void RemoveHiddenTraitAction(object arg)
     {
-        if (_vm.SelectedTrait != null && _vm.HiddenTraitList.Contains(_vm.SelectedTrait))
+        if (SelectedTrait != null && HiddenTraitList.Contains(SelectedTrait))
         {
-            _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
+            HiddenTraitList.Remove(SelectedTrait);
 
-            _vm.SelectedTrait = null;
+            SelectedTrait = null;
             UpdateTraitCustomTags();
             ApplyTraitFilters();
         }
+    }
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
