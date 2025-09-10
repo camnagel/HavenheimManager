@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using AssetManager.Calculators;
-using AssetManager.Containers;
-using AssetManager.Enums;
-using AssetManager.Extensions;
+using HavenheimManager.Calculators;
+using HavenheimManager.Containers;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
 
-namespace AssetManager.Editors;
+namespace HavenheimManager.Editors;
 
 public class BonusCalcViewModel : INotifyPropertyChanged
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace AssetManager.Editors
+namespace HavenheimManager.Editors
 {
     /// <summary>
     /// Interaction logic for InputBox.xaml

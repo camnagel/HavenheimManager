@@ -1,4 +1,4 @@
-﻿namespace AssetManager.Containers
+﻿namespace HavenheimManager.Containers
 {
     public class CheckboxKvp
     {

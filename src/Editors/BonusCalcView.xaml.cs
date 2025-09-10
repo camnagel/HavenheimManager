@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AssetManager.Editors;
+namespace HavenheimManager.Editors;
 
 /// <summary>
 ///     Interaction logic for BonusCalcView.xaml

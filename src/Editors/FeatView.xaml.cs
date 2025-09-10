@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
-using AssetManager.Enums;
-using AssetManager.Extensions;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
 
-namespace AssetManager.Editors;
+namespace HavenheimManager.Editors;
 
 /// <summary>
 ///     Interaction logic for FeatView.xaml

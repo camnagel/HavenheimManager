@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
-using AssetManager.Calculators;
-using AssetManager.Editors;
-using AssetManager.Enums;
-using AssetManager.Extensions;
+using HavenheimManager.Calculators;
+using HavenheimManager.Editors;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
 
-namespace AssetManager.Handlers;
+namespace HavenheimManager.Handlers;
 
 public class CraftHandler
 {

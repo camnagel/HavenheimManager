@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace AssetManager.Enums
+namespace HavenheimManager.Enums
 {
     public enum Condition
     {

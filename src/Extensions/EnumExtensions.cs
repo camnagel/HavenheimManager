@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using AssetManager.Enums;
-using AssetManager.Handlers;
-using AssetManager.Import;
+using HavenheimManager.Enums;
+using HavenheimManager.Handlers;
+using HavenheimManager.Import;
 
-namespace AssetManager.Extensions;
+namespace HavenheimManager.Extensions;
 
 public static class EnumExtensions
 {

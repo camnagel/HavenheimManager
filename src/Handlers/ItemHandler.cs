@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using AssetManager.Containers;
-using AssetManager.Editors;
-using AssetManager.Enums;
-using AssetManager.Extensions;
-using Condition = AssetManager.Enums.Condition;
+using HavenheimManager.Containers;
+using HavenheimManager.Editors;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using Condition = HavenheimManager.Enums.Condition;
 
-namespace AssetManager.Handlers;
+namespace HavenheimManager.Handlers;
 
 public class ItemHandler
 {

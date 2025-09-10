@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
-using AssetManager.Enums;
-using AssetManager.Extensions;
-using Condition = AssetManager.Enums.Condition;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using Condition = HavenheimManager.Enums.Condition;
 
-namespace AssetManager;
+namespace HavenheimManager;
 
 /// <summary>
 ///     Interaction logic for MainWindow.xaml

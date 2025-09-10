@@ -1,7 +1,7 @@
-﻿using AssetManager.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HavenheimManager.Enums;
 
-namespace AssetManager.Containers
+namespace HavenheimManager.Containers
 {
     public class Trait : ISummary, ITaggable
     {

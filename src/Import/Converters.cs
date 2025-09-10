@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AssetManager.Enums;
-using AssetManager.Extensions;
-using AssetManager.Handlers;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using HavenheimManager.Handlers;
 
-namespace AssetManager.Import
+namespace HavenheimManager.Import
 {
     public class SourceConverter<T> : DefaultTypeConverter
     {

@@ -4,15 +4,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.Json;
 using System.Windows;
-using AssetManager.Containers;
-using AssetManager.Enums;
-using AssetManager.Extensions;
-using AssetManager.Handlers;
-using AssetManager.Import;
+using HavenheimManager.Containers;
+using HavenheimManager.Extensions;
+using HavenheimManager.Handlers;
+using HavenheimManager.Import;
 using Microsoft.Win32;
 using File = System.IO.File;
 
-namespace AssetManager
+namespace HavenheimManager
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {

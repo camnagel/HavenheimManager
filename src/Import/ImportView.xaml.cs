@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace AssetManager.Import
+namespace HavenheimManager.Import
 {
     /// <summary>
     /// Interaction logic for ImportView.xaml

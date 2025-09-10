@@ -1,6 +1,6 @@
-﻿using AssetManager.Editors;
+﻿using HavenheimManager.Editors;
 
-namespace AssetManager.Containers;
+namespace HavenheimManager.Containers;
 
 public class BonusSvp
 {

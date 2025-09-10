@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace AssetManager
+namespace HavenheimManager
 {
     /// <summary>
     /// Interaction logic for App.xaml

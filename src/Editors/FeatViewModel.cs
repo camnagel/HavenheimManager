@@ -1,15 +1,15 @@
-﻿using AssetManager.Containers;
-using AssetManager.Enums;
-using AssetManager.Handlers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using AssetManager.Extensions;
-using Condition = AssetManager.Enums.Condition;
+using HavenheimManager.Containers;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using HavenheimManager.Handlers;
+using Condition = HavenheimManager.Enums.Condition;
 
-namespace AssetManager.Editors
+namespace HavenheimManager.Editors
 {
     public class FeatViewModel : INotifyPropertyChanged
     {

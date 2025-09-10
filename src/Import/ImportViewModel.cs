@@ -1,10 +1,9 @@
-﻿using AssetManager.Enums;
-using Microsoft.Win32;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
-using AssetManager.Extensions;
+using HavenheimManager.Extensions;
+using Microsoft.Win32;
 
-namespace AssetManager.Import
+namespace HavenheimManager.Import
 {
     public class ImportViewModel : INotifyPropertyChanged
     {

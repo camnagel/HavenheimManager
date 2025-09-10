@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace AssetManager
+namespace HavenheimManager
 {
     public class DelegateCommand : ICommand
     {

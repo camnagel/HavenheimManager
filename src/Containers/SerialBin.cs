@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace AssetManager.Containers
+﻿namespace HavenheimManager.Containers
 {
     public class SerialBin
     {

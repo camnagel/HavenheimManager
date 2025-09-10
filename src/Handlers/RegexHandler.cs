@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace AssetManager.Handlers
+namespace HavenheimManager.Handlers
 {
     public static class RegexHandler
     {

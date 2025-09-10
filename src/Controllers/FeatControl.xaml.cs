@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace AssetManager.Controllers;
+namespace HavenheimManager.Controllers;
 
 /// <summary>
 ///     Interaction logic for FeatControl.xaml

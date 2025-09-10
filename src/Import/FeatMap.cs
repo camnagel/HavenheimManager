@@ -1,8 +1,8 @@
-﻿using AssetManager.Containers;
-using AssetManager.Enums;
-using CsvHelper.Configuration;
+﻿using CsvHelper.Configuration;
+using HavenheimManager.Containers;
+using HavenheimManager.Enums;
 
-namespace AssetManager.Import
+namespace HavenheimManager.Import
 {
     public class FeatMap : ClassMap<Feat>
     {

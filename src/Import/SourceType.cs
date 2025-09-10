@@ -1,4 +1,4 @@
-﻿namespace AssetManager.Import
+﻿namespace HavenheimManager.Import
 {
     public enum SourceType
     {

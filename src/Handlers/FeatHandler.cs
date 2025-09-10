@@ -1,17 +1,14 @@
-﻿using AssetManager.Containers;
-using AssetManager.Editors;
-using AssetManager.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using AssetManager.Extensions;
-using Condition = AssetManager.Enums.Condition;
+using HavenheimManager.Containers;
+using HavenheimManager.Editors;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using Condition = HavenheimManager.Enums.Condition;
 
-namespace AssetManager.Handlers
+namespace HavenheimManager.Handlers
 {
     public class FeatHandler
     {

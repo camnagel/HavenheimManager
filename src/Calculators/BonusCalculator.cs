@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AssetManager.Enums;
-using AssetManager.Extensions;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
 
-namespace AssetManager.Calculators;
+namespace HavenheimManager.Calculators;
 
 internal class BonusCalculator
 {

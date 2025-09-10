@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AssetManager.Containers;
+using HavenheimManager.Containers;
 
-namespace AssetManager.Extensions;
+namespace HavenheimManager.Extensions;
 
 internal static class TypeExtensions
 {

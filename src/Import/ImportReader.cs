@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using AssetManager.Containers;
 using CsvHelper;
+using HavenheimManager.Containers;
 
-namespace AssetManager.Import
+namespace HavenheimManager.Import
 {
     internal class ImportReader
     {

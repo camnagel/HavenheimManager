@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using AssetManager.Containers;
-using AssetManager.Enums;
-using AssetManager.Extensions;
-using AssetManager.Handlers;
-using Condition = AssetManager.Enums.Condition;
+using HavenheimManager.Containers;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using HavenheimManager.Handlers;
+using Condition = HavenheimManager.Enums.Condition;
 
-namespace AssetManager.Editors
+namespace HavenheimManager.Editors
 {
     public class TraitViewModel : INotifyPropertyChanged
     {
