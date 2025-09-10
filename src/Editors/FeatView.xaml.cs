@@ -15,12 +15,12 @@ public partial class FeatView : Window
         DataContext = vm;
         InitializeComponent();
 
-        sourceBox.Items.Add("Select Source");
+        SourceBox.Items.Add("Select Source");
         foreach (Source item in Enum.GetValues(typeof(Source)))
         {
-            sourceBox.Items.Add(item.GetEnumDescription());
+            SourceBox.Items.Add(item.GetEnumDescription());
         }
 
-        sourceBox.SelectedIndex = vm.FeatSource.Length > 0 ? sourceBox.Items.IndexOf(vm.FeatSource) : 0;
+        SourceBox.SelectedIndex = vm.FeatSource.Length > 0 ? SourceBox.Items.IndexOf(vm.FeatSource) : 0;
     }
 }

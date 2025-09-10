@@ -9,369 +9,375 @@ using HavenheimManager.Extensions;
 using HavenheimManager.Handlers;
 using Condition = HavenheimManager.Enums.Condition;
 
-namespace HavenheimManager.Editors
+namespace HavenheimManager.Editors;
+
+public class TraitViewModel : INotifyPropertyChanged
 {
-    public class TraitViewModel : INotifyPropertyChanged
+    private string _selectedCustomTag;
+
+    private string _selectedPrereq;
+
+    private string _traitDescription;
+    private string _traitName;
+
+    private string _traitNotes;
+
+    private string _traitSource;
+
+    private string _traitUrl;
+
+    public TraitViewModel(Trait trait)
     {
-        private string _traitName;
-        public string TraitName
-        {
-            get => _traitName;
-            set
-            {
-                _traitName = value;
+        AcceptTraitCommand = new DelegateCommand(AcceptTraitAction);
+        CancelCommand = new DelegateCommand(CancelAction);
+        AddPrereqCommand = new DelegateCommand(AddPrereqAction);
+        RemovePrereqCommand = new DelegateCommand(RemovePrereqAction);
+        AddCustomTagCommand = new DelegateCommand(AddCustomTagAction);
+        RemoveCustomTagCommand = new DelegateCommand(RemoveCustomTagAction);
 
-                OnPropertyChanged("TraitName");
+        Trait = trait;
+
+        TraitName = Trait.Name;
+        TraitDescription = Trait.Description;
+        TraitUrl = Trait.Url;
+        TraitNotes = Trait.Notes;
+        TraitSource = Trait.Source != Source.Unknown ? Trait.Source.GetEnumDescription() : "";
+
+        foreach (string prereq in Trait.Prereqs)
+        {
+            Prereqs.Add(prereq);
+        }
+
+        foreach (string tag in Trait.CustomTags)
+        {
+            CustomTags.Add(tag);
+        }
+
+        foreach (Core item in Enum.GetValues(typeof(Core)))
+        {
+            string tag = item.GetEnumDescription();
+            CoreTags.Add(new CheckboxKvp(tag, trait.CoreTags.Contains(item)));
+        }
+
+        foreach (Skill item in Enum.GetValues(typeof(Skill)))
+        {
+            string tag = item.GetEnumDescription();
+            SkillTags.Add(new CheckboxKvp(tag, trait.SkillTags.Contains(item)));
+        }
+
+        foreach (Combat item in Enum.GetValues(typeof(Combat)))
+        {
+            string tag = item.GetEnumDescription();
+            CombatTags.Add(new CheckboxKvp(tag, trait.CombatTags.Contains(item)));
+        }
+
+        foreach (Role item in Enum.GetValues(typeof(Role)))
+        {
+            string tag = item.GetEnumDescription();
+            RoleTags.Add(new CheckboxKvp(tag, trait.RoleTags.Contains(item)));
+        }
+
+        foreach (Magic item in Enum.GetValues(typeof(Magic)))
+        {
+            string tag = item.GetEnumDescription();
+            MagicTags.Add(new CheckboxKvp(tag, trait.MagicTags.Contains(item)));
+        }
+
+        foreach (Bonus item in Enum.GetValues(typeof(Bonus)))
+        {
+            string tag = item.GetEnumDescription();
+            BonusTags.Add(new CheckboxKvp(tag, trait.BonusTags.Contains(item)));
+        }
+
+        foreach (Condition item in Enum.GetValues(typeof(Condition)))
+        {
+            string tag = item.GetEnumDescription();
+            ConditionTags.Add(new CheckboxKvp(tag, trait.ConditionTags.Contains(item)));
+        }
+
+        foreach (Class item in Enum.GetValues(typeof(Class)))
+        {
+            string tag = item.GetEnumDescription();
+            ClassTags.Add(new CheckboxKvp(tag, trait.ClassTags.Contains(item)));
+        }
+    }
+
+    public string TraitName
+    {
+        get => _traitName;
+        set
+        {
+            _traitName = value;
+
+            OnPropertyChanged("TraitName");
+        }
+    }
+
+    public string TraitDescription
+    {
+        get => _traitDescription;
+        set
+        {
+            _traitDescription = value;
+
+            OnPropertyChanged("TraitDescription");
+        }
+    }
+
+    public string TraitUrl
+    {
+        get => _traitUrl;
+        set
+        {
+            _traitUrl = value;
+
+            OnPropertyChanged("TraitUrl");
+        }
+    }
+
+    public string TraitNotes
+    {
+        get => _traitNotes;
+        set
+        {
+            _traitNotes = value;
+
+            OnPropertyChanged("TraitNotes");
+        }
+    }
+
+    public string TraitSource
+    {
+        get => _traitSource;
+        set
+        {
+            _traitSource = value;
+            OnPropertyChanged("TraitSource");
+        }
+    }
+
+    public string? SelectedPrereq
+    {
+        get => _selectedPrereq;
+        set
+        {
+            _selectedPrereq = value ?? string.Empty;
+            OnPropertyChanged("SelectedPrereq");
+        }
+    }
+
+    public string? SelectedCustomTag
+    {
+        get => _selectedCustomTag;
+        set
+        {
+            _selectedCustomTag = value ?? string.Empty;
+            OnPropertyChanged("SelectedCustomTag");
+        }
+    }
+
+    public Trait Trait { get; }
+
+    public ObservableCollection<string> CustomTags { get; set; } = new();
+
+    public ObservableCollection<string> Prereqs { get; set; } = new();
+
+    public IList<CheckboxKvp> CoreTags { get; set; } = new List<CheckboxKvp>();
+
+    public IList<CheckboxKvp> SkillTags { get; set; } = new List<CheckboxKvp>();
+
+    public IList<CheckboxKvp> ClassTags { get; set; } = new List<CheckboxKvp>();
+
+    public IList<CheckboxKvp> CombatTags { get; set; } = new List<CheckboxKvp>();
+
+    public IList<CheckboxKvp> RoleTags { get; set; } = new List<CheckboxKvp>();
+
+    public IList<CheckboxKvp> MagicTags { get; set; } = new List<CheckboxKvp>();
+
+    public IList<CheckboxKvp> BonusTags { get; set; } = new List<CheckboxKvp>();
+
+    public IList<CheckboxKvp> ConditionTags { get; set; } = new List<CheckboxKvp>();
+
+    public DelegateCommand AcceptTraitCommand { get; }
+    public DelegateCommand CancelCommand { get; }
+    public DelegateCommand AddCustomTagCommand { get; }
+    public DelegateCommand RemoveCustomTagCommand { get; }
+    public DelegateCommand AddPrereqCommand { get; }
+    public DelegateCommand RemovePrereqCommand { get; }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public Trait GetTrait()
+    {
+        Trait.Name = TraitName;
+        Trait.Description = TraitDescription;
+        Trait.Url = TraitUrl;
+        Trait.Notes = TraitNotes;
+        Trait.Source = TraitSource.StringToSource();
+
+        Trait.Prereqs.Clear();
+        foreach (string prereq in Prereqs)
+        {
+            Trait.Prereqs.Add(prereq);
+        }
+
+        Trait.CustomTags.Clear();
+        foreach (string tag in CustomTags)
+        {
+            Trait.CustomTags.Add(tag);
+        }
+
+        Trait.CoreTags.Clear();
+        foreach (CheckboxKvp tag in CoreTags)
+        {
+            if (tag.Value)
+            {
+                Trait.CoreTags.Add(tag.Key.StringToCore());
             }
         }
 
-        private string _traitDescription;
-        public string TraitDescription
+        Trait.SkillTags.Clear();
+        foreach (CheckboxKvp tag in SkillTags)
         {
-            get => _traitDescription;
-            set
+            if (tag.Value)
             {
-                _traitDescription = value;
-
-                OnPropertyChanged("TraitDescription");
+                Trait.SkillTags.Add(tag.Key.StringToSkill());
             }
         }
 
-        private string _traitUrl;
-        public string TraitUrl
+        Trait.ClassTags.Clear();
+        foreach (CheckboxKvp tag in ClassTags)
         {
-            get => _traitUrl;
-            set
+            if (tag.Value)
             {
-                _traitUrl = value;
-
-                OnPropertyChanged("TraitUrl");
+                Trait.ClassTags.Add(tag.Key.StringToClass());
             }
         }
 
-        private string _traitNotes;
-        public string TraitNotes
+        Trait.CombatTags.Clear();
+        foreach (CheckboxKvp tag in CombatTags)
         {
-            get => _traitNotes;
-            set
+            if (tag.Value)
             {
-                _traitNotes = value;
-
-                OnPropertyChanged("TraitNotes");
+                Trait.CombatTags.Add(tag.Key.StringToCombat());
             }
         }
 
-        private string _traitSource;
-        public string TraitSource
+        Trait.RoleTags.Clear();
+        foreach (CheckboxKvp tag in RoleTags)
         {
-            get => _traitSource;
-            set
+            if (tag.Value)
             {
-                _traitSource = value;
-                OnPropertyChanged("TraitSource");
+                Trait.RoleTags.Add(tag.Key.StringToRole());
             }
         }
 
-        private string _selectedPrereq;
-        public string? SelectedPrereq
+        Trait.MagicTags.Clear();
+        foreach (CheckboxKvp tag in MagicTags)
         {
-            get => _selectedPrereq;
-            set
+            if (tag.Value)
             {
-                _selectedPrereq = value ?? string.Empty;
-                OnPropertyChanged("SelectedPrereq");
+                Trait.MagicTags.Add(tag.Key.StringToMagic());
             }
         }
 
-        private string _selectedCustomTag;
-        public string? SelectedCustomTag
+        Trait.BonusTags.Clear();
+        foreach (CheckboxKvp tag in BonusTags)
         {
-            get => _selectedCustomTag;
-            set
+            if (tag.Value)
             {
-                _selectedCustomTag = value ?? string.Empty;
-                OnPropertyChanged("SelectedCustomTag");
+                Trait.BonusTags.Add(tag.Key.StringToBonus());
             }
         }
 
-        public Trait Trait { get; }
-
-        public ObservableCollection<string> CustomTags { get; set; } = new ObservableCollection<string>();
-
-        public ObservableCollection<string> Prereqs { get; set; } = new ObservableCollection<string>();
-
-        public IList<CheckboxKvp> CoreTags { get; set; } = new List<CheckboxKvp>();
-
-        public IList<CheckboxKvp> SkillTags { get; set; } = new List<CheckboxKvp>();
-
-        public IList<CheckboxKvp> ClassTags { get; set; } = new List<CheckboxKvp>();
-
-        public IList<CheckboxKvp> CombatTags { get; set; } = new List<CheckboxKvp>();
-
-        public IList<CheckboxKvp> RoleTags { get; set; } = new List<CheckboxKvp>();
-
-        public IList<CheckboxKvp> MagicTags { get; set; } = new List<CheckboxKvp>();
-
-        public IList<CheckboxKvp> BonusTags { get; set; } = new List<CheckboxKvp>();
-
-        public IList<CheckboxKvp> ConditionTags { get; set; } = new List<CheckboxKvp>();
-
-        public DelegateCommand AcceptTraitCommand { get; }
-        public DelegateCommand CancelCommand { get; }
-        public DelegateCommand AddCustomTagCommand { get; }
-        public DelegateCommand RemoveCustomTagCommand { get; }
-        public DelegateCommand AddPrereqCommand { get; }
-        public DelegateCommand RemovePrereqCommand { get; }
-
-        public TraitViewModel(Trait trait)
+        Trait.ConditionTags.Clear();
+        foreach (CheckboxKvp tag in ConditionTags)
         {
-            AcceptTraitCommand = new DelegateCommand(AcceptTraitAction);
-            CancelCommand = new DelegateCommand(CancelAction);
-            AddPrereqCommand = new DelegateCommand(AddPrereqAction);
-            RemovePrereqCommand = new DelegateCommand(RemovePrereqAction);
-            AddCustomTagCommand = new DelegateCommand(AddCustomTagAction);
-            RemoveCustomTagCommand = new DelegateCommand(RemoveCustomTagAction);
-
-            Trait = trait;
-
-            TraitName = Trait.Name;
-            TraitDescription = Trait.Description;
-            TraitUrl = Trait.Url;
-            TraitNotes = Trait.Notes;
-            TraitSource = (Trait.Source != Source.Unknown) ? Trait.Source.GetEnumDescription() : "";
-
-            foreach (string prereq in Trait.Prereqs)
+            if (tag.Value)
             {
-                Prereqs.Add(prereq);
-            }
-
-            foreach (string tag in Trait.CustomTags)
-            {
-                CustomTags.Add(tag);
-            }
-
-            foreach (Core item in Enum.GetValues(typeof(Core)))
-            {
-                string tag = item.GetEnumDescription();
-                CoreTags.Add(new CheckboxKvp(tag, trait.CoreTags.Contains(item)));
-            }
-
-            foreach (Skill item in Enum.GetValues(typeof(Skill)))
-            {
-                string tag = item.GetEnumDescription();
-                SkillTags.Add(new CheckboxKvp(tag, trait.SkillTags.Contains(item)));
-            }
-
-            foreach (Combat item in Enum.GetValues(typeof(Combat)))
-            {
-                string tag = item.GetEnumDescription();
-                CombatTags.Add(new CheckboxKvp(tag, trait.CombatTags.Contains(item)));
-            }
-
-            foreach (Role item in Enum.GetValues(typeof(Role)))
-            {
-                string tag = item.GetEnumDescription();
-                RoleTags.Add(new CheckboxKvp(tag, trait.RoleTags.Contains(item)));
-            }
-
-            foreach (Magic item in Enum.GetValues(typeof(Magic)))
-            {
-                string tag = item.GetEnumDescription();
-                MagicTags.Add(new CheckboxKvp(tag, trait.MagicTags.Contains(item)));
-            }
-
-            foreach (Bonus item in Enum.GetValues(typeof(Bonus)))
-            {
-                string tag = item.GetEnumDescription();
-                BonusTags.Add(new CheckboxKvp(tag, trait.BonusTags.Contains(item)));
-            }
-
-            foreach (Condition item in Enum.GetValues(typeof(Condition)))
-            {
-                string tag = item.GetEnumDescription();
-                ConditionTags.Add(new CheckboxKvp(tag, trait.ConditionTags.Contains(item)));
-            }
-
-            foreach (Class item in Enum.GetValues(typeof(Class)))
-            {
-                string tag = item.GetEnumDescription();
-                ClassTags.Add(new CheckboxKvp(tag, trait.ClassTags.Contains(item)));
+                Trait.ConditionTags.Add(tag.Key.StringToCondition());
             }
         }
 
-        public Trait GetTrait()
+        return Trait;
+    }
+
+    private void AddPrereqAction(object arg)
+    {
+        InputBox box = new("Prereq:");
+        box.ShowDialog();
+
+        if (box.DialogResult == true)
         {
-            Trait.Name = TraitName;
-            Trait.Description = TraitDescription;
-            Trait.Url = TraitUrl;
-            Trait.Notes = TraitNotes;
-            Trait.Source = TraitSource.StringToSource();
+            Prereqs.Add(box.GetInput());
+        }
+    }
 
-            Trait.Prereqs.Clear();
-            foreach (string prereq in Prereqs)
-            {
-                Trait.Prereqs.Add(prereq);
-            }
+    private void RemovePrereqAction(object arg)
+    {
+        if (SelectedPrereq != null)
+        {
+            Prereqs.Remove(SelectedPrereq);
+            SelectedPrereq = null;
+        }
+    }
 
-            Trait.CustomTags.Clear();
-            foreach (string tag in CustomTags)
-            {
-                Trait.CustomTags.Add(tag);
-            }
+    private void AddCustomTagAction(object arg)
+    {
+        InputBox box = new("Custom Tag:");
+        box.ShowDialog();
 
-            Trait.CoreTags.Clear();
-            foreach (CheckboxKvp tag in CoreTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.CoreTags.Add(tag.Key.StringToCore());
-                }
-            }
+        if (box.DialogResult == true)
+        {
+            CustomTags.Add(box.GetInput());
+        }
+    }
 
-            Trait.SkillTags.Clear();
-            foreach (CheckboxKvp tag in SkillTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.SkillTags.Add(tag.Key.StringToSkill());
-                }
-            }
+    private void RemoveCustomTagAction(object arg)
+    {
+        if (SelectedCustomTag != null)
+        {
+            CustomTags.Remove(SelectedCustomTag);
+            SelectedCustomTag = null;
+        }
+    }
 
-            Trait.ClassTags.Clear();
-            foreach (CheckboxKvp tag in ClassTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.ClassTags.Add(tag.Key.StringToClass());
-                }
-            }
+    private void AcceptTraitAction(object arg)
+    {
+        if (TraitName == null || string.IsNullOrEmpty(RegexHandler.SanitizationFilter.Replace(TraitName, "")))
+        {
+            string messageBoxText = "Trait must have a name";
+            string caption = "Error";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Error;
 
-            Trait.CombatTags.Clear();
-            foreach (CheckboxKvp tag in CombatTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.CombatTags.Add(tag.Key.StringToCombat());
-                }
-            }
-
-            Trait.RoleTags.Clear();
-            foreach (CheckboxKvp tag in RoleTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.RoleTags.Add(tag.Key.StringToRole());
-                }
-            }
-
-            Trait.MagicTags.Clear();
-            foreach (CheckboxKvp tag in MagicTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.MagicTags.Add(tag.Key.StringToMagic());
-                }
-            }
-
-            Trait.BonusTags.Clear();
-            foreach (CheckboxKvp tag in BonusTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.BonusTags.Add(tag.Key.StringToBonus());
-                }
-            }
-
-            Trait.ConditionTags.Clear();
-            foreach (CheckboxKvp tag in ConditionTags)
-            {
-                if (tag.Value)
-                {
-                    Trait.ConditionTags.Add(tag.Key.StringToCondition());
-                }
-            }
-
-            return Trait;
+            MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+            return;
         }
 
-        private void AddPrereqAction(object arg)
+        if (arg is Window window)
         {
-            InputBox box = new InputBox("Prereq:");
-            box.ShowDialog();
-
-            if (box.DialogResult == true)
-            {
-                Prereqs.Add(box.GetInput());
-            }
+            window.DialogResult = true;
         }
+    }
 
-        private void RemovePrereqAction(object arg)
+    private void CancelAction(object arg)
+    {
+        string messageBoxText = "Unsaved changes will be lost. Are you sure?";
+        string caption = "Warning";
+        MessageBoxButton button = MessageBoxButton.YesNo;
+        MessageBoxImage icon = MessageBoxImage.Warning;
+        MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
+
+        if (result == MessageBoxResult.Yes && arg is Window window)
         {
-            if (SelectedPrereq != null)
-            {
-                Prereqs.Remove(SelectedPrereq);
-                SelectedPrereq = null;
-            }
+            window.DialogResult = false;
+            window.Close();
         }
+    }
 
-        private void AddCustomTagAction(object arg)
-        {
-            InputBox box = new InputBox("Custom Tag:");
-            box.ShowDialog();
-
-            if (box.DialogResult == true)
-            {
-                CustomTags.Add(box.GetInput());
-            }
-        }
-
-        private void RemoveCustomTagAction(object arg)
-        {
-            if (SelectedCustomTag != null)
-            {
-                CustomTags.Remove(SelectedCustomTag);
-                SelectedCustomTag = null;
-            }
-        }
-
-        private void AcceptTraitAction(object arg)
-        {
-            if (TraitName == null || string.IsNullOrEmpty(RegexHandler.SanitizationFilter.Replace(TraitName, "")))
-            {
-                string messageBoxText = "Trait must have a name";
-                string caption = "Error";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-
-                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
-                return;
-            }
-
-            if (arg is Window window)
-            {
-                window.DialogResult = true;
-            }
-        }
-
-        private void CancelAction(object arg)
-        {
-            string messageBoxText = "Unsaved changes will be lost. Are you sure?";
-            string caption = "Warning";
-            MessageBoxButton button = MessageBoxButton.YesNo;
-            MessageBoxImage icon = MessageBoxImage.Warning;
-            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
-
-            if (result == MessageBoxResult.Yes && arg is Window window)
-            {
-                window.DialogResult = false;
-                window.Close();
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

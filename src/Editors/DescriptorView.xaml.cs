@@ -1,16 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using HavenheimManager.Editors;
 
 namespace HavenheimManager.Editors;
 
 /// <summary>
-///     Interaction logic for BonusCalcView.xaml
+///     Interaction logic for DescriptorView.xaml
 /// </summary>
-public partial class BonusCalcView : Window
+public partial class DescriptorView : Window
 {
-    public BonusCalcView(BonusCalcViewModel vm)
+    public DescriptorView(DescriptorViewModel vm)
     {
         DataContext = vm;
         InitializeComponent();
@@ -18,6 +17,9 @@ public partial class BonusCalcView : Window
 
     private void DeselectRow(object sender, MouseButtonEventArgs e)
     {
-        if (sender is DataGrid grid) grid.UnselectAll();
+        if (sender is DataGrid grid)
+        {
+            grid.UnselectAll();
+        }
     }
 }

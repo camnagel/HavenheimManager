@@ -15,7 +15,11 @@ namespace HavenheimManager.Handlers
         public TraitHandler(MainWindowViewModel vm)
         {
             _vm = vm;
+
+            CoreTraitCheckboxCommand = new DelegateCommand(TraitCoreFilterAction);
         }
+
+        public DelegateCommand CoreTraitCheckboxCommand { get; }
 
         private readonly MainWindowViewModel _vm;
 
@@ -59,6 +63,11 @@ namespace HavenheimManager.Handlers
 
                 ApplyTraitFilters();
             }
+        }
+
+        public void RefreshButtonState()
+        {
+            CoreTraitCheckboxCommand.RaiseCanExecuteChanged();
         }
 
         internal void TraitSkillFilterAction(object arg)

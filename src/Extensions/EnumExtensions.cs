@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 using HavenheimManager.Enums;
 using HavenheimManager.Handlers;
 using HavenheimManager.Import;
@@ -10,7 +11,10 @@ public static class EnumExtensions
 {
     public static string GetEnumDescription<T>(this T enumValue) where T : Enum
     {
-        var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+
+        if (fieldInfo == null)
+            return String.Empty;
 
         DescriptionAttribute[] descriptionAttributes =
             (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -668,5 +672,19 @@ public static class EnumExtensions
 
         throw new ArgumentOutOfRangeException(nameof(workshopName),
             "Could not determine requested workshop: " + workshopName);
+    }
+
+    public static AppMode StringToAppMode(this string appMode)
+    {
+        switch (appMode.Sanitize())
+        {
+            case "pathfinder":
+                return AppMode.Pathfinder;
+            case "pathoftheowl":
+                return AppMode.Havenheim;
+        }
+
+        throw new ArgumentOutOfRangeException(nameof(appMode),
+            "Could not determine requested app mode: " + appMode);
     }
 }

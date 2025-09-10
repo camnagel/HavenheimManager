@@ -14,7 +14,7 @@
                         <TextBox Text="{Binding FeatName}" Width="256" Height="20" Background="DimGray" Foreground="AliceBlue"/>
 
                         <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
-                        <ComboBox x:Name="sourceBox" Width="150" Height="22"
+                        <ComboBox x:Name="SourceBox" Width="150" Height="22"
                                   SelectedItem="{Binding FeatSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 

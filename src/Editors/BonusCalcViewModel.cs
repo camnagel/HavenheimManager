@@ -216,11 +216,11 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         UpdateActiveBonuses();
     }
 
-    public DelegateCommand AcceptChangesCommand { get; }
+    internal DelegateCommand AcceptChangesCommand { get; }
 
-    public DelegateCommand CancelCommand { get; }
+    internal DelegateCommand CancelCommand { get; }
 
-    public BonusSvp? SelectedAlchemicalBonus
+    internal BonusSvp? SelectedAlchemicalBonus
     {
         get => _selectedAlchemicalBonus;
         set
@@ -230,13 +230,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddAlchemicalBonusCommand { get; }
+    internal DelegateCommand AddAlchemicalBonusCommand { get; }
 
-    public DelegateCommand RemoveAlchemicalBonusCommand { get; }
+    internal DelegateCommand RemoveAlchemicalBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> AlchemicalBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> AlchemicalBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedArmorBonus
+    internal BonusSvp? SelectedArmorBonus
     {
         get => _selectedArmorBonus;
         set
@@ -246,13 +246,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddArmorBonusCommand { get; }
+    internal DelegateCommand AddArmorBonusCommand { get; }
 
-    public DelegateCommand RemoveArmorBonusCommand { get; }
+    internal DelegateCommand RemoveArmorBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> ArmorBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> ArmorBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedBabBonus
+    internal BonusSvp? SelectedBabBonus
     {
         get => _selectedBabBonus;
         set
@@ -262,13 +262,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddBabBonusCommand { get; }
+    internal DelegateCommand AddBabBonusCommand { get; }
 
-    public DelegateCommand RemoveBabBonusCommand { get; }
+    internal DelegateCommand RemoveBabBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> BabBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> BabBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedCompetenceBonus
+    internal BonusSvp? SelectedCompetenceBonus
     {
         get => _selectedCompetenceBonus;
         set
@@ -278,13 +278,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddCompetenceBonusCommand { get; }
+    internal DelegateCommand AddCompetenceBonusCommand { get; }
 
-    public DelegateCommand RemoveCompetenceBonusCommand { get; }
+    internal DelegateCommand RemoveCompetenceBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> CompetenceBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> CompetenceBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedEnhancementBonus
+    internal BonusSvp? SelectedEnhancementBonus
     {
         get => _selectedEnhancementBonus;
         set
@@ -294,13 +294,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddEnhancementBonusCommand { get; }
+    internal DelegateCommand AddEnhancementBonusCommand { get; }
 
-    public DelegateCommand RemoveEnhancementBonusCommand { get; }
+    internal DelegateCommand RemoveEnhancementBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> EnhancementBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> EnhancementBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedDeflectionBonus
+    internal BonusSvp? SelectedDeflectionBonus
     {
         get => _selectedDeflectionBonus;
         set
@@ -310,13 +310,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddDeflectionBonusCommand { get; }
+    internal DelegateCommand AddDeflectionBonusCommand { get; }
 
-    public DelegateCommand RemoveDeflectionBonusCommand { get; }
+    internal DelegateCommand RemoveDeflectionBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> DeflectionBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> DeflectionBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedInherentBonus
+    internal BonusSvp? SelectedInherentBonus
     {
         get => _selectedInherentBonus;
         set
@@ -326,13 +326,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddInherentBonusCommand { get; }
+    internal DelegateCommand AddInherentBonusCommand { get; }
 
-    public DelegateCommand RemoveInherentBonusCommand { get; }
+    internal DelegateCommand RemoveInherentBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> InherentBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> InherentBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedInsightBonus
+    internal BonusSvp? SelectedInsightBonus
     {
         get => _selectedInsightBonus;
         set
@@ -342,13 +342,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddInsightBonusCommand { get; }
+    internal DelegateCommand AddInsightBonusCommand { get; }
 
-    public DelegateCommand RemoveInsightBonusCommand { get; }
+    internal DelegateCommand RemoveInsightBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> InsightBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> InsightBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedLuckBonus
+    internal BonusSvp? SelectedLuckBonus
     {
         get => _selectedLuckBonus;
         set
@@ -358,13 +358,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddLuckBonusCommand { get; }
+    internal DelegateCommand AddLuckBonusCommand { get; }
 
-    public DelegateCommand RemoveLuckBonusCommand { get; }
+    internal DelegateCommand RemoveLuckBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> LuckBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> LuckBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedMoraleBonus
+    internal BonusSvp? SelectedMoraleBonus
     {
         get => _selectedMoraleBonus;
         set
@@ -374,13 +374,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddMoraleBonusCommand { get; }
+    internal DelegateCommand AddMoraleBonusCommand { get; }
 
-    public DelegateCommand RemoveMoraleBonusCommand { get; }
+    internal DelegateCommand RemoveMoraleBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> MoraleBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> MoraleBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedProfaneBonus
+    internal BonusSvp? SelectedProfaneBonus
     {
         get => _selectedProfaneBonus;
         set
@@ -390,13 +390,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddProfaneBonusCommand { get; }
+    internal DelegateCommand AddProfaneBonusCommand { get; }
 
-    public DelegateCommand RemoveProfaneBonusCommand { get; }
+    internal DelegateCommand RemoveProfaneBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> ProfaneBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> ProfaneBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedRacialBonus
+    internal BonusSvp? SelectedRacialBonus
     {
         get => _selectedRacialBonus;
         set
@@ -406,13 +406,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddRacialBonusCommand { get; }
+    internal DelegateCommand AddRacialBonusCommand { get; }
 
-    public DelegateCommand RemoveRacialBonusCommand { get; }
+    internal DelegateCommand RemoveRacialBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> RacialBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> RacialBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedResistanceBonus
+    internal BonusSvp? SelectedResistanceBonus
     {
         get => _selectedResistanceBonus;
         set
@@ -422,13 +422,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddResistanceBonusCommand { get; }
+    internal DelegateCommand AddResistanceBonusCommand { get; }
 
-    public DelegateCommand RemoveResistanceBonusCommand { get; }
+    internal DelegateCommand RemoveResistanceBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> ResistanceBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> ResistanceBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedSacredBonus
+    internal BonusSvp? SelectedSacredBonus
     {
         get => _selectedSacredBonus;
         set
@@ -438,13 +438,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddSacredBonusCommand { get; }
+    internal DelegateCommand AddSacredBonusCommand { get; }
 
-    public DelegateCommand RemoveSacredBonusCommand { get; }
+    internal DelegateCommand RemoveSacredBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> SacredBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> SacredBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedShieldBonus
+    internal BonusSvp? SelectedShieldBonus
     {
         get => _selectedShieldBonus;
         set
@@ -454,13 +454,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddShieldBonusCommand { get; }
+    internal DelegateCommand AddShieldBonusCommand { get; }
 
-    public DelegateCommand RemoveShieldBonusCommand { get; }
+    internal DelegateCommand RemoveShieldBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> ShieldBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> ShieldBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedSizeBonus
+    internal BonusSvp? SelectedSizeBonus
     {
         get => _selectedSizeBonus;
         set
@@ -470,13 +470,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddSizeBonusCommand { get; }
+    internal DelegateCommand AddSizeBonusCommand { get; }
 
-    public DelegateCommand RemoveSizeBonusCommand { get; }
+    internal DelegateCommand RemoveSizeBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> SizeBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> SizeBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedTraitBonus
+    internal BonusSvp? SelectedTraitBonus
     {
         get => _selectedTraitBonus;
         set
@@ -486,13 +486,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddTraitBonusCommand { get; }
+    internal DelegateCommand AddTraitBonusCommand { get; }
 
-    public DelegateCommand RemoveTraitBonusCommand { get; }
+    internal DelegateCommand RemoveTraitBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> TraitBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> TraitBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedDodgeBonus
+    internal BonusSvp? SelectedDodgeBonus
     {
         get => _selectedDodgeBonus;
         set
@@ -502,13 +502,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddDodgeBonusCommand { get; }
+    internal DelegateCommand AddDodgeBonusCommand { get; }
 
-    public DelegateCommand RemoveDodgeBonusCommand { get; }
+    internal DelegateCommand RemoveDodgeBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> DodgeBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> DodgeBonuses { get; set; } = new();
 
-    public BonusSvp? SelectedUntypedBonus
+    internal BonusSvp? SelectedUntypedBonus
     {
         get => _selectedUntypedBonus;
         set
@@ -518,13 +518,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddUntypedBonusCommand { get; }
+    internal DelegateCommand AddUntypedBonusCommand { get; }
 
-    public DelegateCommand RemoveUntypedBonusCommand { get; }
+    internal DelegateCommand RemoveUntypedBonusCommand { get; }
 
-    public ObservableCollection<BonusSvp> UntypedBonuses { get; set; } = new();
+    internal ObservableCollection<BonusSvp> UntypedBonuses { get; set; } = new();
 
-    public BonusScv? SelectedCircumstanceBonus
+    internal BonusScv? SelectedCircumstanceBonus
     {
         get => _selectedCircumstanceBonus;
         set
@@ -534,13 +534,13 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddCircumstanceBonusCommand { get; }
+    internal DelegateCommand AddCircumstanceBonusCommand { get; }
 
-    public DelegateCommand RemoveCircumstanceBonusCommand { get; }
+    internal DelegateCommand RemoveCircumstanceBonusCommand { get; }
 
-    public ObservableCollection<BonusScv> CircumstanceBonuses { get; set; } = new();
+    internal ObservableCollection<BonusScv> CircumstanceBonuses { get; set; } = new();
 
-    public BonusScv? SelectedNaturalArmorBonus
+    internal BonusScv? SelectedNaturalArmorBonus
     {
         get => _selectedNaturalArmorBonus;
         set
@@ -550,15 +550,15 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public DelegateCommand AddNaturalArmorBonusCommand { get; }
+    internal DelegateCommand AddNaturalArmorBonusCommand { get; }
 
-    public DelegateCommand RemoveNaturalArmorBonusCommand { get; }
+    internal DelegateCommand RemoveNaturalArmorBonusCommand { get; }
 
-    public ObservableCollection<BonusScv> NaturalArmorBonuses { get; set; } = new();
+    internal ObservableCollection<BonusScv> NaturalArmorBonuses { get; set; } = new();
 
-    public ObservableCollection<BonusTsv> ActiveBonuses { get; set; } = new();
+    internal ObservableCollection<BonusTsv> ActiveBonuses { get; set; } = new();
 
-    public BonusTsv? SelectedActiveBonus
+    internal BonusTsv? SelectedActiveBonus
     {
         get => _selectedActiveBonus;
         set
@@ -568,7 +568,7 @@ public class BonusCalcViewModel : INotifyPropertyChanged
         }
     }
 
-    public int BonusTotal
+    internal int BonusTotal
     {
         get => _bonusTotal;
         set

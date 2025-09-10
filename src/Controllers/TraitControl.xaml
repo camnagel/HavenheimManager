@@ -56,7 +56,7 @@
                                             <CheckBox FontWeight="Normal"
                                                       Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CoreTraitCheckboxCommand}"
+                                        Path=DataContext.TraitHandler.CoreTraitCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
