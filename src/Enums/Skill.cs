@@ -19,12 +19,8 @@ public enum Skill
     [Description("Intimidate")] Intimidate,
     [Description("Knowledge (All)")] KnowledgeAll,
     [Description("Knowledge (Arcance)")] KnowledgeArcane,
-
-    [Description("Knowledge (Dungeoneering)")]
-    KnowledgeDungeoneering,
-
-    [Description("Knowledge (Engineering)")]
-    KnowledgeEngineering,
+    [Description("Knowledge (Dungeoneering)")] KnowledgeDungeoneering,
+    [Description("Knowledge (Engineering)")] KnowledgeEngineering,
     [Description("Knowledge (Geography)")] KnowledgeGeography,
     [Description("Knowledge (History)")] KnowledgeHistory,
     [Description("Knowledge (Local)")] KnowledgeLocal,

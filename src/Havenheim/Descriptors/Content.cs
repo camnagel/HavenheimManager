@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace HavenheimManager.Enums.Descriptors;
+namespace HavenheimManager.Havenheim.Descriptors;
 
 public enum Content
 {

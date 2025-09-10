@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 
-namespace HavenheimManager.Enums.Descriptors;
+namespace HavenheimManager.Havenheim.Descriptors;
 
-public enum System
+public enum Creature
 {
-    [Description("Environment")] Environment,
     [Description("Creature")] Creature,
-    [Description("Item")] Item,
+    [Description("Rating")] Rating,
+    [Description("Progression")] Progress,
     [Description("Crafting")] Crafting,
     [Description("Skill")] Skill,
     [Description("Class")] Class,

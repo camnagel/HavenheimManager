@@ -28,24 +28,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Handlers
         TraitHandler = new TraitHandler();
         FeatHandler = new FeatHandler();
-        
-
-        // Items
-        ItemHandler = new ItemHandler(this);
-        
-
-        // Crafting
-        CraftHandler = new CraftHandler(this);
-        CraftToolCheckboxCommand = new DelegateCommand(CraftHandler.CraftToolAction);
-        CraftWorkshopCheckboxCommand = new DelegateCommand(CraftHandler.CraftWorkshopAction);
-        CraftModifierBonusCalculatorCommand = new DelegateCommand(CraftHandler.CraftModifierBonusCalcAction);
+        ItemHandler = new ItemHandler();
+        SpellHandler = new SpellHandler();
+        CraftHandler = new CraftHandler();
     }
     
-
-    // Selected Object Backing Collections
-    public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
-    
-
     // Asset Commands
     public DelegateCommand LoadCommand { get; }
     public DelegateCommand SaveCommand { get; }
@@ -53,10 +40,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public DelegateCommand ImportCommand { get; }
 
     // Handlers
-    public FeatHandler FeatHandler { get; set; }
-    public TraitHandler TraitHandler { get; set; }
-    public ItemHandler ItemHandler { get; set; }
-    public CraftHandler CraftHandler { get; set; }
+    public FeatHandler FeatHandler { get; }
+    public TraitHandler TraitHandler { get; }
+    public ItemHandler ItemHandler { get; }
+    public CraftHandler CraftHandler { get; }
+    public SpellHandler SpellHandler { get; }
+
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -73,109 +62,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
         TraitHandler.RefreshButtonState();
         FeatHandler.RefreshButtonState();
         ItemHandler.RefreshButtonState();
+        CraftHandler.RefreshButtonState();
+        SpellHandler.RefreshButtonState();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
-    #region Crafting
-
-    // Crafting Modifiers Collections
-    public ObservableCollection<string> ActiveTool { get; set; } = new();
-    public ObservableCollection<string> CraftingToolSelectionList { get; set; } = new();
-    public ObservableCollection<string> ActiveWorkshop { get; set; } = new();
-    public ObservableCollection<string> CraftingWorkshopSelectionList { get; set; } = new();
-
-    private Item _craftItem = new();
-
-    public Item? CraftItem
-    {
-        get => _craftItem;
-        private set
-        {
-            _craftItem = value ?? throw new ArgumentNullException(nameof(value));
-            OnPropertyChanged("SelectedItem");
-        }
-    }
-
-    private string _craftObjectName = "Item Name...";
-
-    public string CraftObjectName
-    {
-        get => _craftObjectName;
-        set
-        {
-            _craftObjectName = value;
-            CraftHandler.SetItemName(value);
-
-            OnPropertyChanged("CraftObjectName");
-        }
-    }
-
-    private int _craftRanks;
-
-    public int CraftRanks
-    {
-        get => _craftRanks;
-        set
-        {
-            _craftRanks = value;
-            CraftHandler.SetCraftRanks(value);
-
-            OnPropertyChanged("CraftRanks");
-        }
-    }
-
-    private int _craftEnhancement;
-
-    public int CraftEnhancement
-    {
-        get => _craftEnhancement;
-        set
-        {
-            _craftEnhancement = value;
-            CraftHandler.SetCraftEnhancementBonus(value);
-
-            OnPropertyChanged("CraftEnhancement");
-        }
-    }
-
-    private int _craftAlchemical;
-
-    public int CraftAlchemical
-    {
-        get => _craftAlchemical;
-        set
-        {
-            _craftAlchemical = value;
-            CraftHandler.SetCraftAlchemicalBonus(value);
-
-            OnPropertyChanged("CraftAlchemical");
-        }
-    }
-
-    private string _craftModifier = "N/A";
-
-    public string CraftModifier
-    {
-        get => _craftModifier;
-        set
-        {
-            _craftModifier = value;
-            OnPropertyChanged("CraftModifier");
-        }
-    }
-
-    // Craft Checkbox Commands
-    public DelegateCommand CraftToolCheckboxCommand { get; }
-    public DelegateCommand CraftWorkshopCheckboxCommand { get; }
-    public DelegateCommand CraftModifierBonusCalculatorCommand { get; }
-
-    #endregion
-
-    #region Menu
     private void LoadAction(object arg)
     {
         OpenFileDialog dialog = new()
@@ -337,6 +231,4 @@ public class MainWindowViewModel : INotifyPropertyChanged
         FeatHandler.InitializeHavenheim();
         ItemHandler.InitializeHavenheim();
     }
-
-    #endregion
 }

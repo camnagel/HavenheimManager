@@ -133,15 +133,15 @@ public class TraitHandler : INotifyPropertyChanged
     }
 
     private bool ActiveTraitFilters => _coreTraitFilters.Any() ||
-                                        _skillTraitFilters.Any() ||
-                                        _classTraitFilters.Any() ||
-                                        _combatTraitFilters.Any() ||
-                                        _roleTraitFilters.Any() ||
-                                        _conditionTraitFilters.Any() ||
-                                        _sourceTraitFilters.Any() ||
-                                        _customTraitFilters.Any() ||
-                                        _magicTraitFilters.Any() ||
-                                        _bonusTraitFilters.Any();
+                                       _skillTraitFilters.Any() ||
+                                       _classTraitFilters.Any() ||
+                                       _combatTraitFilters.Any() ||
+                                       _roleTraitFilters.Any() ||
+                                       _conditionTraitFilters.Any() ||
+                                       _sourceTraitFilters.Any() ||
+                                       _customTraitFilters.Any() ||
+                                       _magicTraitFilters.Any() ||
+                                       _bonusTraitFilters.Any();
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -373,7 +373,6 @@ public class TraitHandler : INotifyPropertyChanged
 
     internal void InitializePathfinder()
     {
-
     }
 
     internal void InitializeHavenheim()
@@ -403,55 +402,15 @@ public class TraitHandler : INotifyPropertyChanged
 
         foreach (Trait trait in possibleTraits)
         {
-            if (_coreTraitFilters.Any(filter => trait.CoreTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_skillTraitFilters.Any(filter => trait.SkillTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_classTraitFilters.Any(filter => trait.ClassTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_combatTraitFilters.Any(filter => trait.CombatTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_roleTraitFilters.Any(filter => trait.RoleTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_magicTraitFilters.Any(filter => trait.MagicTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_bonusTraitFilters.Any(filter => trait.BonusTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_conditionTraitFilters.Any(filter => trait.ConditionTags.Contains(filter)))
-            {
-                yield return trait;
-                continue;
-            }
-
-            if (_customTraitFilters.Any(filter => trait.CustomTags.Contains(filter)))
+            if (_coreTraitFilters.Any(filter => trait.CoreTags.Contains(filter)) ||
+                _skillTraitFilters.Any(filter => trait.SkillTags.Contains(filter)) ||
+                _classTraitFilters.Any(filter => trait.ClassTags.Contains(filter)) ||
+                _combatTraitFilters.Any(filter => trait.CombatTags.Contains(filter)) ||
+                _roleTraitFilters.Any(filter => trait.RoleTags.Contains(filter)) ||
+                _magicTraitFilters.Any(filter => trait.MagicTags.Contains(filter)) ||
+                _bonusTraitFilters.Any(filter => trait.BonusTags.Contains(filter)) ||
+                _conditionTraitFilters.Any(filter => trait.ConditionTags.Contains(filter)) ||
+                _customTraitFilters.Any(filter => trait.CustomTags.Contains(filter)))
             {
                 yield return trait;
             }
@@ -460,50 +419,24 @@ public class TraitHandler : INotifyPropertyChanged
 
     private IEnumerable<Trait> StrictTraitFilter(List<Trait> possibleTraits)
     {
-        foreach (Core filter in _coreTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.CoreTags.Contains(filter)).ToList();
-        }
-
-        foreach (Skill filter in _skillTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.SkillTags.Contains(filter)).ToList();
-        }
-
-        foreach (Class filter in _classTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.ClassTags.Contains(filter)).ToList();
-        }
-
-        foreach (Combat filter in _combatTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.CombatTags.Contains(filter)).ToList();
-        }
-
-        foreach (Role filter in _roleTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.RoleTags.Contains(filter)).ToList();
-        }
-
-        foreach (Magic filter in _magicTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.MagicTags.Contains(filter)).ToList();
-        }
-
-        foreach (Bonus filter in _bonusTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.BonusTags.Contains(filter)).ToList();
-        }
-
-        foreach (Condition filter in _conditionTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.ConditionTags.Contains(filter)).ToList();
-        }
-
-        foreach (string filter in _customTraitFilters)
-        {
-            possibleTraits = possibleTraits.Where(x => x.CustomTags.Contains(filter)).ToList();
-        }
+        possibleTraits = _coreTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.CoreTags.Contains(filter)).ToList());
+        possibleTraits = _skillTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.SkillTags.Contains(filter)).ToList());
+        possibleTraits = _classTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.ClassTags.Contains(filter)).ToList());
+        possibleTraits = _combatTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.CombatTags.Contains(filter)).ToList());
+        possibleTraits = _roleTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.RoleTags.Contains(filter)).ToList());
+        possibleTraits = _magicTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.MagicTags.Contains(filter)).ToList());
+        possibleTraits = _bonusTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.BonusTags.Contains(filter)).ToList());
+        possibleTraits = _conditionTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.ConditionTags.Contains(filter)).ToList());
+        possibleTraits = _customTraitFilters.Aggregate(possibleTraits,
+            (current, filter) => current.Where(x => x.CustomTags.Contains(filter)).ToList());
 
         foreach (Trait trait in possibleTraits)
         {
