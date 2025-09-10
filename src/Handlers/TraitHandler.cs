@@ -14,12 +14,11 @@ namespace HavenheimManager.Handlers;
 
 public class TraitHandler : INotifyPropertyChanged
 {
+    // Trait Filter Lists
     private readonly HashSet<Bonus> _bonusTraitFilters = new();
     private readonly HashSet<Class> _classTraitFilters = new();
     private readonly HashSet<Combat> _combatTraitFilters = new();
     private readonly HashSet<Condition> _conditionTraitFilters = new();
-
-    // Trait Filter Lists
     private readonly HashSet<Core> _coreTraitFilters = new();
     private readonly HashSet<string> _customTraitFilters = new();
     private readonly HashSet<Magic> _magicTraitFilters = new();

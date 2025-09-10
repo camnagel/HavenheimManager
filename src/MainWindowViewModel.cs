@@ -26,34 +26,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ImportCommand = new DelegateCommand(ImportAction);
 
         // Handlers
-        TraitHandler = new TraitHandler(this);
-        // Feats
-        FeatHandler = new FeatHandler(this);
-        CoreFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatCoreFilterAction);
-        SkillFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatSkillFilterAction);
-        ClassFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatClassFilterAction);
-        CombatFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatCombatFilterAction);
-        RoleFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatRoleFilterAction);
-        MagicFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatMagicFilterAction);
-        BonusFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatBonusFilterAction);
-        ConditionFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatConditionFilterAction);
-        SourceFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatSourceFilterAction);
-        CustomFeatCheckboxCommand = new DelegateCommand(FeatHandler.FeatCustomFilterAction);
-        AddFavoriteFeatCommand = new DelegateCommand(FeatHandler.AddFavoriteFeatAction);
-        AddHiddenFeatCommand = new DelegateCommand(FeatHandler.AddHiddenFeatAction);
-        EditFeatCommand = new DelegateCommand(FeatHandler.EditFeatAction);
-        NewFeatCommand = new DelegateCommand(FeatHandler.NewFeatAction);
-        RemoveFeatCommand = new DelegateCommand(FeatHandler.RemoveFeatAction);
-        RemoveFavoriteFeatCommand = new DelegateCommand(FeatHandler.RemoveFavoriteFeatAction);
-        RemoveHiddenFeatCommand = new DelegateCommand(FeatHandler.RemoveHiddenFeatAction);
-        FeatSearchRemovePlaceholderTextCommand = new DelegateCommand(FeatHandler.FeatSearchRemovePlaceholderTextAction);
-        FeatSearchAddPlaceholderTextCommand = new DelegateCommand(FeatHandler.FeatSearchAddPlaceholderTextAction);
-        FeatMinLevelRemovePlaceholderTextCommand =
-            new DelegateCommand(FeatHandler.FeatMinLevelRemovePlaceholderTextAction);
-        FeatMinLevelAddPlaceholderTextCommand = new DelegateCommand(FeatHandler.FeatMinLevelAddPlaceholderTextAction);
-        FeatMaxLevelRemovePlaceholderTextCommand =
-            new DelegateCommand(FeatHandler.FeatMaxLevelRemovePlaceholderTextAction);
-        FeatMaxLevelAddPlaceholderTextCommand = new DelegateCommand(FeatHandler.FeatMaxLevelAddPlaceholderTextAction);
+        TraitHandler = new TraitHandler();
+        FeatHandler = new FeatHandler();
+        
 
         // Items
         ItemHandler = new ItemHandler(this);
@@ -86,12 +61,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     // Primary Object Collections
     
-    public List<Feat> MasterFeatList { get; } = new();
+    
     public List<Item> MasterItemList { get; } = new();
 
     // Selected Object Backing Collections
     
-    public ObservableCollection<Feat> CurrentFeat { get; set; } = new();
     public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
     public ObservableCollection<Item> CurrentItem { get; set; } = new();
 
@@ -120,6 +94,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         // Handlers
         TraitHandler.RefreshButtonState();
+        FeatHandler.RefreshButtonState();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)
@@ -128,190 +103,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
 
     
-
-
-    #region Feats
-
-    // Filtered Feat Collections
-    public ObservableCollection<Feat> FilteredFeatList { get; set; } = new();
-    public ObservableCollection<Feat> FavoriteFeatList { get; set; } = new();
-    public ObservableCollection<Feat> HiddenFeatList { get; set; } = new();
-
-    // Feat Tag Collections
-    public ObservableCollection<string> CustomFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> CoreFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> SkillFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> ClassFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> CombatFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> RoleFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> MagicFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> BonusFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> ConditionFeatFilterList { get; set; } = new();
-    public ObservableCollection<string> SourceFeatFilterList { get; set; } = new();
-
-    private Feat? _selectedFeat;
-
-    public Feat? SelectedFeat
-    {
-        get => _selectedFeat;
-        set
-        {
-            if (value != null)
-            {
-                SelectedFeat = null;
-            }
-
-            _selectedFeat = value;
-            CurrentFeat.Clear();
-            if (value != null)
-            {
-                CurrentFeat.Add(value);
-            }
-
-            OnPropertyChanged("SelectedFeat");
-        }
-    }
-
-    private string _selectedFeatReq;
-
-    public string? SelectedFeatReq
-    {
-        get => _selectedFeatReq;
-        set
-        {
-            _selectedFeatReq = value ?? "";
-            string sanitizedSelection = _selectedFeatReq.Sanitize();
-            foreach (Feat possibleFeat in MasterFeatList)
-            {
-                if (possibleFeat.Name.Sanitize() == sanitizedSelection)
-                {
-                    SelectedFeat = possibleFeat;
-                    _selectedFeatReq = "";
-                }
-            }
-
-            OnPropertyChanged("SelectedFeatReq");
-        }
-    }
-
-    private string _featSearchText = RegexHandler.SearchPlaceholderText;
-
-    public string FeatSearchText
-    {
-        get => _featSearchText;
-        set
-        {
-            _featSearchText = value;
-            FeatHandler.ApplyFeatFilters();
-
-            OnPropertyChanged("FeatSearchText");
-        }
-    }
-
-    private string _featMinLevel = RegexHandler.FeatMinLevelPlaceholder.ToString();
-
-    public string FeatMinLevel
-    {
-        get => _featMinLevel;
-        set
-        {
-            if (value == "")
-            {
-                _featMinLevel = value;
-                OnPropertyChanged("FeatMinLevel");
-                return;
-            }
-
-            if (!RegexHandler.NumberFilter.IsMatch(value))
-            {
-                int input = int.Parse(value);
-                if (value == _featMinLevel)
-                {
-                    return;
-                }
-
-                _featMinLevel = input > int.Parse(_featMaxLevel) ? _featMaxLevel : value;
-                FeatHandler.ApplyFeatFilters();
-                OnPropertyChanged("FeatMinLevel");
-            }
-            else
-            {
-                string messageBoxText = "Level must be an integer between 0 and 20";
-                string caption = "Error";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-
-                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
-            }
-        }
-    }
-
-    private string _featMaxLevel = RegexHandler.FeatMaxLevelPlaceholder.ToString();
-
-    public string FeatMaxLevel
-    {
-        get => _featMaxLevel;
-        set
-        {
-            if (value == "")
-            {
-                _featMaxLevel = value;
-                OnPropertyChanged("FeatMaxLevel");
-                return;
-            }
-
-            if (!RegexHandler.NumberFilter.IsMatch(value) && int.Parse(value) <= 20)
-            {
-                int input = int.Parse(value);
-                if (value == _featMaxLevel)
-                {
-                    return;
-                }
-
-                _featMaxLevel = input < int.Parse(_featMinLevel) ? _featMinLevel : value;
-                FeatHandler.ApplyFeatFilters();
-                OnPropertyChanged("FeatMaxLevel");
-            }
-            else
-            {
-                string messageBoxText = "Level must be an integer between 0 and 20";
-                string caption = "Error";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-
-                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
-            }
-        }
-    }
-
-    // Feat Checkbox Commands
-    public DelegateCommand CoreFeatCheckboxCommand { get; }
-    public DelegateCommand SkillFeatCheckboxCommand { get; }
-    public DelegateCommand ClassFeatCheckboxCommand { get; }
-    public DelegateCommand CombatFeatCheckboxCommand { get; }
-    public DelegateCommand RoleFeatCheckboxCommand { get; }
-    public DelegateCommand MagicFeatCheckboxCommand { get; }
-    public DelegateCommand BonusFeatCheckboxCommand { get; }
-    public DelegateCommand ConditionFeatCheckboxCommand { get; }
-    public DelegateCommand SourceFeatCheckboxCommand { get; }
-    public DelegateCommand CustomFeatCheckboxCommand { get; }
-    public DelegateCommand FeatMinLevelRemovePlaceholderTextCommand { get; }
-    public DelegateCommand FeatMinLevelAddPlaceholderTextCommand { get; }
-    public DelegateCommand FeatMaxLevelRemovePlaceholderTextCommand { get; }
-    public DelegateCommand FeatMaxLevelAddPlaceholderTextCommand { get; }
-
-    // Feat Control Bar Commands
-    public DelegateCommand FeatSearchRemovePlaceholderTextCommand { get; }
-    public DelegateCommand FeatSearchAddPlaceholderTextCommand { get; }
-    public DelegateCommand AddFavoriteFeatCommand { get; }
-    public DelegateCommand AddHiddenFeatCommand { get; }
-    public DelegateCommand EditFeatCommand { get; }
-    public DelegateCommand NewFeatCommand { get; }
-    public DelegateCommand RemoveFeatCommand { get; }
-    public DelegateCommand RemoveFavoriteFeatCommand { get; }
-    public DelegateCommand RemoveHiddenFeatCommand { get; }
-
-    #endregion
 
     #region Items
 
@@ -591,7 +382,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     case SourceType.Feat:
                         foreach (Feat feat in ImportReader.ReadFeatCsv(importPath))
                         {
-                            MasterFeatList.Add(feat);
+                            FeatHandler.MasterFeatList.Add(feat);
                         }
 
                         FeatHandler.UpdateFeatReqs();
@@ -656,16 +447,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private void ClearApp()
     {
         TraitHandler.Clear();
+        FeatHandler.Clear();
     }
 
     private void InitializePathfinder()
     {
-        
+        TraitHandler.InitializePathfinder();
+        FeatHandler.InitializeHavenheim();
     }
 
     private void InitializeHavenheim()
     {
         TraitHandler.InitializeHavenheim();
+        FeatHandler.InitializeHavenheim();
     }
 
     #endregion
