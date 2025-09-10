@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Windows;
 
-namespace HavenheimManager.Import
+namespace HavenheimManager.Import;
+
+/// <summary>
+///     Interaction logic for ImportView.xaml
+/// </summary>
+public partial class ImportView : Window
 {
-    /// <summary>
-    /// Interaction logic for ImportView.xaml
-    /// </summary>
-    public partial class ImportView : Window
+    public ImportView(ImportViewModel vm)
     {
-        public ImportView(ImportViewModel vm)
+        DataContext = vm;
+
+        InitializeComponent();
+
+        typeBox.Items.Add("Select Source Type");
+        foreach (object? item in Enum.GetValues(typeof(SourceType)))
         {
-            this.DataContext = vm;
-
-            InitializeComponent();
-
-            typeBox.Items.Add("Select Source Type");
-            foreach (var item in Enum.GetValues(typeof(SourceType)))
-            {
-                typeBox.Items.Add(item);
-            }
+            typeBox.Items.Add(item);
         }
     }
 }

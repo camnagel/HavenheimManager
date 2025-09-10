@@ -3,85 +3,92 @@ using System.Windows;
 using HavenheimManager.Extensions;
 using Microsoft.Win32;
 
-namespace HavenheimManager.Import
+namespace HavenheimManager.Import;
+
+public class ImportViewModel : INotifyPropertyChanged
 {
-    public class ImportViewModel : INotifyPropertyChanged
+    private string _selectedSourceType;
+    private string _sourcePath;
+
+    public ImportViewModel()
     {
-        private string _sourcePath;
-        public string? SourcePath
+        SaveCommand = new DelegateCommand(SaveAction);
+        SelectCommand = new DelegateCommand(SelectAction);
+        CancelCommand = new DelegateCommand(CancelAction);
+    }
+
+    public string? SourcePath
+    {
+        get => _sourcePath;
+        set
         {
-            get => _sourcePath;
-            set
+            _sourcePath = value ?? "";
+            OnPropertyChanged("SourcePath");
+        }
+    }
+
+    public string? SelectedSourceType
+    {
+        get => _selectedSourceType;
+        set
+        {
+            _selectedSourceType = value ?? "";
+            OnPropertyChanged("SelectedSourceType");
+        }
+    }
+
+    public DelegateCommand SelectCommand { get; set; }
+    public DelegateCommand SaveCommand { get; set; }
+    public DelegateCommand CancelCommand { get; set; }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void SaveAction(object arg)
+    {
+        if (arg is Window window)
+        {
+            if (SourcePath is { Length: > 0 } && _selectedSourceType.Length > 0)
             {
-                _sourcePath = value ?? "";
-                OnPropertyChanged("SourcePath");
+                window.DialogResult = true;
             }
-        }
 
-        private string _selectedSourceType;
-        public string? SelectedSourceType
+            window.Close();
+        }
+    }
+
+    private void CancelAction(object arg)
+    {
+        if (arg is Window window)
         {
-            get => _selectedSourceType;
-            set
-            {
-                _selectedSourceType = value ?? "";
-                OnPropertyChanged("SelectedSourceType");
-            }
+            window.DialogResult = false;
+            window.Close();
         }
+    }
 
-        public DelegateCommand SelectCommand { get; set; }
-        public DelegateCommand SaveCommand { get; set; }
-        public DelegateCommand CancelCommand { get; set; }
+    private void SelectAction(object arg)
+    {
+        OpenFileDialog dialog = new();
+        dialog.Title = "Select CSV File";
+        dialog.Multiselect = false;
 
-        public ImportViewModel()
+        if (dialog.ShowDialog() == true)
         {
-            SaveCommand = new DelegateCommand(SaveAction);
-            SelectCommand = new DelegateCommand(SelectAction);
-            CancelCommand = new DelegateCommand(CancelAction);
+            SourcePath = dialog.FileName;
         }
+    }
 
-        private void SaveAction(object arg)
-        {
-            if (arg is Window window)
-            {
-                if (SourcePath is { Length: > 0 } && _selectedSourceType.Length > 0)
-                {
-                    window.DialogResult = true;
-                }
+    public string GetSourcePath()
+    {
+        return SourcePath;
+    }
 
-                window.Close();
-            }
-        }
+    public SourceType GetSourceType()
+    {
+        return _selectedSourceType.StringToSourceType();
+    }
 
-        private void CancelAction(object arg)
-        {
-            if (arg is Window window)
-            {
-                window.DialogResult = false;
-                window.Close();
-            }
-        }
-
-        private void SelectAction(object arg)
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Title = "Select CSV File";
-            dialog.Multiselect = false;
-
-            if (dialog.ShowDialog() == true)
-            {
-                SourcePath = dialog.FileName;
-            }
-        }
-
-        public string GetSourcePath() => SourcePath;
-
-        public SourceType GetSourceType() => _selectedSourceType.StringToSourceType();
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -29,7 +29,7 @@ internal class BonusCalculator
     internal readonly Dictionary<string, int> SizeBonusList = new();
     internal readonly Dictionary<string, int> TraitBonusList = new();
     internal readonly Dictionary<string, int> UntypedBonusList = new();
-    
+
     internal int CurrentBonus => CalculateBonuses();
 
     internal void AddBonus(Bonus bonusType, string bonusSource, int bonusValue)

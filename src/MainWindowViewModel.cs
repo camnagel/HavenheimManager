@@ -745,7 +745,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void SetAppMode(AppMode mode)
     {
-        
         switch (mode)
         {
             case Enums.AppMode.Pathfinder:
@@ -759,12 +758,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ClearApp()
     {
-
     }
 
     private void InitializePathfinder()
     {
-
     }
 
     private void InitializeHavenheim()

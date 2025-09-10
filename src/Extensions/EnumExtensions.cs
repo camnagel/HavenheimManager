@@ -14,7 +14,9 @@ public static class EnumExtensions
         FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 
         if (fieldInfo == null)
-            return String.Empty;
+        {
+            return string.Empty;
+        }
 
         DescriptionAttribute[] descriptionAttributes =
             (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);

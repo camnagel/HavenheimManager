@@ -8,198 +8,210 @@ using HavenheimManager.Enums;
 using HavenheimManager.Extensions;
 using HavenheimManager.Handlers;
 
-namespace HavenheimManager.Import
+namespace HavenheimManager.Import;
+
+public class SourceConverter<T> : DefaultTypeConverter
 {
-    public class SourceConverter<T> : DefaultTypeConverter
+    public override object ConvertFromString(string? source, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? source, IReaderRow row, MemberMapData data) => source.StringToSource();
+        return source.StringToSource();
     }
+}
 
-    public class CustomTagsConverter<T> : DefaultTypeConverter
+public class CustomTagsConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        List<string> tagList = new();
+        if (tags is { Length: > 0 })
         {
-            List<string> tagList = new List<string>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagList.Add(tag.Trim());
-                }
+                tagList.Add(tag.Trim());
             }
-            return tagList;
         }
-    }
 
-    public class PrereqsConverter<T> : DefaultTypeConverter
+        return tagList;
+    }
+}
+
+public class PrereqsConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? prereqs, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? prereqs, IReaderRow row, MemberMapData data)
+        HashSet<string> prereqList = new();
+        if (prereqs is { Length: > 0 })
         {
-            HashSet<string> prereqList = new HashSet<string>();
-            if (prereqs is { Length: > 0 })
+            List<string> splitTags = prereqs.Split(',').ToList();
+            foreach (string prereq in splitTags)
             {
-                List<string> splitTags = prereqs.Split(',').ToList();
-                foreach (string prereq in splitTags)
-                {
-                    prereqList.Add(prereq.Trim());
-                }
+                prereqList.Add(prereq.Trim());
             }
-            return prereqList;
         }
-    }
 
-    public class CoreConverter<T> : DefaultTypeConverter
-    {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
-        {
-            HashSet<Core> tagSet= new HashSet<Core>();
-            if (tags is { Length: > 0 })
-            {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToCore());
-                }
-            }
-            return tagSet;
-        } 
+        return prereqList;
     }
+}
 
-    public class SkillConverter<T> : DefaultTypeConverter
+public class CoreConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        HashSet<Core> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            HashSet<Skill> tagSet = new HashSet<Skill>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToSkill());
-                }
+                tagSet.Add(tag.StringToCore());
             }
-            return tagSet;
         }
+
+        return tagSet;
     }
+}
 
-    public class ClassConverter<T> : DefaultTypeConverter
+public class SkillConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        HashSet<Skill> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            HashSet<Class> tagSet = new HashSet<Class>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToClass());
-                }
+                tagSet.Add(tag.StringToSkill());
             }
-            return tagSet;
         }
+
+        return tagSet;
     }
+}
 
-    public class CombatConverter<T> : DefaultTypeConverter
+public class ClassConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        HashSet<Class> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            HashSet<Combat> tagSet = new HashSet<Combat>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToCombat());
-                }
+                tagSet.Add(tag.StringToClass());
             }
-            return tagSet;
         }
+
+        return tagSet;
     }
+}
 
-    public class RoleConverter<T> : DefaultTypeConverter
+public class CombatConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        HashSet<Combat> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            HashSet<Role> tagSet = new HashSet<Role>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToRole());
-                }
+                tagSet.Add(tag.StringToCombat());
             }
-            return tagSet;
         }
+
+        return tagSet;
     }
+}
 
-    public class MagicConverter<T> : DefaultTypeConverter
+public class RoleConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        HashSet<Role> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            HashSet<Magic> tagSet = new HashSet<Magic>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToMagic());
-                }
+                tagSet.Add(tag.StringToRole());
             }
-            return tagSet;
         }
+
+        return tagSet;
     }
+}
 
-    public class BonusConverter<T> : DefaultTypeConverter
+public class MagicConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        HashSet<Magic> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            HashSet<Bonus> tagSet = new HashSet<Bonus>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToBonus());
-                }
+                tagSet.Add(tag.StringToMagic());
             }
-            return tagSet;
         }
+
+        return tagSet;
     }
+}
 
-    public class ConditionConverter<T> : DefaultTypeConverter
+public class BonusConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
+        HashSet<Bonus> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            HashSet<Condition> tagSet = new HashSet<Condition>();
-            if (tags is { Length: > 0 })
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                List<string> splitTags = tags.Split(',').ToList();
-                foreach (string tag in splitTags)
-                {
-                    tagSet.Add(tag.StringToCondition());
-                }
+                tagSet.Add(tag.StringToBonus());
             }
-            return tagSet;
         }
+
+        return tagSet;
     }
+}
 
-    public class LevelConverter<T> : DefaultTypeConverter
+public class ConditionConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? tags, IReaderRow row, MemberMapData data)
     {
-        public override object ConvertFromString(string? level, IReaderRow row, MemberMapData data)
+        HashSet<Condition> tagSet = new();
+        if (tags is { Length: > 0 })
         {
-            if (string.IsNullOrEmpty(level))
+            List<string> splitTags = tags.Split(',').ToList();
+            foreach (string tag in splitTags)
             {
-                return 0;
+                tagSet.Add(tag.StringToCondition());
             }
-
-            if (!RegexHandler.NumberFilter.IsMatch(level) && int.Parse(level) is <= 20 and >= 0)
-            {
-                return int.Parse(level);
-            }
-            
-            throw new ArgumentOutOfRangeException(nameof(level), "Level must be an int between 0 and 20");
         }
+
+        return tagSet;
+    }
+}
+
+public class LevelConverter<T> : DefaultTypeConverter
+{
+    public override object ConvertFromString(string? level, IReaderRow row, MemberMapData data)
+    {
+        if (string.IsNullOrEmpty(level))
+        {
+            return 0;
+        }
+
+        if (!RegexHandler.NumberFilter.IsMatch(level) && int.Parse(level) is <= 20 and >= 0)
+        {
+            return int.Parse(level);
+        }
+
+        throw new ArgumentOutOfRangeException(nameof(level), "Level must be an int between 0 and 20");
     }
 }

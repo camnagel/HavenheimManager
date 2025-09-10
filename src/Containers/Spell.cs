@@ -1,6 +1,5 @@
-﻿namespace HavenheimManager.Containers
+﻿namespace HavenheimManager.Containers;
+
+public class Spell
 {
-    public class Spell
-    {
-    }
 }

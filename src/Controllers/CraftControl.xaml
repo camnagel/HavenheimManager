@@ -24,7 +24,8 @@
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Margin="0, 0, 5 5">Craft Ranks:</TextBlock>
-                            <TextBox Text="{Binding CraftRanks, UpdateSourceTrigger=PropertyChanged}" Width="40" Height="20" Background="AliceBlue"/>
+                            <TextBox Text="{Binding CraftRanks, UpdateSourceTrigger=PropertyChanged}" Width="40"
+                                     Height="20" Background="AliceBlue" />
                         </StackPanel>
 
                         <Expander Header="Tool" FontSize="10" FontWeight="Bold">
@@ -59,12 +60,14 @@
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Margin="0, 0, 5 5">Enhancement:</TextBlock>
-                            <TextBox Text="{Binding CraftEnhancement, UpdateSourceTrigger=PropertyChanged}" Width="40" Height="20" Background="AliceBlue"/>
+                            <TextBox Text="{Binding CraftEnhancement, UpdateSourceTrigger=PropertyChanged}" Width="40"
+                                     Height="20" Background="AliceBlue" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Margin="0, 0, 5 5">Alchemical:</TextBlock>
-                            <TextBox Text="{Binding CraftAlchemical, UpdateSourceTrigger=PropertyChanged}" Width="40" Height="20" Background="AliceBlue"/>
+                            <TextBox Text="{Binding CraftAlchemical, UpdateSourceTrigger=PropertyChanged}" Width="40"
+                                     Height="20" Background="AliceBlue" />
                         </StackPanel>
 
                         <Button Content="Calculator"
@@ -81,7 +84,7 @@
 
                             <TextBlock Margin="15, 0, 3, 0">Slot:</TextBlock>
                             <ComboBox x:Name="CraftItemSourceBox" Width="150" Height="22"
-                                      SelectedItem="{Binding FeatSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      SelectedItem="{Binding FeatSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">

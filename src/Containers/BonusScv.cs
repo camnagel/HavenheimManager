@@ -27,7 +27,7 @@ public class BonusScv
             _vm.UpdateActiveBonuses();
         }
     }
-    
+
     public string Circumstance
     {
         get => _circumstance;

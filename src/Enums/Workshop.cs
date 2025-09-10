@@ -1,18 +1,12 @@
 ﻿using System.ComponentModel;
 
-namespace HavenheimManager.Enums
+namespace HavenheimManager.Enums;
+
+public enum Workshop
 {
-    public enum Workshop
-    {
-        [Description("None")]
-        None,
-        [Description("Improvised")]
-        Improvised,
-        [Description("Basic")]
-        Basic,
-        [Description("Masterwork")]
-        Masterwork,
-        [Description("Guild")]
-        Guild
-    }
+    [Description("None")] None,
+    [Description("Improvised")] Improvised,
+    [Description("Basic")] Basic,
+    [Description("Masterwork")] Masterwork,
+    [Description("Guild")] Guild
 }

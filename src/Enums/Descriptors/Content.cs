@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
 
-namespace HavenheimManager.Enums.Descriptors
+namespace HavenheimManager.Enums.Descriptors;
+
+public enum Content
 {
-    public enum Content
-    {
-        [Description("Pathfinder 1e")]
-        Direct,
-        [Description("Pathfinder 1e reworded")]
-        Reworded,
-        [Description("Pathfinder 1e modified")]
-        Modified,
-        [Description("Pathfinder 1e homebrew")]
-        Homebrew
-    }
+    [Description("Pathfinder 1e")] Direct,
+
+    [Description("Pathfinder 1e reworded")]
+    Reworded,
+
+    [Description("Pathfinder 1e modified")]
+    Modified,
+
+    [Description("Pathfinder 1e homebrew")]
+    Homebrew
 }

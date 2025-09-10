@@ -1,28 +1,17 @@
 ﻿using System.ComponentModel;
 
-namespace HavenheimManager.Enums
+namespace HavenheimManager.Enums;
+
+public enum Core
 {
-    public enum Core
-    {
-        [Description("Strength")]
-        Strength,
-        [Description("Dexterity")]
-        Dexterity,
-        [Description("Constitution")]
-        Constitution,
-        [Description("Intelligence")]
-        Intelligence,
-        [Description("Wisdom")]
-        Wisdom,
-        [Description("Charisma")]
-        Charisma,
-        [Description("Hit Points")]
-        HitPoints,
-        [Description("Wealth")]
-        Wealth,
-        [Description("Social")]
-        Social,
-        [Description("Recovery")]
-        Recovery
-    }
+    [Description("Strength")] Strength,
+    [Description("Dexterity")] Dexterity,
+    [Description("Constitution")] Constitution,
+    [Description("Intelligence")] Intelligence,
+    [Description("Wisdom")] Wisdom,
+    [Description("Charisma")] Charisma,
+    [Description("Hit Points")] HitPoints,
+    [Description("Wealth")] Wealth,
+    [Description("Social")] Social,
+    [Description("Recovery")] Recovery
 }

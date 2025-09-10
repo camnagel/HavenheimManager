@@ -11,47 +11,47 @@
         Background="DarkGray">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="20" Width="2500" Height="1500">
             <StackPanel Orientation="Vertical">
                 <Button Content="Load"
                         Command="{Binding LoadCommand}"
-                        Width="100" Height="30"/>
+                        Width="100" Height="30" />
                 <Button Content="Save"
                         Command="{Binding SaveCommand}"
-                        Width="100" Height="30" Margin="0,15,0,0"/>
+                        Width="100" Height="30" Margin="0,15,0,0" />
                 <Button Content="Save As"
                         Command="{Binding SaveAsCommand}"
-                        Width="100" Height="30" Margin="0,15,0,0"/>
+                        Width="100" Height="30" Margin="0,15,0,0" />
                 <Button Content="Import"
                         Command="{Binding ImportCommand}"
-                        Width="100" Height="30" Margin="0,15,0,0"/>
-                <ComboBox x:Name="ModeBox" Width="100" Height="22" Text="Select Mode" Margin="0,800,0,0" 
-                          SelectedItem="{Binding AppMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        Width="100" Height="30" Margin="0,15,0,0" />
+                <ComboBox x:Name="ModeBox" Width="100" Height="22" Text="Select Mode" Margin="0,800,0,0"
+                          SelectedItem="{Binding AppMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <TabControl Width="2390" Background="LightGray" Margin="10,0,0,0">
                 <TabItem Header="Traits" Background="LightGray" Width="100" Height="20">
-                    <controllers:TraitControl/>
+                    <controllers:TraitControl />
                 </TabItem>
 
                 <TabItem Header="Feats" Background="LightGray" Width="100" Height="20">
-                    <controllers:FeatControl/>
+                    <controllers:FeatControl />
                 </TabItem>
 
                 <TabItem Header="Spells" Background="LightGray" Width="100" Height="20">
-                    <controllers:SpellControl/>
+                    <controllers:SpellControl />
                 </TabItem>
 
                 <TabItem Header="Items" Background="LightGray" Width="100" Height="20">
-                    <controllers:ItemControl/>
+                    <controllers:ItemControl />
                 </TabItem>
 
                 <TabItem Header="Crafting" Background="LightGray" Width="100" Height="20">
-                    <controllers:CraftControl/>
+                    <controllers:CraftControl />
                 </TabItem>
             </TabControl>
         </StackPanel>

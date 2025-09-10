@@ -1,16 +1,15 @@
 ﻿using System.Windows;
 
-namespace HavenheimManager.Editors
+namespace HavenheimManager.Editors;
+
+/// <summary>
+///     Interaction logic for ItemView.xaml
+/// </summary>
+public partial class ItemView : Window
 {
-    /// <summary>
-    /// Interaction logic for ItemView.xaml
-    /// </summary>
-    public partial class ItemView : Window
+    public ItemView(ItemViewModel vm)
     {
-        public ItemView(ItemViewModel vm)
-        {
-            this.DataContext = vm;
-            InitializeComponent();
-        }
+        DataContext = vm;
+        InitializeComponent();
     }
 }

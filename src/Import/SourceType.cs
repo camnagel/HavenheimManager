@@ -1,10 +1,9 @@
-﻿namespace HavenheimManager.Import
+﻿namespace HavenheimManager.Import;
+
+public enum SourceType
 {
-    public enum SourceType
-    {
-        Trait, 
-        Spell, 
-        Item, 
-        Feat
-    }
+    Trait,
+    Spell,
+    Item,
+    Feat
 }

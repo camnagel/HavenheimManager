@@ -1,84 +1,45 @@
 ﻿using System.ComponentModel;
 
-namespace HavenheimManager.Enums
+namespace HavenheimManager.Enums;
+
+public enum Condition
 {
-    public enum Condition
-    {
-        [Description("Alive")]
-        Alive,
-        [Description("Asleep")]
-        Asleep,
-        [Description("Bleed")]
-        Bleed,
-        [Description("Blinded")]
-        Blinded,
-        [Description("Broken")]
-        Broken,
-        [Description("Confused")]
-        Confused,
-        [Description("Cowering")]
-        Cowering,
-        [Description("Dazed")]
-        Dazed,
-        [Description("Dazzled")]
-        Dazzled,
-        [Description("Dead")]
-        Dead,
-        [Description("Deafened")]
-        Deafened,
-        [Description("Disabled")]
-        Disabled,
-        [Description("Dying")]
-        Dying,
-        [Description("Energy Drained")]
-        EnergyDrained,
-        [Description("Entangled")]
-        Entangled,
-        [Description("Exhausted")]
-        Exhausted,
-        [Description("Fascinated")]
-        Fascinated,
-        [Description("Fatigued")]
-        Fatigued,
-        [Description("Flat Footed")]
-        FlatFooted,
-        [Description("Flanking")]
-        Flanking,
-        [Description("Frightened")]
-        Frightened,
-        [Description("Grappled")]
-        Grappled,
-        [Description("Helpless")]
-        Helpless,
-        [Description("Hidden")]
-        Hidden,
-        [Description("Incorporeal")]
-        Incorporeal,
-        [Description("Invisible")]
-        Invisible,
-        [Description("Nauseated")]
-        Nauseated,
-        [Description("Panicked")]
-        Panicked,
-        [Description("Paralyzed")]
-        Paralyzed,
-        [Description("Petrified")]
-        Petrified,
-        [Description("Pinned")]
-        Pinned,
-        [Description("Prone")]
-        Prone,
-        [Description("Shaken")]
-        Shaken,
-        [Description("Sickened")]
-        Sickened,
-        [Description("Stable")]
-        Stable,
-        [Description("Staggered")]
-        Staggered,
-        [Description("Stunned")]
-        Stunned,
-        [Description("Unconscious")]
-        Unconscious
-    }
+    [Description("Alive")] Alive,
+    [Description("Asleep")] Asleep,
+    [Description("Bleed")] Bleed,
+    [Description("Blinded")] Blinded,
+    [Description("Broken")] Broken,
+    [Description("Confused")] Confused,
+    [Description("Cowering")] Cowering,
+    [Description("Dazed")] Dazed,
+    [Description("Dazzled")] Dazzled,
+    [Description("Dead")] Dead,
+    [Description("Deafened")] Deafened,
+    [Description("Disabled")] Disabled,
+    [Description("Dying")] Dying,
+    [Description("Energy Drained")] EnergyDrained,
+    [Description("Entangled")] Entangled,
+    [Description("Exhausted")] Exhausted,
+    [Description("Fascinated")] Fascinated,
+    [Description("Fatigued")] Fatigued,
+    [Description("Flat Footed")] FlatFooted,
+    [Description("Flanking")] Flanking,
+    [Description("Frightened")] Frightened,
+    [Description("Grappled")] Grappled,
+    [Description("Helpless")] Helpless,
+    [Description("Hidden")] Hidden,
+    [Description("Incorporeal")] Incorporeal,
+    [Description("Invisible")] Invisible,
+    [Description("Nauseated")] Nauseated,
+    [Description("Panicked")] Panicked,
+    [Description("Paralyzed")] Paralyzed,
+    [Description("Petrified")] Petrified,
+    [Description("Pinned")] Pinned,
+    [Description("Prone")] Prone,
+    [Description("Shaken")] Shaken,
+    [Description("Sickened")] Sickened,
+    [Description("Stable")] Stable,
+    [Description("Staggered")] Staggered,
+    [Description("Stunned")] Stunned,
+    [Description("Unconscious")] Unconscious
 }

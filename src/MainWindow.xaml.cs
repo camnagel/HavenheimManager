@@ -2,7 +2,6 @@
 using System.Windows;
 using HavenheimManager.Enums;
 using HavenheimManager.Extensions;
-using Condition = HavenheimManager.Enums.Condition;
 
 namespace HavenheimManager;
 
@@ -21,6 +20,7 @@ public partial class MainWindow : Window
         {
             ModeBox.Items.Add(item.GetEnumDescription());
         }
+
         ModeBox.SelectedIndex = vm.AppMode.Length > 0 ? ModeBox.Items.IndexOf(vm.AppMode) : 0;
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace HavenheimManager.Controllers
+namespace HavenheimManager.Controllers;
+
+/// <summary>
+///     Interaction logic for ItemControl.xaml
+/// </summary>
+public partial class ItemControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ItemControl.xaml
-    /// </summary>
-    public partial class ItemControl : UserControl
+    public ItemControl()
     {
-        public ItemControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

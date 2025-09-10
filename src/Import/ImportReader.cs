@@ -4,58 +4,57 @@ using System.IO;
 using CsvHelper;
 using HavenheimManager.Containers;
 
-namespace HavenheimManager.Import
+namespace HavenheimManager.Import;
+
+internal class ImportReader
 {
-    internal class ImportReader
+    internal static IEnumerable<Trait> ReadTraitCsv(string filePath)
     {
-        internal static IEnumerable<Trait> ReadTraitCsv(string filePath)
+        using (StreamReader stream = new(filePath))
+        using (CsvReader reader = new(stream, CultureInfo.InvariantCulture))
         {
-            using (var stream = new StreamReader(filePath))
-            using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
+            reader.Context.RegisterClassMap<TraitMap>();
+            foreach (Trait trait in reader.GetRecords<Trait>())
             {
-                reader.Context.RegisterClassMap<TraitMap>();
-                foreach (Trait trait in reader.GetRecords<Trait>())
+                if (trait.Name.Length > 0)
                 {
-                    if (trait.Name.Length > 0)
-                    {
-                        yield return trait;
-                    }
+                    yield return trait;
                 }
             }
         }
+    }
 
-        internal static IEnumerable<Feat> ReadFeatCsv(string filePath)
+    internal static IEnumerable<Feat> ReadFeatCsv(string filePath)
+    {
+        using (StreamReader stream = new(filePath))
+        using (CsvReader reader = new(stream, CultureInfo.InvariantCulture))
         {
-            using (var stream = new StreamReader(filePath))
-            using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
+            reader.Context.RegisterClassMap<FeatMap>();
+            foreach (Feat feat in reader.GetRecords<Feat>())
             {
-                reader.Context.RegisterClassMap<FeatMap>();
-                foreach (Feat feat in reader.GetRecords<Feat>())
+                if (feat.Name.Length > 0)
                 {
-                    if (feat.Name.Length > 0)
-                    {
-                        yield return feat;
-                    }
+                    yield return feat;
                 }
             }
         }
+    }
 
-        internal static IEnumerable<Item> ReadItemCsv(string filePath)
+    internal static IEnumerable<Item> ReadItemCsv(string filePath)
+    {
+        using (StreamReader stream = new(filePath))
+        using (CsvReader reader = new(stream, CultureInfo.InvariantCulture))
         {
-            using (var stream = new StreamReader(filePath))
-            using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
-            {
-                yield break;
-            }
+            yield break;
         }
+    }
 
-        internal static IEnumerable<Spell> ReadSpellCsv(string filePath)
+    internal static IEnumerable<Spell> ReadSpellCsv(string filePath)
+    {
+        using (StreamReader stream = new(filePath))
+        using (CsvReader reader = new(stream, CultureInfo.InvariantCulture))
         {
-            using (var stream = new StreamReader(filePath))
-            using (var reader = new CsvReader(stream, CultureInfo.InvariantCulture))
-            {
-                yield break;
-            }
+            yield break;
         }
     }
 }

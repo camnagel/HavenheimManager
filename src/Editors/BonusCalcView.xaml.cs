@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using HavenheimManager.Editors;
 
 namespace HavenheimManager.Editors;
 
@@ -18,6 +17,9 @@ public partial class BonusCalcView : Window
 
     private void DeselectRow(object sender, MouseButtonEventArgs e)
     {
-        if (sender is DataGrid grid) grid.UnselectAll();
+        if (sender is DataGrid grid)
+        {
+            grid.UnselectAll();
+        }
     }
 }

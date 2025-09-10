@@ -1,38 +1,37 @@
 ﻿using System.Collections.Generic;
 using HavenheimManager.Enums;
 
-namespace HavenheimManager.Containers
+namespace HavenheimManager.Containers;
+
+public class Trait : ISummary, ITaggable
 {
-    public class Trait : ISummary, ITaggable
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        public HashSet<string> Prereqs { get; set; } = new HashSet<string>();
+    public HashSet<string> Prereqs { get; set; } = new();
 
-        public string Url { get; set; }
+    public string Url { get; set; }
 
-        public string Notes { get; set; }
+    public string Notes { get; set; }
 
-        public IList<string> CustomTags { get; set; } = new List<string>();
+    public Source Source { get; set; } = Source.Unknown;
 
-        public Source Source { get; set; } = Source.Unknown;
+    public IList<string> CustomTags { get; set; } = new List<string>();
 
-        public HashSet<Core> CoreTags { get; set; } = new HashSet<Core>();
-        
-        public HashSet<Skill> SkillTags { get; set; } = new HashSet<Skill>();
+    public HashSet<Core> CoreTags { get; set; } = new();
 
-        public HashSet<Class> ClassTags { get; set; } = new HashSet<Class>();
+    public HashSet<Skill> SkillTags { get; set; } = new();
 
-        public HashSet<Combat> CombatTags { get; set; } = new HashSet<Combat>();
+    public HashSet<Class> ClassTags { get; set; } = new();
 
-        public HashSet<Role> RoleTags { get; set; } = new HashSet<Role>();
+    public HashSet<Combat> CombatTags { get; set; } = new();
 
-        public HashSet<Magic> MagicTags { get; set; } = new HashSet<Magic>();
+    public HashSet<Role> RoleTags { get; set; } = new();
 
-        public HashSet<Bonus> BonusTags { get; set; } = new HashSet<Bonus>();
+    public HashSet<Magic> MagicTags { get; set; } = new();
 
-        public HashSet<Condition> ConditionTags { get; set; } = new HashSet<Condition>();
-    }
+    public HashSet<Bonus> BonusTags { get; set; } = new();
+
+    public HashSet<Condition> ConditionTags { get; set; } = new();
 }

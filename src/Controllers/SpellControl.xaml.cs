@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace HavenheimManager.Controllers
+namespace HavenheimManager.Controllers;
+
+/// <summary>
+///     Interaction logic for SpellControl.xaml
+/// </summary>
+public partial class SpellControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SpellControl.xaml
-    /// </summary>
-    public partial class SpellControl : UserControl
+    public SpellControl()
     {
-        public SpellControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
