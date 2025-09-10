@@ -32,25 +32,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         // Items
         ItemHandler = new ItemHandler(this);
-        CoreItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemCoreFilterAction);
-        SkillItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemSkillFilterAction);
-        ClassItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemClassFilterAction);
-        CombatItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemCombatFilterAction);
-        RoleItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemRoleFilterAction);
-        MagicItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemMagicFilterAction);
-        BonusItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemBonusFilterAction);
-        ConditionItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemConditionFilterAction);
-        SourceItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemSourceFilterAction);
-        CustomItemCheckboxCommand = new DelegateCommand(ItemHandler.ItemCustomFilterAction);
-        AddFavoriteItemCommand = new DelegateCommand(ItemHandler.AddFavoriteItemAction);
-        AddHiddenItemCommand = new DelegateCommand(ItemHandler.AddHiddenItemAction);
-        EditItemCommand = new DelegateCommand(ItemHandler.EditItemAction);
-        NewItemCommand = new DelegateCommand(ItemHandler.NewItemAction);
-        RemoveItemCommand = new DelegateCommand(ItemHandler.RemoveItemAction);
-        RemoveFavoriteItemCommand = new DelegateCommand(ItemHandler.RemoveFavoriteItemAction);
-        RemoveHiddenItemCommand = new DelegateCommand(ItemHandler.RemoveHiddenItemAction);
-        ItemSearchRemovePlaceholderTextCommand = new DelegateCommand(ItemHandler.ItemSearchRemovePlaceholderTextAction);
-        ItemSearchAddPlaceholderTextCommand = new DelegateCommand(ItemHandler.ItemSearchAddPlaceholderTextAction);
+        
 
         // Crafting
         CraftHandler = new CraftHandler(this);
@@ -58,16 +40,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CraftWorkshopCheckboxCommand = new DelegateCommand(CraftHandler.CraftWorkshopAction);
         CraftModifierBonusCalculatorCommand = new DelegateCommand(CraftHandler.CraftModifierBonusCalcAction);
     }
-
-    // Primary Object Collections
     
-    
-    public List<Item> MasterItemList { get; } = new();
 
     // Selected Object Backing Collections
-    
     public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
-    public ObservableCollection<Item> CurrentItem { get; set; } = new();
+    
 
     // Asset Commands
     public DelegateCommand LoadCommand { get; }
@@ -95,116 +72,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Handlers
         TraitHandler.RefreshButtonState();
         FeatHandler.RefreshButtonState();
+        ItemHandler.RefreshButtonState();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
-    
-
-    #region Items
-
-    // Filtered Item Collections
-    public ObservableCollection<Item> FilteredItemList { get; set; } = new();
-    public ObservableCollection<Item> FavoriteItemList { get; set; } = new();
-    public ObservableCollection<Item> HiddenItemList { get; set; } = new();
-
-    // Item Tag Collections
-    public ObservableCollection<string> CustomItemFilterList { get; set; } = new();
-    public ObservableCollection<string> CoreItemFilterList { get; set; } = new();
-    public ObservableCollection<string> SkillItemFilterList { get; set; } = new();
-    public ObservableCollection<string> ClassItemFilterList { get; set; } = new();
-    public ObservableCollection<string> CombatItemFilterList { get; set; } = new();
-    public ObservableCollection<string> RoleItemFilterList { get; set; } = new();
-    public ObservableCollection<string> MagicItemFilterList { get; set; } = new();
-    public ObservableCollection<string> BonusItemFilterList { get; set; } = new();
-    public ObservableCollection<string> SourceItemFilterList { get; set; } = new();
-
-    private Item? _selectedItem;
-
-    public Item? SelectedItem
-    {
-        get => _selectedItem;
-        set
-        {
-            if (value != null)
-            {
-                SelectedItem = null;
-            }
-
-            _selectedItem = value;
-            CurrentItem.Clear();
-            if (value != null)
-            {
-                CurrentItem.Add(value);
-            }
-
-            OnPropertyChanged("SelectedItem");
-        }
-    }
-
-    private string _selectedItemReq;
-
-    public string? SelectedItemReq
-    {
-        get => _selectedItemReq;
-        set
-        {
-            _selectedItemReq = value ?? "";
-            string sanitizedSelection = _selectedItemReq.Sanitize();
-            foreach (Item possibleItem in MasterItemList)
-            {
-                if (possibleItem.Name.Sanitize() == sanitizedSelection)
-                {
-                    SelectedItem = possibleItem;
-                    _selectedItemReq = "";
-                }
-            }
-
-            OnPropertyChanged("SelectedItemReq");
-        }
-    }
-
-    private string _itemSearchText = RegexHandler.SearchPlaceholderText;
-
-    public string ItemSearchText
-    {
-        get => _itemSearchText;
-        set
-        {
-            _itemSearchText = value;
-            ItemHandler.ApplyItemFilters();
-
-            OnPropertyChanged("ItemSearchText");
-        }
-    }
-
-    // Item Checkbox Commands
-    public DelegateCommand CoreItemCheckboxCommand { get; }
-    public DelegateCommand SkillItemCheckboxCommand { get; }
-    public DelegateCommand ClassItemCheckboxCommand { get; }
-    public DelegateCommand CombatItemCheckboxCommand { get; }
-    public DelegateCommand RoleItemCheckboxCommand { get; }
-    public DelegateCommand MagicItemCheckboxCommand { get; }
-    public DelegateCommand BonusItemCheckboxCommand { get; }
-    public DelegateCommand SourceItemCheckboxCommand { get; }
-    public DelegateCommand CustomItemCheckboxCommand { get; }
-    public DelegateCommand ConditionItemCheckboxCommand { get; }
-
-    // Item Control Bar Commands
-    public DelegateCommand ItemSearchRemovePlaceholderTextCommand { get; }
-    public DelegateCommand ItemSearchAddPlaceholderTextCommand { get; }
-    public DelegateCommand AddFavoriteItemCommand { get; }
-    public DelegateCommand AddHiddenItemCommand { get; }
-    public DelegateCommand EditItemCommand { get; }
-    public DelegateCommand NewItemCommand { get; }
-    public DelegateCommand RemoveItemCommand { get; }
-    public DelegateCommand RemoveFavoriteItemCommand { get; }
-    public DelegateCommand RemoveHiddenItemCommand { get; }
-
-    #endregion
 
     #region Crafting
 
@@ -302,7 +176,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     #endregion
 
     #region Menu
-
     private void LoadAction(object arg)
     {
         OpenFileDialog dialog = new()
@@ -448,18 +321,21 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         TraitHandler.Clear();
         FeatHandler.Clear();
+        ItemHandler.Clear();
     }
 
     private void InitializePathfinder()
     {
         TraitHandler.InitializePathfinder();
-        FeatHandler.InitializeHavenheim();
+        FeatHandler.InitializePathfinder();
+        ItemHandler.InitializePathfinder();
     }
 
     private void InitializeHavenheim()
     {
         TraitHandler.InitializeHavenheim();
         FeatHandler.InitializeHavenheim();
+        ItemHandler.InitializeHavenheim();
     }
 
     #endregion
