@@ -1,12 +1,25 @@
-﻿using System.Collections.ObjectModel;
+﻿using HavenheimManager.Containers;
+using HavenheimManager.Enums;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using HavenheimManager.Containers;
 
 namespace HavenheimManager.Handlers;
 
 public class SpellHandler : INotifyPropertyChanged
 {
     public ObservableCollection<Spell> CurrentSpell { get; set; } = new();
+
+    internal void Clear()
+    {
+    }
+
+    internal void InitializePathfinder()
+    {
+    }
+
+    internal void InitializeHavenheim()
+    {
+    }
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged(string propertyName)

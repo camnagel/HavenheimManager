@@ -189,6 +189,18 @@ public class CraftHandler : INotifyPropertyChanged
         RefreshButtonState();
     }
 
+    internal void Clear()
+    {
+    }
+
+    internal void InitializePathfinder()
+    {
+    }
+
+    internal void InitializeHavenheim()
+    {
+    }
+
     public void RefreshButtonState()
     {
     }

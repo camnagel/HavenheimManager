@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.Json;
 using System.Windows;
@@ -10,12 +8,12 @@ using HavenheimManager.Extensions;
 using HavenheimManager.Handlers;
 using HavenheimManager.Import;
 using Microsoft.Win32;
-using Condition = HavenheimManager.Enums.Condition;
 
 namespace HavenheimManager;
 
 public class MainWindowViewModel : INotifyPropertyChanged
 {
+    private string _appMode = string.Empty;
     private string _saveFileName = "";
 
     public MainWindowViewModel()
@@ -32,7 +30,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         SpellHandler = new SpellHandler();
         CraftHandler = new CraftHandler();
     }
-    
+
     // Asset Commands
     public DelegateCommand LoadCommand { get; }
     public DelegateCommand SaveCommand { get; }
@@ -45,6 +43,22 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ItemHandler ItemHandler { get; }
     public CraftHandler CraftHandler { get; }
     public SpellHandler SpellHandler { get; }
+
+    public string AppMode
+    {
+        get => _appMode;
+        set
+        {
+            if (value == _appMode)
+            {
+                return;
+            }
+
+            _appMode = value;
+            SetAppMode(value.StringToAppMode());
+            OnPropertyChanged("AppMode");
+        }
+    }
 
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -70,6 +84,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
     private void LoadAction(object arg)
     {
         OpenFileDialog dialog = new()
@@ -178,24 +193,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         RefreshButtonState();
     }
 
-    private string _appMode = string.Empty;
-
-    public string AppMode
-    {
-        get => _appMode;
-        set
-        {
-            if (value == _appMode)
-            {
-                return;
-            }
-
-            _appMode = value;
-            SetAppMode(value.StringToAppMode());
-            OnPropertyChanged("AppMode");
-        }
-    }
-
     private void SetAppMode(AppMode mode)
     {
         ClearApp();
@@ -216,6 +213,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         TraitHandler.Clear();
         FeatHandler.Clear();
         ItemHandler.Clear();
+        SpellHandler.Clear();
+        CraftHandler.Clear();
     }
 
     private void InitializePathfinder()
@@ -223,6 +222,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         TraitHandler.InitializePathfinder();
         FeatHandler.InitializePathfinder();
         ItemHandler.InitializePathfinder();
+        SpellHandler.InitializePathfinder();
+        CraftHandler.InitializePathfinder();
     }
 
     private void InitializeHavenheim()
@@ -230,5 +231,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         TraitHandler.InitializeHavenheim();
         FeatHandler.InitializeHavenheim();
         ItemHandler.InitializeHavenheim();
+        SpellHandler.InitializeHavenheim();
+        CraftHandler.InitializeHavenheim();
     }
 }
