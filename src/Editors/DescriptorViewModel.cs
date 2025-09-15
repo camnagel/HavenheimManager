@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using HavenheimManager.Calculators;
 using HavenheimManager.Containers;
+using HavenheimManager.Descriptors;
 using HavenheimManager.Enums;
 using HavenheimManager.Extensions;
 
@@ -55,13 +56,96 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private bool _showTerrain;
 
-    internal DescriptorViewModel()
+    public bool ShowContent
+    {
+        get => _showContent;
+        set
+        {
+            if (value == _showContent) return;
+            _showContent = value;
+            OnPropertyChanged("ShowContent");
+        }
+    }
+
+    internal bool ShowCreature { get; private set; }
+
+    internal bool ShowCreatureType { get; private set; }
+
+    internal bool ShowCreatureSubType { get; private set; }
+
+    internal bool ShowCraftSkill { get; private set; }
+
+    internal bool ShowAbilityScore { get; private set; }
+
+    internal bool ShowAbilityType { get; private set; }
+
+    internal bool ShowBuff { get; private set; }
+
+    internal bool ShowFeat { get; private set; }
+
+    internal bool ShowMagic { get; private set; }
+
+    internal bool ShowSave { get; private set; }
+
+    internal bool ShowSkill { get; private set; }
+
+    internal bool ShowSystem { get; private set; }
+
+    internal bool ShowTrait { get; private set; }
+
+    internal bool ShowUsage { get; private set; }
+
+    internal bool ShowDuration { get; private set; }
+
+    internal bool ShowKnowledge { get; private set; }
+
+    internal bool ShowMagicAura { get; private set; }
+
+    internal bool ShowPerform { get; private set; }
+
+    internal bool ShowSpellSchool { get; private set; }
+
+    internal bool ShowStimulus { get; private set; }
+
+    internal bool ShowTerrain { get; private set; }
+
+    internal DescriptorViewModel(DescriptorSettings settings)
     {
         CancelCommand = new DelegateCommand(CancelAction);
         AcceptChangesCommand = new DelegateCommand(AcceptChangesAction);
         ShowContentCheckboxCommand = new DelegateCommand(ShowContentCheckboxAction);
 
-    }/*
+        // We do this to avoid messing with the settings until the user confirms their changes
+        ExtractDescriptorSettings(settings);
+    }
+
+    private void ExtractDescriptorSettings(DescriptorSettings settings)
+    {
+        ShowContent = settings.ShowContent;
+        ShowSkill = settings.ShowSkill;
+        ShowMagic = settings.ShowMagic;
+        ShowSystem = settings.ShowSystem;
+        ShowTrait = settings.ShowTrait;
+        ShowUsage = settings.ShowUsage;
+        ShowDuration = settings.ShowDuration;
+        ShowKnowledge = settings.ShowKnowledge;
+        ShowMagicAura = settings.ShowMagicAura;
+        ShowPerform = settings.ShowPerform;
+        ShowSpellSchool = settings.ShowSpellSchool;
+        ShowStimulus = settings.ShowStimulus;
+        ShowTerrain = settings.ShowTerrain;
+        ShowCreature = settings.ShowCreature;
+        ShowCreatureType = settings.ShowCreatureType;
+        ShowCreatureSubType = settings.ShowCreatureSubType;
+        ShowCraftSkill = settings.ShowCraftSkill;
+        ShowSave = settings.ShowSave;
+        ShowAbilityScore = settings.ShowAbilityScore;
+        ShowAbilityType = settings.ShowAbilityType;
+        ShowBuff = settings.ShowBuff;
+        ShowFeat = settings.ShowFeat;
+    }
+    
+    /*
 
     RemoveAlchemicalBonusCommand = new DelegateCommand(RemoveAlchemicalBonusAction);
         AddArmorBonusCommand = new DelegateCommand(AddArmorBonusAction);
@@ -213,9 +297,9 @@ public class DescriptorViewModel : INotifyPropertyChanged
         UpdateActiveBonuses();
     }*/
 
-    internal DelegateCommand AcceptChangesCommand { get; }
+    public DelegateCommand AcceptChangesCommand { get; }
 
-    internal DelegateCommand CancelCommand { get; }/*
+    public DelegateCommand CancelCommand { get; }/*
 
     internal BonusSvp? SelectedAlchemicalBonus
     {
@@ -579,7 +663,8 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private void ShowContentCheckboxAction(object arg)
     {
-        _showContent = !_showContent;
+        ShowContent = !ShowContent;
+
     }/*
 
     private void RemoveAlchemicalBonusAction(object arg)
@@ -1153,8 +1238,10 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private void AcceptChangesAction(object arg)
     {
+        if (arg is Window window)
+            window.DialogResult = true;
     }/*
-    if (arg is Window window)
+    
         {
             _bonusCalculator.Clear();
 

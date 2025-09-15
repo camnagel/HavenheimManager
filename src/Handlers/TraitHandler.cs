@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using HavenheimManager.Containers;
+using HavenheimManager.Descriptors;
 using HavenheimManager.Editors;
 using HavenheimManager.Enums;
 using HavenheimManager.Extensions;
@@ -30,6 +31,8 @@ public class TraitHandler : INotifyPropertyChanged
 
     private string _traitSearchText = RegexHandler.SearchPlaceholderText;
 
+    private DescriptorSettings _traitDescriptorSettings;
+
     public TraitHandler()
     {
         CoreTraitCheckboxCommand = new DelegateCommand(TraitCoreFilterAction);
@@ -52,6 +55,9 @@ public class TraitHandler : INotifyPropertyChanged
         TraitSearchRemovePlaceholderTextCommand =
             new DelegateCommand(TraitSearchRemovePlaceholderTextAction);
         TraitSearchAddPlaceholderTextCommand = new DelegateCommand(TraitSearchAddPlaceholderTextAction);
+        ShowHideFilterCommand = new DelegateCommand(ShowHideFilterAction);
+
+        _traitDescriptorSettings = new DescriptorSettings();
     }
 
     // Trait Checkbox Commands
@@ -69,6 +75,7 @@ public class TraitHandler : INotifyPropertyChanged
     // Trait Control Bar Commands
     public DelegateCommand TraitSearchRemovePlaceholderTextCommand { get; }
     public DelegateCommand TraitSearchAddPlaceholderTextCommand { get; }
+    public DelegateCommand ShowHideFilterCommand { get; }
     public DelegateCommand AddFavoriteTraitCommand { get; }
     public DelegateCommand AddHiddenTraitCommand { get; }
     public DelegateCommand EditTraitCommand { get; }
@@ -462,6 +469,31 @@ public class TraitHandler : INotifyPropertyChanged
                 }
             }
         }
+    }
+
+    internal void ShowHideFilterAction(object arg)
+    {
+        try
+        {
+            DescriptorViewModel vm = new(_traitDescriptorSettings);
+            DescriptorView configWindow = new(vm);
+
+            if (configWindow.ShowDialog() == true)
+            {
+                _traitDescriptorSettings.UpdateSettings(vm);
+            }
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            // How did you get here?
+            string messageBoxText = "Exception when modifying descriptor settings";
+            string caption = "Exception";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Error;
+            MessageBox.Show(messageBoxText, caption, button, icon);
+        }
+
+        RefreshButtonState();
     }
 
     internal void AddFavoriteTraitAction(object arg)

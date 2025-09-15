@@ -38,11 +38,7 @@
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
                         <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filters:</TextBlock>
-                        <CheckBox FontWeight="Normal"
-                                  Command="{Binding RelativeSource= {RelativeSource AncestorType=ListBox},
-                                            Path=ShowContentCheckboxCommand}"
-                                  CommandParameter="{Binding}"
-                                  Content="{Binding}" />
+                        <CheckBox IsChecked="{Binding ShowContent, Mode=TwoWay}"/>
                     </StackPanel>
                 </StackPanel>
 
