@@ -40,30 +40,283 @@ public class FilterHandler : INotifyPropertyChanged
     // Value source
     private readonly IFilterable _source;
 
-    // UI Visibility bindings
-    public Visibility AbilityVisibility;
-    public Visibility AbilityTypeVisibility;
-    public Visibility BuffVisibility;
-    public Visibility ContentVisibility;
-    public Visibility CraftSkillVisibility;
-    public Visibility CreatureSubTypeVisibility;
-    public Visibility CreatureTypeVisibility;
-    public Visibility CreatureVisibility;
-    public Visibility CustomVisibility;
-    public Visibility DurationVisibility;
-    public Visibility FeatVisibility;
-    public Visibility KnowledgeVisibility;
-    public Visibility MagicAuraVisibility;
-    public Visibility MagicVisibility;
-    public Visibility PerformVisibility;
-    public Visibility SaveVisibility;
-    public Visibility SkillVisibility;
-    public Visibility SpellSchoolVisibility;
-    public Visibility StimulusVisibility;
-    public Visibility SystemVisibility;
-    public Visibility TerrainVisibility;
-    public Visibility TraitVisibility;
-    public Visibility UsageVisibility;
+    #region Visibility
+    private Visibility _abilityVisibility;
+    public Visibility AbilityVisibility
+    {
+        get => _abilityVisibility;
+        set
+        {
+            if (value == _abilityVisibility) return;
+            _abilityVisibility = value;
+            OnPropertyChanged("AbilityVisibility");
+        }
+    }
+
+    private Visibility _abilityTypeVisibility;
+    public Visibility AbilityTypeVisibility
+    {
+        get => _abilityTypeVisibility;
+        set
+        {
+            if (value == _abilityTypeVisibility) return;
+            _abilityTypeVisibility = value;
+            OnPropertyChanged("AbilityTypeVisibility");
+        }
+    }
+
+    private Visibility _buffVisibility;
+    public Visibility BuffVisibility
+    {
+        get => _buffVisibility;
+        set
+        {
+            if (value == _buffVisibility) return;
+            _buffVisibility = value;
+            OnPropertyChanged("BuffVisibility");
+        }
+    }
+
+    private Visibility _contentVisibility;
+    public Visibility ContentVisibility
+    {
+        get => _contentVisibility;
+        set
+        {
+            if (value == _contentVisibility) return;
+            _contentVisibility = value;
+            OnPropertyChanged("ContentVisibility");
+        }
+    }
+
+    private Visibility _craftSkillVisibility;
+    public Visibility CraftSkillVisibility
+    {
+        get => _craftSkillVisibility;
+        set
+        {
+            if (value == _craftSkillVisibility) return;
+            _craftSkillVisibility = value;
+            OnPropertyChanged("CraftSkillVisibility");
+        }
+    }
+
+    private Visibility _creatureSubTypeVisibility;
+    public Visibility CreatureSubTypeVisibility
+    {
+        get => _creatureSubTypeVisibility;
+        set
+        {
+            if (value == _creatureSubTypeVisibility) return;
+            _creatureSubTypeVisibility = value;
+            OnPropertyChanged("CreatureSubTypeVisibility");
+        }
+    }
+
+    private Visibility _creatureTypeVisibility;
+    public Visibility CreatureTypeVisibility
+    {
+        get => _creatureTypeVisibility;
+        set
+        {
+            if (value == _creatureTypeVisibility) return;
+            _creatureTypeVisibility = value;
+            OnPropertyChanged("CreatureTypeVisibility");
+        }
+    }
+
+    private Visibility _creatureVisibility;
+    public Visibility CreatureVisibility
+    {
+        get => _creatureVisibility;
+        set
+        {
+            if (value == _creatureVisibility) return;
+            _creatureVisibility = value;
+            OnPropertyChanged("CreatureVisibility");
+        }
+    }
+
+    private Visibility _customVisibility;
+    public Visibility CustomVisibility
+    {
+        get => _customVisibility;
+        set
+        {
+            if (value == _customVisibility) return;
+            _customVisibility = value;
+            OnPropertyChanged("CustomVisibility");
+        }
+    }
+
+    private Visibility _durationVisibility;
+    public Visibility DurationVisibility
+    {
+        get => _durationVisibility;
+        set
+        {
+            if (value == _durationVisibility) return;
+            _durationVisibility = value;
+            OnPropertyChanged("DurationVisibility");
+        }
+    }
+
+    private Visibility _featVisibility;
+    public Visibility FeatVisibility
+    {
+        get => _featVisibility;
+        set
+        {
+            if (value == _featVisibility) return;
+            _featVisibility = value;
+            OnPropertyChanged("FeatVisibility");
+        }
+    }
+
+    private Visibility _knowledgeVisibility;
+    public Visibility KnowledgeVisibility
+    {
+        get => _knowledgeVisibility;
+        set
+        {
+            if (value == _knowledgeVisibility) return;
+            _knowledgeVisibility = value;
+            OnPropertyChanged("KnowledgeVisibility");
+        }
+    }
+
+    private Visibility _magicAuraVisibility;
+    public Visibility MagicAuraVisibility
+    {
+        get => _magicAuraVisibility;
+        set
+        {
+            if (value == _magicAuraVisibility) return;
+            _magicAuraVisibility = value;
+            OnPropertyChanged("MagicAuraVisibility");
+        }
+    }
+
+    private Visibility _magicVisibility;
+    public Visibility MagicVisibility
+    {
+        get => _magicVisibility;
+        set
+        {
+            if (value == _magicVisibility) return;
+            _magicVisibility = value;
+            OnPropertyChanged("MagicVisibility");
+        }
+    }
+
+    private Visibility _performVisibility;
+    public Visibility PerformVisibility
+    {
+        get => _performVisibility;
+        set
+        {
+            if (value == _performVisibility) return;
+            _performVisibility = value;
+            OnPropertyChanged("PerformVisibility");
+        }
+    }
+
+    private Visibility _saveVisibility;
+    public Visibility SaveVisibility
+    {
+        get => _saveVisibility;
+        set
+        {
+            if (value == _saveVisibility) return;
+            _saveVisibility = value;
+            OnPropertyChanged("SaveVisibility");
+        }
+    }
+
+    private Visibility _skillVisibility;
+    public Visibility SkillVisibility
+    {
+        get => _skillVisibility;
+        set
+        {
+            if (value == _skillVisibility) return;
+            _skillVisibility = value;
+            OnPropertyChanged("SkillVisibility");
+        }
+    }
+
+    private Visibility _spellSchoolVisibility;
+    public Visibility SpellSchoolVisibility
+    {
+        get => _spellSchoolVisibility;
+        set
+        {
+            if (value == _spellSchoolVisibility) return;
+            _spellSchoolVisibility = value;
+            OnPropertyChanged("SpellSchoolVisibility");
+        }
+    }
+
+    private Visibility _stimulusVisibility;
+    public Visibility StimulusVisibility
+    {
+        get => _stimulusVisibility;
+        set
+        {
+            if (value == _stimulusVisibility) return;
+            _stimulusVisibility = value;
+            OnPropertyChanged("StimulusVisibility");
+        }
+    }
+
+    private Visibility _systemVisibility;
+    public Visibility SystemVisibility
+    {
+        get => _systemVisibility;
+        set
+        {
+            if (value == _systemVisibility) return;
+            _systemVisibility = value;
+            OnPropertyChanged("SystemVisibility");
+        }
+    }
+
+    private Visibility _terrainVisibility;
+    public Visibility TerrainVisibility
+    {
+        get => _terrainVisibility;
+        set
+        {
+            if (value == _terrainVisibility) return;
+            _terrainVisibility = value;
+            OnPropertyChanged("TerrainVisibility");
+        }
+    }
+
+    private Visibility _traitVisibility;
+    public Visibility TraitVisibility
+    {
+        get => _traitVisibility;
+        set
+        {
+            if (value == _traitVisibility) return;
+            _traitVisibility = value;
+            OnPropertyChanged("TraitVisibility");
+        }
+    }
+
+    private Visibility _usageVisibility;
+    public Visibility UsageVisibility
+    {
+        get => _usageVisibility;
+        set
+        {
+            if (value == _usageVisibility) return;
+            _usageVisibility = value;
+            OnPropertyChanged("UsageVisibility");
+        }
+    }
+    #endregion
 
     public FilterHandler(IFilterable source)
     {
@@ -122,29 +375,29 @@ public class FilterHandler : INotifyPropertyChanged
     public DelegateCommand CustomCheckboxCommand { get; }
 
     // Descriptor collections
-    public ObservableCollection<string> ContentDescriptorList { get; set; } = new();
-    public ObservableCollection<string> CreatureDescriptorList { get; set; } = new();
-    public ObservableCollection<string> CreatureTypeDescriptorList { get; set; } = new();
-    public ObservableCollection<string> CreatureSubTypeDescriptorList { get; set; } = new();
-    public ObservableCollection<string> CraftSkillDescriptorList { get; set; } = new();
-    public ObservableCollection<string> AbilityDescriptorList { get; set; } = new();
-    public ObservableCollection<string> AbilityTypeDescriptorList { get; set; } = new();
-    public ObservableCollection<string> BuffDescriptorList { get; set; } = new();
-    public ObservableCollection<string> FeatDescriptorList { get; set; } = new();
-    public ObservableCollection<string> MagicDescriptorList { get; set; } = new();
-    public ObservableCollection<string> SaveDescriptorList { get; set; } = new();
-    public ObservableCollection<string> SkillDescriptorList { get; set; } = new();
-    public ObservableCollection<string> SystemDescriptorList { get; set; } = new();
-    public ObservableCollection<string> TraitDescriptorList { get; set; } = new();
-    public ObservableCollection<string> UsageDescriptorList { get; set; } = new();
-    public ObservableCollection<string> DurationDescriptorList { get; set; } = new();
-    public ObservableCollection<string> KnowledgeDescriptorList { get; set; } = new();
-    public ObservableCollection<string> MagicAuraDescriptorList { get; set; } = new();
-    public ObservableCollection<string> PerformDescriptorList { get; set; } = new();
-    public ObservableCollection<string> SpellSchoolDescriptorList { get; set; } = new();
-    public ObservableCollection<string> StimulusDescriptorList { get; set; } = new();
-    public ObservableCollection<string> TerrainDescriptorList { get; set; } = new();
-    public ObservableCollection<string> CustomDescriptorList { get; set; } = new();
+    public ObservableCollection<string> ContentDescriptorList { get; } = new();
+    public ObservableCollection<string> CreatureDescriptorList { get; } = new();
+    public ObservableCollection<string> CreatureTypeDescriptorList { get; } = new();
+    public ObservableCollection<string> CreatureSubTypeDescriptorList { get; } = new();
+    public ObservableCollection<string> CraftSkillDescriptorList { get; } = new();
+    public ObservableCollection<string> AbilityDescriptorList { get; } = new();
+    public ObservableCollection<string> AbilityTypeDescriptorList { get; } = new();
+    public ObservableCollection<string> BuffDescriptorList { get; } = new();
+    public ObservableCollection<string> FeatDescriptorList { get; } = new();
+    public ObservableCollection<string> MagicDescriptorList { get; } = new();
+    public ObservableCollection<string> SaveDescriptorList { get; } = new();
+    public ObservableCollection<string> SkillDescriptorList { get; } = new();
+    public ObservableCollection<string> SystemDescriptorList { get; } = new();
+    public ObservableCollection<string> TraitDescriptorList { get; } = new();
+    public ObservableCollection<string> UsageDescriptorList { get; } = new();
+    public ObservableCollection<string> DurationDescriptorList { get; } = new();
+    public ObservableCollection<string> KnowledgeDescriptorList { get; } = new();
+    public ObservableCollection<string> MagicAuraDescriptorList { get; } = new();
+    public ObservableCollection<string> PerformDescriptorList { get; } = new();
+    public ObservableCollection<string> SpellSchoolDescriptorList { get; } = new();
+    public ObservableCollection<string> StimulusDescriptorList { get; } = new();
+    public ObservableCollection<string> TerrainDescriptorList { get; } = new();
+    public ObservableCollection<string> CustomDescriptorList { get; } = new();
 
     private bool ActiveTraitFilters => _contentFilters.Any() ||
                                        _creatureFilters.Any() ||
@@ -179,7 +432,7 @@ public class FilterHandler : INotifyPropertyChanged
         CreatureTypeVisibility = settings.ShowCreatureType ? Visibility.Visible : Visibility.Collapsed;
         CreatureSubTypeVisibility = settings.ShowCreatureSubType ? Visibility.Visible : Visibility.Collapsed;
         CraftSkillVisibility = settings.ShowCraftSkill ? Visibility.Visible : Visibility.Collapsed;
-        AbilityVisibility = settings.ShowAbilityScore ? Visibility.Visible : Visibility.Collapsed;
+        AbilityVisibility = settings.ShowAbility ? Visibility.Visible : Visibility.Collapsed;
         AbilityTypeVisibility = settings.ShowAbilityType ? Visibility.Visible : Visibility.Collapsed;
         BuffVisibility = settings.ShowBuff ? Visibility.Visible : Visibility.Collapsed;
         FeatVisibility = settings.ShowFeat ? Visibility.Visible : Visibility.Collapsed;
@@ -376,9 +629,9 @@ public class FilterHandler : INotifyPropertyChanged
         }
     }
 
-    internal void InitializeMode(AppMode mode)
+    internal void RefreshMode()
     {
-        GetDescriptors(mode);
+        GetDescriptors(AppSettings.Mode);
     }
 
     protected virtual void OnPropertyChanged(string propertyName)

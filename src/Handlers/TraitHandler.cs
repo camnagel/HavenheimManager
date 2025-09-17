@@ -128,6 +128,7 @@ public class TraitHandler : IFilterable
             // Wait here until window returns
             if (configWindow.ShowDialog() == true)
             {
+                FilterHandler.SetDescriptorVisibility(DescriptorSettings);
             }
         }
         catch (ArgumentOutOfRangeException)
@@ -330,9 +331,9 @@ public class TraitHandler : IFilterable
         FilterHandler.Clear();
     }
 
-    internal void InitializeMode(AppMode mode)
+    internal void RefreshMode()
     {
-        FilterHandler.InitializeMode(mode);
+        FilterHandler.RefreshMode();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)

@@ -195,8 +195,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private void SetAppMode(AppMode mode)
     {
         ClearApp();
+        AppSettings.Mode = mode;
 
-        TraitHandler.InitializeMode(mode);
+        TraitHandler.RefreshMode();
     }
 
     private void ClearApp()

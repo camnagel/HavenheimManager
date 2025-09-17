@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using HavenheimManager.Calculators;
-using HavenheimManager.Containers;
 using HavenheimManager.Descriptors;
 using HavenheimManager.Enums;
 using HavenheimManager.Extensions;
@@ -12,106 +9,14 @@ namespace HavenheimManager.Editors;
 
 public class DescriptorViewModel : INotifyPropertyChanged
 {
-    private DescriptorSettings _settings;
-
-    private bool _showContent;
-
-    private bool _showCreature;
-
-    private bool _showCreatureType;
-
-    private bool _showCreatureSubType;
-
-    private bool _showCraftSkill;
-
-    private bool _showAbilityScore;
-
-    private bool _showAbilityType;
-
-    private bool _showBuff;
-
-    private bool _showFeat;
-
-    private bool _showMagic;
-
-    private bool _showSave;
-
-    private bool _showSkill;
-
-    private bool _showSystem;
-
-    private bool _showTrait;
-
-    private bool _showUsage;
-
-    private bool _showDuration;
-
-    private bool _showKnowledge;
-
-    private bool _showMagicAura;
-
-    private bool _showPerform;
-
-    private bool _showSpellSchool;
-
-    private bool _showStimulus;
-
-    private bool _showTerrain;
-
-    public bool ShowContent
-    {
-        get => _showContent;
-        set
-        {
-            if (value == _showContent) return;
-            _showContent = value;
-            OnPropertyChanged("ShowContent");
-        }
-    }
-
-    internal bool ShowCreature { get; private set; }
-
-    internal bool ShowCreatureType { get; private set; }
-
-    internal bool ShowCreatureSubType { get; private set; }
-
-    internal bool ShowCraftSkill { get; private set; }
-
-    internal bool ShowAbilityScore { get; private set; }
-
-    internal bool ShowAbilityType { get; private set; }
-
-    internal bool ShowBuff { get; private set; }
-
-    internal bool ShowFeat { get; private set; }
-
-    internal bool ShowMagic { get; private set; }
-
-    internal bool ShowSave { get; private set; }
-
-    internal bool ShowSkill { get; private set; }
-
-    internal bool ShowSystem { get; private set; }
-
-    internal bool ShowTrait { get; private set; }
-
-    internal bool ShowUsage { get; private set; }
-
-    internal bool ShowDuration { get; private set; }
-
-    internal bool ShowKnowledge { get; private set; }
-
-    internal bool ShowMagicAura { get; private set; }
-
-    internal bool ShowPerform { get; private set; }
-
-    internal bool ShowSpellSchool { get; private set; }
-
-    internal bool ShowStimulus { get; private set; }
-
-    internal bool ShowTerrain { get; private set; }
-
-    internal bool ShowCustom { get; private set; }
+    /// <summary>
+    ///     The <see cref="DescriptorSettings" /> from the caller
+    /// </summary>
+    /// <remarks>
+    ///     These should be used to populate the show variables on this view model <br />
+    ///     These should only be changed when the user accepts the changes
+    /// </remarks>
+    private readonly DescriptorSettings _settings;
 
     internal DescriptorViewModel(DescriptorSettings settings)
     {
@@ -121,522 +26,43 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
         // We do this to avoid messing with the settings until the user confirms their changes
         ExtractDescriptorSettings(settings);
-    }
-
-    private void ExtractDescriptorSettings(DescriptorSettings settings)
-    {
-        _settings.ShowContent = settings.ShowContent;
-        _settings.ShowSkill = settings.ShowSkill;
-        _settings.ShowMagic = settings.ShowMagic;
-        _settings.ShowSystem = settings.ShowSystem;
-        _settings.ShowTrait = settings.ShowTrait;
-        _settings.ShowUsage = settings.ShowUsage;
-        _settings.ShowDuration = settings.ShowDuration;
-        _settings.ShowKnowledge = settings.ShowKnowledge;
-        _settings.ShowMagicAura = settings.ShowMagicAura;
-        _settings.ShowPerform = settings.ShowPerform;
-        _settings.ShowSpellSchool = settings.ShowSpellSchool;
-        _settings.ShowStimulus = settings.ShowStimulus;
-        _settings.ShowTerrain = settings.ShowTerrain;
-        _settings.ShowCreature = settings.ShowCreature;
-        _settings.ShowCreatureType = settings.ShowCreatureType;
-        _settings.ShowCreatureSubType = settings.ShowCreatureSubType;
-        _settings.ShowCraftSkill = settings.ShowCraftSkill;
-        _settings.ShowSave = settings.ShowSave;
-        _settings.ShowAbilityScore = settings.ShowAbilityScore;
-        _settings.ShowAbilityType = settings.ShowAbilityType;
-        _settings.ShowBuff = settings.ShowBuff;
-        _settings.ShowFeat = settings.ShowFeat;
-        _settings.ShowCustom = settings.ShowCustom;
-
         _settings = settings;
+
+        // Get descriptors based off the current app mode
+        GetDescriptors(AppSettings.Mode);
     }
-    
-    /*
-
-    RemoveAlchemicalBonusCommand = new DelegateCommand(RemoveAlchemicalBonusAction);
-        AddArmorBonusCommand = new DelegateCommand(AddArmorBonusAction);
-        RemoveArmorBonusCommand = new DelegateCommand(RemoveArmorBonusAction);
-        AddBabBonusCommand = new DelegateCommand(AddBabBonusAction);
-        RemoveBabBonusCommand = new DelegateCommand(RemoveBabBonusAction);
-        AddCompetenceBonusCommand = new DelegateCommand(AddCompetenceBonusAction);
-        RemoveCompetenceBonusCommand = new DelegateCommand(RemoveCompetenceBonusAction);
-        AddEnhancementBonusCommand = new DelegateCommand(AddEnhancementBonusAction);
-        RemoveEnhancementBonusCommand = new DelegateCommand(RemoveEnhancementBonusAction);
-        AddDeflectionBonusCommand = new DelegateCommand(AddDeflectionBonusAction);
-        RemoveDeflectionBonusCommand = new DelegateCommand(RemoveDeflectionBonusAction);
-        AddInherentBonusCommand = new DelegateCommand(AddInherentBonusAction);
-        RemoveInherentBonusCommand = new DelegateCommand(RemoveInherentBonusAction);
-        AddInsightBonusCommand = new DelegateCommand(AddInsightBonusAction);
-        RemoveInsightBonusCommand = new DelegateCommand(RemoveInsightBonusAction);
-        AddLuckBonusCommand = new DelegateCommand(AddLuckBonusAction);
-        RemoveLuckBonusCommand = new DelegateCommand(RemoveLuckBonusAction);
-        AddMoraleBonusCommand = new DelegateCommand(AddMoraleBonusAction);
-        RemoveMoraleBonusCommand = new DelegateCommand(RemoveMoraleBonusAction);
-        AddProfaneBonusCommand = new DelegateCommand(AddProfaneBonusAction);
-        RemoveProfaneBonusCommand = new DelegateCommand(RemoveProfaneBonusAction);
-        AddRacialBonusCommand = new DelegateCommand(AddRacialBonusAction);
-        RemoveRacialBonusCommand = new DelegateCommand(RemoveRacialBonusAction);
-        AddResistanceBonusCommand = new DelegateCommand(AddResistanceBonusAction);
-        RemoveResistanceBonusCommand = new DelegateCommand(RemoveResistanceBonusAction);
-        AddSacredBonusCommand = new DelegateCommand(AddSacredBonusAction);
-        RemoveSacredBonusCommand = new DelegateCommand(RemoveSacredBonusAction);
-        AddShieldBonusCommand = new DelegateCommand(AddShieldBonusAction);
-        RemoveShieldBonusCommand = new DelegateCommand(RemoveShieldBonusAction);
-        AddSizeBonusCommand = new DelegateCommand(AddSizeBonusAction);
-        RemoveSizeBonusCommand = new DelegateCommand(RemoveSizeBonusAction);
-        AddTraitBonusCommand = new DelegateCommand(AddTraitBonusAction);
-        RemoveTraitBonusCommand = new DelegateCommand(RemoveTraitBonusAction);
-        AddDodgeBonusCommand = new DelegateCommand(AddDodgeBonusAction);
-        RemoveDodgeBonusCommand = new DelegateCommand(RemoveDodgeBonusAction);
-        AddUntypedBonusCommand = new DelegateCommand(AddUntypedBonusAction);
-        RemoveUntypedBonusCommand = new DelegateCommand(RemoveUntypedBonusAction);
-        AddCircumstanceBonusCommand = new DelegateCommand(AddCircumstanceBonusAction);
-        RemoveCircumstanceBonusCommand = new DelegateCommand(RemoveCircumstanceBonusAction);
-        AddNaturalArmorBonusCommand = new DelegateCommand(AddNaturalArmorBonusAction);
-        RemoveNaturalArmorBonusCommand = new DelegateCommand(RemoveNaturalArmorBonusAction);
-
-        foreach (KeyValuePair<string, KeyValuePair<string, int>> bonus in bonusCalculator.NatArmorBonusList)
-        {
-            NaturalArmorBonuses.Add(new BonusScv(this, bonus.Key, bonus.Value.Key, bonus.Value.Value));
-        }
-
-        foreach (KeyValuePair<string, KeyValuePair<string, int>> bonus in bonusCalculator.CircumstanceBonusList)
-        {
-            CircumstanceBonuses.Add(new BonusScv(this, bonus.Key, bonus.Value.Key, bonus.Value.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.UntypedBonusList)
-        {
-            UntypedBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.DodgeBonusList)
-        {
-            DodgeBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.TraitBonusList)
-        {
-            TraitBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.SizeBonusList)
-        {
-            SizeBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.ShieldBonusList)
-        {
-            ShieldBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.SacredBonusList)
-        {
-            SacredBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.ResistanceBonusList)
-        {
-            ResistanceBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.RacialBonusList)
-        {
-            RacialBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.ProfaneBonusList)
-        {
-            ProfaneBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.MoraleBonusList)
-        {
-            MoraleBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.LuckBonusList)
-        {
-            LuckBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.InsightBonusList)
-        {
-            InsightBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.InherentBonusList)
-        {
-            InherentBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.DeflectionBonusList)
-        {
-            DeflectionBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.EnhanceBonusList)
-        {
-            EnhancementBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.CompetenceBonusList)
-        {
-            CompetenceBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.BabBonusList)
-        {
-            BabBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.AlchemicalBonusList)
-        {
-            AlchemicalBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        foreach (KeyValuePair<string, int> bonus in bonusCalculator.ArmorBonusList)
-        {
-            ArmorBonuses.Add(new BonusSvp(this, bonus.Key, bonus.Value));
-        }
-
-        UpdateActiveBonuses();
-    }*/
 
     public DelegateCommand AcceptChangesCommand { get; }
 
-    public DelegateCommand CancelCommand { get; }/*
-
-    internal BonusSvp? SelectedAlchemicalBonus
-    {
-        get => _selectedAlchemicalBonus;
-        set
-        {
-            _selectedAlchemicalBonus = value;
-            OnPropertyChanged("SelectedAlchemicalBonus");
-        }
-    }*/
-
-    internal DelegateCommand ShowContentCheckboxCommand { get; }/*
-
-    internal DelegateCommand RemoveAlchemicalBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> AlchemicalBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedArmorBonus
-    {
-        get => _selectedArmorBonus;
-        set
-        {
-            _selectedArmorBonus = value;
-            OnPropertyChanged("SelectedArmorBonus");
-        }
-    }
-
-    internal DelegateCommand AddArmorBonusCommand { get; }
-
-    internal DelegateCommand RemoveArmorBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> ArmorBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedBabBonus
-    {
-        get => _selectedBabBonus;
-        set
-        {
-            _selectedBabBonus = value;
-            OnPropertyChanged("SelectedBabBonus");
-        }
-    }
-
-    internal DelegateCommand AddBabBonusCommand { get; }
-
-    internal DelegateCommand RemoveBabBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> BabBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedCompetenceBonus
-    {
-        get => _selectedCompetenceBonus;
-        set
-        {
-            _selectedCompetenceBonus = value;
-            OnPropertyChanged("SelectedCompetenceBonus");
-        }
-    }
-
-    internal DelegateCommand AddCompetenceBonusCommand { get; }
-
-    internal DelegateCommand RemoveCompetenceBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> CompetenceBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedEnhancementBonus
-    {
-        get => _selectedEnhancementBonus;
-        set
-        {
-            _selectedEnhancementBonus = value;
-            OnPropertyChanged("SelectedEnhancementBonus");
-        }
-    }
-
-    internal DelegateCommand AddEnhancementBonusCommand { get; }
-
-    internal DelegateCommand RemoveEnhancementBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> EnhancementBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedDeflectionBonus
-    {
-        get => _selectedDeflectionBonus;
-        set
-        {
-            _selectedDeflectionBonus = value;
-            OnPropertyChanged("SelectedDeflectionBonus");
-        }
-    }
-
-    internal DelegateCommand AddDeflectionBonusCommand { get; }
-
-    internal DelegateCommand RemoveDeflectionBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> DeflectionBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedInherentBonus
-    {
-        get => _selectedInherentBonus;
-        set
-        {
-            _selectedInherentBonus = value;
-            OnPropertyChanged("SelectedInherentBonus");
-        }
-    }
-
-    internal DelegateCommand AddInherentBonusCommand { get; }
-
-    internal DelegateCommand RemoveInherentBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> InherentBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedInsightBonus
-    {
-        get => _selectedInsightBonus;
-        set
-        {
-            _selectedInsightBonus = value;
-            OnPropertyChanged("SelectedInsightBonus");
-        }
-    }
-
-    internal DelegateCommand AddInsightBonusCommand { get; }
-
-    internal DelegateCommand RemoveInsightBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> InsightBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedLuckBonus
-    {
-        get => _selectedLuckBonus;
-        set
-        {
-            _selectedLuckBonus = value;
-            OnPropertyChanged("SelectedLuckBonus");
-        }
-    }
-
-    internal DelegateCommand AddLuckBonusCommand { get; }
-
-    internal DelegateCommand RemoveLuckBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> LuckBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedMoraleBonus
-    {
-        get => _selectedMoraleBonus;
-        set
-        {
-            _selectedMoraleBonus = value;
-            OnPropertyChanged("SelectedMoraleBonus");
-        }
-    }
-
-    internal DelegateCommand AddMoraleBonusCommand { get; }
-
-    internal DelegateCommand RemoveMoraleBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> MoraleBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedProfaneBonus
-    {
-        get => _selectedProfaneBonus;
-        set
-        {
-            _selectedProfaneBonus = value;
-            OnPropertyChanged("SelectedProfaneBonus");
-        }
-    }
-
-    internal DelegateCommand AddProfaneBonusCommand { get; }
-
-    internal DelegateCommand RemoveProfaneBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> ProfaneBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedRacialBonus
-    {
-        get => _selectedRacialBonus;
-        set
-        {
-            _selectedRacialBonus = value;
-            OnPropertyChanged("SelectedRacialBonus");
-        }
-    }
-
-    internal DelegateCommand AddRacialBonusCommand { get; }
-
-    internal DelegateCommand RemoveRacialBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> RacialBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedResistanceBonus
-    {
-        get => _selectedResistanceBonus;
-        set
-        {
-            _selectedResistanceBonus = value;
-            OnPropertyChanged("SelectedResistanceBonus");
-        }
-    }
-
-    internal DelegateCommand AddResistanceBonusCommand { get; }
-
-    internal DelegateCommand RemoveResistanceBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> ResistanceBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedSacredBonus
-    {
-        get => _selectedSacredBonus;
-        set
-        {
-            _selectedSacredBonus = value;
-            OnPropertyChanged("SelectedSacredBonus");
-        }
-    }
-
-    internal DelegateCommand AddSacredBonusCommand { get; }
-
-    internal DelegateCommand RemoveSacredBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> SacredBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedShieldBonus
-    {
-        get => _selectedShieldBonus;
-        set
-        {
-            _selectedShieldBonus = value;
-            OnPropertyChanged("SelectedShieldBonus");
-        }
-    }
-
-    internal DelegateCommand AddShieldBonusCommand { get; }
-
-    internal DelegateCommand RemoveShieldBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> ShieldBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedSizeBonus
-    {
-        get => _selectedSizeBonus;
-        set
-        {
-            _selectedSizeBonus = value;
-            OnPropertyChanged("SelectedSizeBonus");
-        }
-    }
-
-    internal DelegateCommand AddSizeBonusCommand { get; }
-
-    internal DelegateCommand RemoveSizeBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> SizeBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedTraitBonus
-    {
-        get => _selectedTraitBonus;
-        set
-        {
-            _selectedTraitBonus = value;
-            OnPropertyChanged("SelectedTraitBonus");
-        }
-    }
-
-    internal DelegateCommand AddTraitBonusCommand { get; }
-
-    internal DelegateCommand RemoveTraitBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> TraitBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedDodgeBonus
-    {
-        get => _selectedDodgeBonus;
-        set
-        {
-            _selectedDodgeBonus = value;
-            OnPropertyChanged("SelectedDodgeBonus");
-        }
-    }
-
-    internal DelegateCommand AddDodgeBonusCommand { get; }
-
-    internal DelegateCommand RemoveDodgeBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> DodgeBonuses { get; set; } = new();
-
-    internal BonusSvp? SelectedUntypedBonus
-    {
-        get => _selectedUntypedBonus;
-        set
-        {
-            _selectedUntypedBonus = value;
-            OnPropertyChanged("SelectedUntypedBonus");
-        }
-    }
-
-    internal DelegateCommand AddUntypedBonusCommand { get; }
-
-    internal DelegateCommand RemoveUntypedBonusCommand { get; }
-
-    internal ObservableCollection<BonusSvp> UntypedBonuses { get; set; } = new();
-
-    internal BonusScv? SelectedCircumstanceBonus
-    {
-        get => _selectedCircumstanceBonus;
-        set
-        {
-            _selectedCircumstanceBonus = value;
-            OnPropertyChanged("SelectedCircumstanceBonus");
-        }
-    }
-
-    internal DelegateCommand AddCircumstanceBonusCommand { get; }
-
-    internal DelegateCommand RemoveCircumstanceBonusCommand { get; }
-
-    internal ObservableCollection<BonusScv> CircumstanceBonuses { get; set; } = new();
-
-    internal BonusScv? SelectedNaturalArmorBonus
-    {
-        get => _selectedNaturalArmorBonus;
-        set
-        {
-            _selectedNaturalArmorBonus = value;
-            OnPropertyChanged("SelectedNaturalArmorBonus");
-        }
-    }
+    public DelegateCommand CancelCommand { get; }
+
+    internal DelegateCommand ShowContentCheckboxCommand { get; }
+
+    public ObservableCollection<string> ContentDescriptorList { get; } = new();
+    public ObservableCollection<string> CreatureDescriptorList { get; } = new();
+    public ObservableCollection<string> CreatureTypeDescriptorList { get; } = new();
+    public ObservableCollection<string> CreatureSubTypeDescriptorList { get; } = new();
+    public ObservableCollection<string> CraftSkillDescriptorList { get; } = new();
+    public ObservableCollection<string> AbilityDescriptorList { get; } = new();
+    public ObservableCollection<string> AbilityTypeDescriptorList { get; } = new();
+    public ObservableCollection<string> BuffDescriptorList { get; } = new();
+    public ObservableCollection<string> FeatDescriptorList { get; } = new();
+    public ObservableCollection<string> MagicDescriptorList { get; } = new();
+    public ObservableCollection<string> SaveDescriptorList { get; } = new();
+    public ObservableCollection<string> SkillDescriptorList { get; } = new();
+    public ObservableCollection<string> SystemDescriptorList { get; } = new();
+    public ObservableCollection<string> TraitDescriptorList { get; } = new();
+    public ObservableCollection<string> UsageDescriptorList { get; } = new();
+    public ObservableCollection<string> DurationDescriptorList { get; } = new();
+    public ObservableCollection<string> KnowledgeDescriptorList { get; } = new();
+    public ObservableCollection<string> MagicAuraDescriptorList { get; } = new();
+    public ObservableCollection<string> PerformDescriptorList { get; } = new();
+    public ObservableCollection<string> SpellSchoolDescriptorList { get; } = new();
+    public ObservableCollection<string> StimulusDescriptorList { get; } = new();
+    public ObservableCollection<string> TerrainDescriptorList { get; } = new();
+    public ObservableCollection<string> CustomDescriptorList { get; } = new();
+
+    /*
 
     internal DelegateCommand AddNaturalArmorBonusCommand { get; }
 
@@ -653,580 +79,71 @@ public class DescriptorViewModel : INotifyPropertyChanged
         {
             _selectedActiveBonus = value;
             OnPropertyChanged("SelectedActiveBonus");
-        
+
     }
 
-    internal int BonusTotal
-    {
-        get => _bonusTotal;
-        set
-        {
-            _bonusTotal = value;
-            OnPropertyChanged("BonusTotal");
-        }
-    }*/
+
+    */
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void ExtractDescriptorSettings(DescriptorSettings settings)
+    {
+        ShowContent = settings.ShowContent;
+        ShowSkill = settings.ShowSkill;
+        ShowMagic = settings.ShowMagic;
+        ShowSystem = settings.ShowSystem;
+        ShowTrait = settings.ShowTrait;
+        ShowUsage = settings.ShowUsage;
+        ShowDuration = settings.ShowDuration;
+        ShowKnowledge = settings.ShowKnowledge;
+        ShowMagicAura = settings.ShowMagicAura;
+        ShowPerform = settings.ShowPerform;
+        ShowSpellSchool = settings.ShowSpellSchool;
+        ShowStimulus = settings.ShowStimulus;
+        ShowTerrain = settings.ShowTerrain;
+        ShowCreature = settings.ShowCreature;
+        ShowCreatureType = settings.ShowCreatureType;
+        ShowCreatureSubType = settings.ShowCreatureSubType;
+        ShowCraftSkill = settings.ShowCraftSkill;
+        ShowSave = settings.ShowSave;
+        ShowAbility = settings.ShowAbility;
+        ShowAbilityType = settings.ShowAbilityType;
+        ShowBuff = settings.ShowBuff;
+        ShowFeat = settings.ShowFeat;
+        ShowCustom = settings.ShowCustom;
+    }
+
+    private void GetDescriptors(AppMode mode)
+    {
+        ContentDescriptorList.Fill(DescriptorUtils.GetContent(mode));
+        CreatureDescriptorList.Fill(DescriptorUtils.GetCreature(mode));
+        CreatureTypeDescriptorList.Fill(DescriptorUtils.GetCreatureType(mode));
+        CreatureSubTypeDescriptorList.Fill(DescriptorUtils.GetCreatureSubType(mode));
+        CraftSkillDescriptorList.Fill(DescriptorUtils.GetCraftSkill(mode));
+        AbilityDescriptorList.Fill(DescriptorUtils.GetAbilityScore(mode));
+        AbilityTypeDescriptorList.Fill(DescriptorUtils.GetAbilityType(mode));
+        BuffDescriptorList.Fill(DescriptorUtils.GetBuff(mode));
+        FeatDescriptorList.Fill(DescriptorUtils.GetDescFeat(mode));
+        MagicDescriptorList.Fill(DescriptorUtils.GetDescMagic(mode));
+        SaveDescriptorList.Fill(DescriptorUtils.GetSave(mode));
+        SkillDescriptorList.Fill(DescriptorUtils.GetDescSkill(mode));
+        SystemDescriptorList.Fill(DescriptorUtils.GetSystem(mode));
+        TraitDescriptorList.Fill(DescriptorUtils.GetDescTrait(mode));
+        UsageDescriptorList.Fill(DescriptorUtils.GetUsage(mode));
+        DurationDescriptorList.Fill(DescriptorUtils.GetDuration(mode));
+        KnowledgeDescriptorList.Fill(DescriptorUtils.GetKnowledge(mode));
+        MagicAuraDescriptorList.Fill(DescriptorUtils.GetMagicAura(mode));
+        PerformDescriptorList.Fill(DescriptorUtils.GetPerformSkill(mode));
+        SpellSchoolDescriptorList.Fill(DescriptorUtils.GetSpellSchool(mode));
+        StimulusDescriptorList.Fill(DescriptorUtils.GetStimulus(mode));
+        TerrainDescriptorList.Fill(DescriptorUtils.GetTerrain(mode));
+    }
 
     private void ShowContentCheckboxAction(object arg)
     {
         _settings.ShowContent = !ShowContent;
-
-    }/*
-
-    private void RemoveAlchemicalBonusAction(object arg)
-    {
-        if (SelectedAlchemicalBonus != null)
-        {
-            AlchemicalBonuses.Remove(SelectedAlchemicalBonus);
-            SelectedAlchemicalBonus = null;
-
-            UpdateActiveBonuses();
-        }
     }
-
-    private void AddArmorBonusAction(object arg)
-    {
-        ArmorBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveArmorBonusAction(object arg)
-    {
-        if (SelectedArmorBonus != null)
-        {
-            ArmorBonuses.Remove(SelectedArmorBonus);
-            SelectedArmorBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddBabBonusAction(object arg)
-    {
-        BabBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveBabBonusAction(object arg)
-    {
-        if (SelectedBabBonus != null)
-        {
-            BabBonuses.Remove(SelectedBabBonus);
-            SelectedBabBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddCompetenceBonusAction(object arg)
-    {
-        CompetenceBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveCompetenceBonusAction(object arg)
-    {
-        if (SelectedCompetenceBonus != null)
-        {
-            CompetenceBonuses.Remove(SelectedCompetenceBonus);
-            SelectedCompetenceBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddEnhancementBonusAction(object arg)
-    {
-        EnhancementBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveEnhancementBonusAction(object arg)
-    {
-        if (SelectedEnhancementBonus != null)
-        {
-            EnhancementBonuses.Remove(SelectedEnhancementBonus);
-            SelectedEnhancementBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddDeflectionBonusAction(object arg)
-    {
-        DeflectionBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveDeflectionBonusAction(object arg)
-    {
-        if (SelectedDeflectionBonus != null)
-        {
-            DeflectionBonuses.Remove(SelectedDeflectionBonus);
-            SelectedDeflectionBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddInherentBonusAction(object arg)
-    {
-        InherentBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveInherentBonusAction(object arg)
-    {
-        if (SelectedInherentBonus != null)
-        {
-            InherentBonuses.Remove(SelectedInherentBonus);
-            SelectedInherentBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddInsightBonusAction(object arg)
-    {
-        InsightBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveInsightBonusAction(object arg)
-    {
-        if (SelectedInsightBonus != null)
-        {
-            InsightBonuses.Remove(SelectedInsightBonus);
-            SelectedInsightBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddLuckBonusAction(object arg)
-    {
-        LuckBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveLuckBonusAction(object arg)
-    {
-        if (SelectedLuckBonus != null)
-        {
-            LuckBonuses.Remove(SelectedLuckBonus);
-            SelectedLuckBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddMoraleBonusAction(object arg)
-    {
-        MoraleBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveMoraleBonusAction(object arg)
-    {
-        if (SelectedMoraleBonus != null)
-        {
-            MoraleBonuses.Remove(SelectedMoraleBonus);
-            SelectedMoraleBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddProfaneBonusAction(object arg)
-    {
-        ProfaneBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveProfaneBonusAction(object arg)
-    {
-        if (SelectedProfaneBonus != null)
-        {
-            ProfaneBonuses.Remove(SelectedProfaneBonus);
-            SelectedProfaneBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddRacialBonusAction(object arg)
-    {
-        RacialBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveRacialBonusAction(object arg)
-    {
-        if (SelectedRacialBonus != null)
-        {
-            RacialBonuses.Remove(SelectedRacialBonus);
-            SelectedRacialBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddResistanceBonusAction(object arg)
-    {
-        ResistanceBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveResistanceBonusAction(object arg)
-    {
-        if (SelectedResistanceBonus != null)
-        {
-            ResistanceBonuses.Remove(SelectedResistanceBonus);
-            SelectedResistanceBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddSacredBonusAction(object arg)
-    {
-        SacredBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveSacredBonusAction(object arg)
-    {
-        if (SelectedSacredBonus != null)
-        {
-            SacredBonuses.Remove(SelectedSacredBonus);
-            SelectedSacredBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddShieldBonusAction(object arg)
-    {
-        ShieldBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveShieldBonusAction(object arg)
-    {
-        if (SelectedShieldBonus != null)
-        {
-            ShieldBonuses.Remove(SelectedShieldBonus);
-            SelectedShieldBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddSizeBonusAction(object arg)
-    {
-        SizeBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveSizeBonusAction(object arg)
-    {
-        if (SelectedSizeBonus != null)
-        {
-            SizeBonuses.Remove(SelectedSizeBonus);
-            SelectedSizeBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddTraitBonusAction(object arg)
-    {
-        TraitBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveTraitBonusAction(object arg)
-    {
-        if (SelectedTraitBonus != null)
-        {
-            TraitBonuses.Remove(SelectedTraitBonus);
-            SelectedTraitBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddDodgeBonusAction(object arg)
-    {
-        DodgeBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveDodgeBonusAction(object arg)
-    {
-        if (SelectedDodgeBonus != null)
-        {
-            DodgeBonuses.Remove(SelectedDodgeBonus);
-            SelectedDodgeBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddUntypedBonusAction(object arg)
-    {
-        UntypedBonuses.Add(new BonusSvp(this, "Source", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveUntypedBonusAction(object arg)
-    {
-        if (SelectedUntypedBonus != null)
-        {
-            UntypedBonuses.Remove(SelectedUntypedBonus);
-            SelectedUntypedBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddCircumstanceBonusAction(object arg)
-    {
-        CircumstanceBonuses.Add(new BonusScv(this, "Source", "Circumstance", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveCircumstanceBonusAction(object arg)
-    {
-        if (SelectedCircumstanceBonus != null)
-        {
-            CircumstanceBonuses.Remove(SelectedCircumstanceBonus);
-            SelectedCircumstanceBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    private void AddNaturalArmorBonusAction(object arg)
-    {
-        NaturalArmorBonuses.Add(new BonusScv(this, "Source", "Circumstance", 0));
-
-        UpdateActiveBonuses();
-    }
-
-    private void RemoveNaturalArmorBonusAction(object arg)
-    {
-        if (SelectedNaturalArmorBonus != null)
-        {
-            NaturalArmorBonuses.Remove(SelectedNaturalArmorBonus);
-            SelectedNaturalArmorBonus = null;
-
-            UpdateActiveBonuses();
-        }
-    }
-
-    internal void UpdateActiveBonuses()
-    {
-        List<BonusTsv> activeBonuses = new();
-
-        BonusSvp? alchemicalBonus = AlchemicalBonuses.Max();
-        if (alchemicalBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Alchemical.GetEnumDescription(),
-                alchemicalBonus.Source, alchemicalBonus.Value));
-        }
-
-        BonusSvp? armorBonus = ArmorBonuses.Max();
-        if (armorBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Armor.GetEnumDescription(),
-                armorBonus.Source, armorBonus.Value));
-        }
-
-        BonusSvp? babBonus = BabBonuses.Max();
-        if (babBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Bab.GetEnumDescription(),
-                babBonus.Source, babBonus.Value));
-        }
-
-        BonusSvp? competenceBonus = CompetenceBonuses.Max();
-        if (competenceBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Competence.GetEnumDescription(),
-                competenceBonus.Source, competenceBonus.Value));
-        }
-
-        BonusSvp? deflectionBonus = DeflectionBonuses.Max();
-        if (deflectionBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Deflection.GetEnumDescription(),
-                deflectionBonus.Source, deflectionBonus.Value));
-        }
-
-        BonusSvp? enhancementBonus = EnhancementBonuses.Max();
-        if (enhancementBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Enhancement.GetEnumDescription(),
-                enhancementBonus.Source, enhancementBonus.Value));
-        }
-
-        BonusSvp? inherentBonus = InherentBonuses.Max();
-        if (inherentBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Inherent.GetEnumDescription(),
-                inherentBonus.Source, inherentBonus.Value));
-        }
-
-        BonusSvp? insightBonus = InsightBonuses.Max();
-        if (insightBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Inherent.GetEnumDescription(),
-                insightBonus.Source, insightBonus.Value));
-        }
-
-        BonusSvp? luckBonus = LuckBonuses.Max();
-        if (luckBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Luck.GetEnumDescription(),
-                luckBonus.Source, luckBonus.Value));
-        }
-
-        BonusSvp? moraleBonus = MoraleBonuses.Max();
-        if (moraleBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Morale.GetEnumDescription(),
-                moraleBonus.Source, moraleBonus.Value));
-        }
-
-        BonusSvp? profaneBonus = ProfaneBonuses.Max();
-        if (profaneBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Profane.GetEnumDescription(),
-                profaneBonus.Source, profaneBonus.Value));
-        }
-
-        BonusSvp? racialBonus = RacialBonuses.Max();
-        if (racialBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Racial.GetEnumDescription(),
-                racialBonus.Source, racialBonus.Value));
-        }
-
-        BonusSvp? resistanceBonus = ResistanceBonuses.Max();
-        if (resistanceBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Resistance.GetEnumDescription(),
-                resistanceBonus.Source, resistanceBonus.Value));
-        }
-
-        BonusSvp? sacredBonus = SacredBonuses.Max();
-        if (sacredBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Sacred.GetEnumDescription(),
-                sacredBonus.Source, sacredBonus.Value));
-        }
-
-        BonusSvp? shieldBonus = ShieldBonuses.Max();
-        if (shieldBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Shield.GetEnumDescription(),
-                shieldBonus.Source, shieldBonus.Value));
-        }
-
-        BonusSvp? sizeBonus = SizeBonuses.Max();
-        if (sizeBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Size.GetEnumDescription(),
-                sizeBonus.Source, sizeBonus.Value));
-        }
-
-        BonusSvp? traitBonus = TraitBonuses.Max();
-        if (traitBonus != null)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Trait.GetEnumDescription(),
-                traitBonus.Source, traitBonus.Value));
-        }
-
-        foreach (BonusSvp bonus in DodgeBonuses)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Dodge.GetEnumDescription(),
-                bonus.Source, bonus.Value));
-        }
-
-        foreach (BonusSvp bonus in UntypedBonuses)
-        {
-            activeBonuses.Add(new BonusTsv(Bonus.Untyped.GetEnumDescription(),
-                bonus.Source, bonus.Value));
-        }
-
-        foreach (BonusTsv bonus in FilterComplexBonuses(CircumstanceBonuses, Bonus.Circumstance))
-        {
-            activeBonuses.Add(bonus);
-        }
-
-        foreach (BonusTsv bonus in FilterComplexBonuses(NaturalArmorBonuses, Bonus.NaturalArmor))
-        {
-            activeBonuses.Add(bonus);
-        }
-
-        int totalBonus = 0;
-        ActiveBonuses.Clear();
-        foreach (BonusTsv activeBonus in activeBonuses)
-        {
-            ActiveBonuses.Add(activeBonus);
-            totalBonus += activeBonus.Value;
-        }
-
-        BonusTotal = totalBonus;
-    }
-
-    private ICollection<BonusTsv> FilterComplexBonuses(ICollection<BonusScv> list, Bonus bonusType)
-    {
-        // Filter bonuses to eliminate duplicates
-        Dictionary<string, BonusTsv> filteredBonuses = new();
-        foreach (BonusScv bonus in list)
-        {
-            // Handle multiple bonuses from same circumstance
-            if (filteredBonuses.ContainsKey(bonus.Source))
-            {
-                if (filteredBonuses[bonus.Source].Value < bonus.Value)
-                {
-                    filteredBonuses[bonus.Source].Value = bonus.Value;
-                }
-            }
-
-            // Just add it
-            else
-            {
-                filteredBonuses.Add(bonus.Source, new BonusTsv(
-                    bonusType.GetEnumDescription(),
-                    bonus.Source, bonus.Value));
-            }
-        }
-
-        return filteredBonuses.Values;
-    }*/
 
     private void CancelAction(object arg)
     {
@@ -1263,130 +180,415 @@ public class DescriptorViewModel : INotifyPropertyChanged
         _settings.ShowCreatureSubType = ShowCreatureSubType;
         _settings.ShowCraftSkill = ShowCraftSkill;
         _settings.ShowSave = ShowSave;
-        _settings.ShowAbilityScore = ShowAbilityScore;
+        _settings.ShowAbility = ShowAbility;
         _settings.ShowAbilityType = ShowAbilityType;
         _settings.ShowBuff = ShowBuff;
         _settings.ShowFeat = ShowFeat;
         _settings.ShowCustom = ShowCustom;
 
         if (arg is Window window)
-            window.DialogResult = true;
-    } /*
-
         {
-            _bonusCalculator.Clear();
-
-            foreach (BonusSvp bonus in AlchemicalBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Alchemical, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in ArmorBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Armor, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in BabBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Bab, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in CompetenceBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Competence, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in DeflectionBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Deflection, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in DodgeBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Dodge, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in EnhancementBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Enhancement, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in InherentBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Inherent, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in InsightBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Insight, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in LuckBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Luck, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in MoraleBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Morale, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in ProfaneBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Profane, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in RacialBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Racial, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in ResistanceBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Resistance, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in SacredBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Sacred, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in ShieldBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Shield, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in SizeBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Size, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in TraitBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Trait, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusSvp bonus in UntypedBonuses)
-            {
-                _bonusCalculator.AddBonus(Bonus.Untyped, bonus.Source, bonus.Value);
-            }
-
-            foreach (BonusScv bonus in CircumstanceBonuses)
-            {
-                _bonusCalculator.AddCircumstanceBonus(bonus.Source, bonus.Circumstance, bonus.Value);
-            }
-
-            foreach (BonusScv bonus in NaturalArmorBonuses)
-            {
-                _bonusCalculator.AddNaturalArmorBonus(bonus.Source, bonus.Circumstance, bonus.Value);
-            }
-
             window.DialogResult = true;
         }
-    }*/
+    }
 
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+    #region ShowVariables
+
+    private bool _showContent;
+
+    public bool ShowContent
+    {
+        get => _showContent;
+        set
+        {
+            if (value == _showContent)
+            {
+                return;
+            }
+
+            _showContent = value;
+            OnPropertyChanged("ShowContent");
+        }
+    }
+
+    private bool _showCreature;
+
+    public bool ShowCreature
+    {
+        get => _showCreature;
+        set
+        {
+            if (value == _showCreature)
+            {
+                return;
+            }
+
+            _showCreature = value;
+            OnPropertyChanged("ShowCreature");
+        }
+    }
+
+    private bool _showCreatureType;
+
+    public bool ShowCreatureType
+    {
+        get => _showCreatureType;
+        set
+        {
+            if (value == _showCreatureType)
+            {
+                return;
+            }
+
+            _showCreatureType = value;
+            OnPropertyChanged("ShowCreatureType");
+        }
+    }
+
+    private bool _showCreatureSubType;
+
+    public bool ShowCreatureSubType
+    {
+        get => _showCreatureSubType;
+        set
+        {
+            if (value == _showCreatureSubType)
+            {
+                return;
+            }
+
+            _showCreatureSubType = value;
+            OnPropertyChanged("ShowCreatureSubType");
+        }
+    }
+
+    private bool _showCraftSkill;
+
+    public bool ShowCraftSkill
+    {
+        get => _showCraftSkill;
+        set
+        {
+            if (value == _showCraftSkill)
+            {
+                return;
+            }
+
+            _showCraftSkill = value;
+            OnPropertyChanged("ShowCraftSkill");
+        }
+    }
+
+    private bool _showAbility;
+
+    public bool ShowAbility
+    {
+        get => _showAbility;
+        set
+        {
+            if (value == _showAbility)
+            {
+                return;
+            }
+
+            _showAbility = value;
+            OnPropertyChanged("ShowAbility");
+        }
+    }
+
+    private bool _showAbilityType;
+
+    public bool ShowAbilityType
+    {
+        get => _showAbilityType;
+        set
+        {
+            if (value == _showAbilityType)
+            {
+                return;
+            }
+
+            _showAbilityType = value;
+            OnPropertyChanged("ShowAbilityType");
+        }
+    }
+
+    private bool _showBuff;
+
+    public bool ShowBuff
+    {
+        get => _showBuff;
+        set
+        {
+            if (value == _showBuff)
+            {
+                return;
+            }
+
+            _showBuff = value;
+            OnPropertyChanged("ShowBuff");
+        }
+    }
+
+    private bool _showFeat;
+
+    public bool ShowFeat
+    {
+        get => _showFeat;
+        set
+        {
+            if (value == _showFeat)
+            {
+                return;
+            }
+
+            _showFeat = value;
+            OnPropertyChanged("ShowFeat");
+        }
+    }
+
+    private bool _showMagic;
+
+    public bool ShowMagic
+    {
+        get => _showMagic;
+        set
+        {
+            if (value == _showMagic)
+            {
+                return;
+            }
+
+            _showMagic = value;
+            OnPropertyChanged("ShowMagic");
+        }
+    }
+
+    private bool _showSave;
+
+    public bool ShowSave
+    {
+        get => _showSave;
+        set
+        {
+            if (value == _showSave)
+            {
+                return;
+            }
+
+            _showSave = value;
+            OnPropertyChanged("ShowSave");
+        }
+    }
+
+    private bool _showSkill;
+
+    public bool ShowSkill
+    {
+        get => _showSkill;
+        set
+        {
+            if (value == _showSkill)
+            {
+                return;
+            }
+
+            _showSkill = value;
+            OnPropertyChanged("ShowSkill");
+        }
+    }
+
+    private bool _showSystem;
+
+    public bool ShowSystem
+    {
+        get => _showSystem;
+        set
+        {
+            if (value == _showSystem)
+            {
+                return;
+            }
+
+            _showSystem = value;
+            OnPropertyChanged("ShowSystem");
+        }
+    }
+
+    private bool _showTrait;
+
+    public bool ShowTrait
+    {
+        get => _showTrait;
+        set
+        {
+            if (value == _showTrait)
+            {
+                return;
+            }
+
+            _showTrait = value;
+            OnPropertyChanged("ShowTrait");
+        }
+    }
+
+    private bool _showUsage;
+
+    public bool ShowUsage
+    {
+        get => _showUsage;
+        set
+        {
+            if (value == _showUsage)
+            {
+                return;
+            }
+
+            _showUsage = value;
+            OnPropertyChanged("ShowUsage");
+        }
+    }
+
+    private bool _showDuration;
+
+    public bool ShowDuration
+    {
+        get => _showDuration;
+        set
+        {
+            if (value == _showDuration)
+            {
+                return;
+            }
+
+            _showDuration = value;
+            OnPropertyChanged("ShowDuration");
+        }
+    }
+
+    private bool _showKnowledge;
+
+    public bool ShowKnowledge
+    {
+        get => _showKnowledge;
+        set
+        {
+            if (value == _showKnowledge)
+            {
+                return;
+            }
+
+            _showKnowledge = value;
+            OnPropertyChanged("ShowKnowledge");
+        }
+    }
+
+    private bool _showMagicAura;
+
+    public bool ShowMagicAura
+    {
+        get => _showMagicAura;
+        set
+        {
+            if (value == _showMagicAura)
+            {
+                return;
+            }
+
+            _showMagicAura = value;
+            OnPropertyChanged("ShowMagicAura");
+        }
+    }
+
+    private bool _showPerform;
+
+    public bool ShowPerform
+    {
+        get => _showPerform;
+        set
+        {
+            if (value == _showPerform)
+            {
+                return;
+            }
+
+            _showPerform = value;
+            OnPropertyChanged("ShowPerform");
+        }
+    }
+
+    private bool _showSpellSchool;
+
+    public bool ShowSpellSchool
+    {
+        get => _showSpellSchool;
+        set
+        {
+            if (value == _showSpellSchool)
+            {
+                return;
+            }
+
+            _showSpellSchool = value;
+            OnPropertyChanged("ShowSpellSchool");
+        }
+    }
+
+    private bool _showStimulus;
+
+    public bool ShowStimulus
+    {
+        get => _showStimulus;
+        set
+        {
+            if (value == _showStimulus)
+            {
+                return;
+            }
+
+            _showStimulus = value;
+            OnPropertyChanged("ShowStimulus");
+        }
+    }
+
+    private bool _showTerrain;
+
+    public bool ShowTerrain
+    {
+        get => _showTerrain;
+        set
+        {
+            if (value == _showTerrain)
+            {
+                return;
+            }
+
+            _showTerrain = value;
+            OnPropertyChanged("ShowTerrain");
+        }
+    }
+
+    private bool _showCustom;
+
+    public bool ShowCustom
+    {
+        get => _showCustom;
+        set
+        {
+            if (value == _showCustom)
+            {
+                return;
+            }
+
+            _showCustom = value;
+            OnPropertyChanged("ShowCustom");
+        }
+    }
+
+    #endregion
 }
