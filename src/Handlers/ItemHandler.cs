@@ -1,50 +1,204 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using AssetManager.Containers;
-using AssetManager.Editors;
-using AssetManager.Enums;
-using AssetManager.Extensions;
-using Condition = AssetManager.Enums.Condition;
+using HavenheimManager.Containers;
+using HavenheimManager.Editors;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using Condition = HavenheimManager.Enums.Condition;
 
-namespace AssetManager.Handlers;
+namespace HavenheimManager.Handlers;
 
-public class ItemHandler
+public class ItemHandler : INotifyPropertyChanged
 {
-    private readonly MainWindowViewModel _vm;
-
     // Item Filter Lists
-    private readonly HashSet<Bonus> BonusItemFilters = new();
-    private readonly HashSet<Class> ClassItemFilters = new();
-    private readonly HashSet<Combat> CombatItemFilters = new();
-    private readonly HashSet<Condition> ConditionItemFilters = new();
-    private readonly HashSet<Core> CoreItemFilters = new();
-    private readonly HashSet<string> CustomItemFilters = new();
-    private readonly HashSet<Magic> MagicItemFilters = new();
-    private readonly HashSet<Role> RoleItemFilters = new();
-    private readonly HashSet<Skill> SkillItemFilters = new();
-    private readonly HashSet<Source> SourceItemFilters = new();
+    private readonly HashSet<Bonus> _bonusItemFilters = new();
+    private readonly HashSet<Class> _classItemFilters = new();
+    private readonly HashSet<Combat> _combatItemFilters = new();
+    private readonly HashSet<Condition> _conditionItemFilters = new();
+    private readonly HashSet<Core> _coreItemFilters = new();
+    private readonly HashSet<string> _customItemFilters = new();
+    private readonly HashSet<Magic> _magicItemFilters = new();
+    private readonly HashSet<Role> _roleItemFilters = new();
+    private readonly HashSet<Skill> _skillItemFilters = new();
+    private readonly HashSet<Source> _sourceItemFilters = new();
 
-    public ItemHandler(MainWindowViewModel vm)
+    private string _itemSearchText = RegexHandler.SearchPlaceholderText;
+
+    private Item? _selectedItem;
+
+    private string _selectedItemReq;
+
+    internal void Clear()
     {
-        _vm = vm;
+        CoreItemFilterList.Clear();
+        SourceItemFilterList.Clear();
+        SkillItemFilterList.Clear();
+        CombatItemFilterList.Clear();
+        RoleItemFilterList.Clear();
+        MagicItemFilterList.Clear();
+        BonusItemFilterList.Clear();
+        ConditionItemFilterList.Clear();
+        ClassItemFilterList.Clear();
     }
+
+    internal void InitializePathfinder()
+    {
+
+    }
+
+    internal void InitializeHavenheim()
+    {
+        CoreItemFilterList.Fill<Core>(typeof(Core));
+        SourceItemFilterList.Fill<Source>(typeof(Source));
+        SkillItemFilterList.Fill<Skill>(typeof(Skill));
+        CombatItemFilterList.Fill<Combat>(typeof(Combat));
+        RoleItemFilterList.Fill<Role>(typeof(Role));
+        MagicItemFilterList.Fill<Magic>(typeof(Magic));
+        BonusItemFilterList.Fill<Bonus>(typeof(Bonus));
+        ConditionItemFilterList.Fill<Condition>(typeof(Condition));
+        ClassItemFilterList.Fill<Class>(typeof(Class));
+    }
+
+    public ItemHandler()
+    {
+        CoreItemCheckboxCommand = new DelegateCommand(ItemCoreFilterAction);
+        SkillItemCheckboxCommand = new DelegateCommand(ItemSkillFilterAction);
+        ClassItemCheckboxCommand = new DelegateCommand(ItemClassFilterAction);
+        CombatItemCheckboxCommand = new DelegateCommand(ItemCombatFilterAction);
+        RoleItemCheckboxCommand = new DelegateCommand(ItemRoleFilterAction);
+        MagicItemCheckboxCommand = new DelegateCommand(ItemMagicFilterAction);
+        BonusItemCheckboxCommand = new DelegateCommand(ItemBonusFilterAction);
+        ConditionItemCheckboxCommand = new DelegateCommand(ItemConditionFilterAction);
+        SourceItemCheckboxCommand = new DelegateCommand(ItemSourceFilterAction);
+        CustomItemCheckboxCommand = new DelegateCommand(ItemCustomFilterAction);
+        AddFavoriteItemCommand = new DelegateCommand(AddFavoriteItemAction);
+        AddHiddenItemCommand = new DelegateCommand(AddHiddenItemAction);
+        EditItemCommand = new DelegateCommand(EditItemAction);
+        NewItemCommand = new DelegateCommand(NewItemAction);
+        RemoveItemCommand = new DelegateCommand(RemoveItemAction);
+        RemoveFavoriteItemCommand = new DelegateCommand(RemoveFavoriteItemAction);
+        RemoveHiddenItemCommand = new DelegateCommand(RemoveHiddenItemAction);
+        ItemSearchRemovePlaceholderTextCommand = new DelegateCommand(ItemSearchRemovePlaceholderTextAction);
+        ItemSearchAddPlaceholderTextCommand = new DelegateCommand(ItemSearchAddPlaceholderTextAction);
+    }
+
+    // Filtered Item Collections
+    public ObservableCollection<Item> FilteredItemList { get; set; } = new();
+    public ObservableCollection<Item> FavoriteItemList { get; set; } = new();
+    public ObservableCollection<Item> HiddenItemList { get; set; } = new();
+
+    // Item Tag Collections
+    public ObservableCollection<string> CustomItemFilterList { get; set; } = new();
+    public ObservableCollection<string> CoreItemFilterList { get; set; } = new();
+    public ObservableCollection<string> SkillItemFilterList { get; set; } = new();
+    public ObservableCollection<string> ClassItemFilterList { get; set; } = new();
+    public ObservableCollection<string> CombatItemFilterList { get; set; } = new();
+    public ObservableCollection<string> RoleItemFilterList { get; set; } = new();
+    public ObservableCollection<string> MagicItemFilterList { get; set; } = new();
+    public ObservableCollection<string> BonusItemFilterList { get; set; } = new();
+    public ObservableCollection<string> SourceItemFilterList { get; set; } = new();
+    public ObservableCollection<string> ConditionItemFilterList { get; set; } = new();
+
+    public ObservableCollection<Item> CurrentItem { get; set; } = new();
+
+    public Item? SelectedItem
+    {
+        get => _selectedItem;
+        set
+        {
+            if (value != null)
+            {
+                SelectedItem = null;
+            }
+
+            _selectedItem = value;
+            CurrentItem.Clear();
+            if (value != null)
+            {
+                CurrentItem.Add(value);
+            }
+
+            OnPropertyChanged("SelectedItem");
+        }
+    }
+
+    public string? SelectedItemReq
+    {
+        get => _selectedItemReq;
+        set
+        {
+            _selectedItemReq = value ?? "";
+            string sanitizedSelection = _selectedItemReq.Sanitize();
+            foreach (Item possibleItem in MasterItemList)
+            {
+                if (possibleItem.Name.Sanitize() == sanitizedSelection)
+                {
+                    SelectedItem = possibleItem;
+                    _selectedItemReq = "";
+                }
+            }
+
+            OnPropertyChanged("SelectedItemReq");
+        }
+    }
+
+    public string ItemSearchText
+    {
+        get => _itemSearchText;
+        set
+        {
+            _itemSearchText = value;
+            ApplyItemFilters();
+
+            OnPropertyChanged("ItemSearchText");
+        }
+    }
+
+    // Item Checkbox Commands
+    public DelegateCommand CoreItemCheckboxCommand { get; }
+    public DelegateCommand SkillItemCheckboxCommand { get; }
+    public DelegateCommand ClassItemCheckboxCommand { get; }
+    public DelegateCommand CombatItemCheckboxCommand { get; }
+    public DelegateCommand RoleItemCheckboxCommand { get; }
+    public DelegateCommand MagicItemCheckboxCommand { get; }
+    public DelegateCommand BonusItemCheckboxCommand { get; }
+    public DelegateCommand SourceItemCheckboxCommand { get; }
+    public DelegateCommand CustomItemCheckboxCommand { get; }
+    public DelegateCommand ConditionItemCheckboxCommand { get; }
+
+    // Item Control Bar Commands
+    public DelegateCommand ItemSearchRemovePlaceholderTextCommand { get; }
+    public DelegateCommand ItemSearchAddPlaceholderTextCommand { get; }
+    public DelegateCommand AddFavoriteItemCommand { get; }
+    public DelegateCommand AddHiddenItemCommand { get; }
+    public DelegateCommand EditItemCommand { get; }
+    public DelegateCommand NewItemCommand { get; }
+    public DelegateCommand RemoveItemCommand { get; }
+    public DelegateCommand RemoveFavoriteItemCommand { get; }
+    public DelegateCommand RemoveHiddenItemCommand { get; }
+
+    public List<Item> MasterItemList { get; } = new();
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     // Item Checkbox Actions
     internal void ItemCoreFilterAction(object arg)
     {
         if (arg is string filter)
         {
-            Core toggleCore = filter.StringToCore();
+            Core toggleCore = filter.StringToEnum<Core>();
 
-            if (CoreItemFilters.Contains(toggleCore))
+            if (_coreItemFilters.Contains(toggleCore))
             {
-                CoreItemFilters.Remove(toggleCore);
+                _coreItemFilters.Remove(toggleCore);
             }
             else
             {
-                CoreItemFilters.Add(toggleCore);
+                _coreItemFilters.Add(toggleCore);
             }
 
             ApplyItemFilters();
@@ -55,15 +209,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Skill toggleSkill = filter.StringToSkill();
+            Skill toggleSkill = filter.StringToEnum<Skill>();
 
-            if (SkillItemFilters.Contains(toggleSkill))
+            if (_skillItemFilters.Contains(toggleSkill))
             {
-                SkillItemFilters.Remove(toggleSkill);
+                _skillItemFilters.Remove(toggleSkill);
             }
             else
             {
-                SkillItemFilters.Add(toggleSkill);
+                _skillItemFilters.Add(toggleSkill);
             }
 
             ApplyItemFilters();
@@ -74,15 +228,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Class toggleClass = filter.StringToClass();
+            Class toggleClass = filter.StringToEnum<Class>();
 
-            if (ClassItemFilters.Contains(toggleClass))
+            if (_classItemFilters.Contains(toggleClass))
             {
-                ClassItemFilters.Remove(toggleClass);
+                _classItemFilters.Remove(toggleClass);
             }
             else
             {
-                ClassItemFilters.Add(toggleClass);
+                _classItemFilters.Add(toggleClass);
             }
 
             ApplyItemFilters();
@@ -93,15 +247,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Combat toggleCombat = filter.StringToCombat();
+            Combat toggleCombat = filter.StringToEnum<Combat>();
 
-            if (CombatItemFilters.Contains(toggleCombat))
+            if (_combatItemFilters.Contains(toggleCombat))
             {
-                CombatItemFilters.Remove(toggleCombat);
+                _combatItemFilters.Remove(toggleCombat);
             }
             else
             {
-                CombatItemFilters.Add(toggleCombat);
+                _combatItemFilters.Add(toggleCombat);
             }
 
             ApplyItemFilters();
@@ -112,15 +266,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Role toggleRole = filter.StringToRole();
+            Role toggleRole = filter.StringToEnum<Role>();
 
-            if (RoleItemFilters.Contains(toggleRole))
+            if (_roleItemFilters.Contains(toggleRole))
             {
-                RoleItemFilters.Remove(toggleRole);
+                _roleItemFilters.Remove(toggleRole);
             }
             else
             {
-                RoleItemFilters.Add(toggleRole);
+                _roleItemFilters.Add(toggleRole);
             }
 
             ApplyItemFilters();
@@ -131,15 +285,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Magic toggleMagic = filter.StringToMagic();
+            Magic toggleMagic = filter.StringToEnum<Magic>();
 
-            if (MagicItemFilters.Contains(toggleMagic))
+            if (_magicItemFilters.Contains(toggleMagic))
             {
-                MagicItemFilters.Remove(toggleMagic);
+                _magicItemFilters.Remove(toggleMagic);
             }
             else
             {
-                MagicItemFilters.Add(toggleMagic);
+                _magicItemFilters.Add(toggleMagic);
             }
 
             ApplyItemFilters();
@@ -150,15 +304,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Bonus toggleBonus = filter.StringToBonus();
+            Bonus toggleBonus = filter.StringToEnum<Bonus>();
 
-            if (BonusItemFilters.Contains(toggleBonus))
+            if (_bonusItemFilters.Contains(toggleBonus))
             {
-                BonusItemFilters.Remove(toggleBonus);
+                _bonusItemFilters.Remove(toggleBonus);
             }
             else
             {
-                BonusItemFilters.Add(toggleBonus);
+                _bonusItemFilters.Add(toggleBonus);
             }
 
             ApplyItemFilters();
@@ -169,15 +323,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Source toggleSource = filter.StringToSource();
+            Source toggleSource = filter.StringToEnum<Source>();
 
-            if (SourceItemFilters.Contains(toggleSource))
+            if (_sourceItemFilters.Contains(toggleSource))
             {
-                SourceItemFilters.Remove(toggleSource);
+                _sourceItemFilters.Remove(toggleSource);
             }
             else
             {
-                SourceItemFilters.Add(toggleSource);
+                _sourceItemFilters.Add(toggleSource);
             }
 
             ApplyItemFilters();
@@ -188,13 +342,13 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            if (CustomItemFilters.Contains(filter))
+            if (_customItemFilters.Contains(filter))
             {
-                CustomItemFilters.Remove(filter);
+                _customItemFilters.Remove(filter);
             }
             else
             {
-                CustomItemFilters.Add(filter);
+                _customItemFilters.Add(filter);
             }
 
             ApplyItemFilters();
@@ -205,15 +359,15 @@ public class ItemHandler
     {
         if (arg is string filter)
         {
-            Condition toggleCondition = filter.StringToCondition();
+            Condition toggleCondition = filter.StringToEnum<Condition>();
 
-            if (ConditionItemFilters.Contains(toggleCondition))
+            if (_conditionItemFilters.Contains(toggleCondition))
             {
-                ConditionItemFilters.Remove(toggleCondition);
+                _conditionItemFilters.Remove(toggleCondition);
             }
             else
             {
-                ConditionItemFilters.Add(toggleCondition);
+                _conditionItemFilters.Add(toggleCondition);
             }
 
             ApplyItemFilters();
@@ -222,73 +376,73 @@ public class ItemHandler
 
     internal void ApplyItemFilters()
     {
-        _vm.FilteredItemList.Clear();
-        List<Item> possibleItems = _vm.ItemSearchText != RegexHandler.SearchPlaceholderText && _vm.ItemSearchText != ""
-            ? _vm.MasterItemList.Where(x => x.Name.Sanitize()
-                .Contains(_vm.ItemSearchText.Sanitize())).ToList()
-            : _vm.MasterItemList;
+        FilteredItemList.Clear();
+        List<Item> possibleItems = ItemSearchText != RegexHandler.SearchPlaceholderText && ItemSearchText != ""
+            ? MasterItemList.Where(x => x.Name.Sanitize()
+                .Contains(ItemSearchText.Sanitize())).ToList()
+            : MasterItemList;
 
-        foreach (Core filter in CoreItemFilters)
+        foreach (Core filter in _coreItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.CoreTags.Contains(filter)).ToList();
         }
 
-        foreach (Skill filter in SkillItemFilters)
+        foreach (Skill filter in _skillItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.SkillTags.Contains(filter)).ToList();
         }
 
-        foreach (Class filter in ClassItemFilters)
+        foreach (Class filter in _classItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.ClassTags.Contains(filter)).ToList();
         }
 
-        foreach (Combat filter in CombatItemFilters)
+        foreach (Combat filter in _combatItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.CombatTags.Contains(filter)).ToList();
         }
 
-        foreach (Role filter in RoleItemFilters)
+        foreach (Role filter in _roleItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.RoleTags.Contains(filter)).ToList();
         }
 
-        foreach (Magic filter in MagicItemFilters)
+        foreach (Magic filter in _magicItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.MagicTags.Contains(filter)).ToList();
         }
 
-        foreach (Bonus filter in BonusItemFilters)
+        foreach (Bonus filter in _bonusItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.BonusTags.Contains(filter)).ToList();
         }
 
-        foreach (Source filter in SourceItemFilters)
+        foreach (Source filter in _sourceItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.Source == filter).ToList();
         }
 
-        foreach (string filter in CustomItemFilters)
+        foreach (string filter in _customItemFilters)
         {
             possibleItems = possibleItems.Where(x => x.CustomTags.Contains(filter)).ToList();
         }
 
         foreach (Item Item in possibleItems)
         {
-            _vm.FilteredItemList.Add(Item);
+            FilteredItemList.Add(Item);
         }
     }
 
     internal void UpdateItemCustomTags()
     {
-        _vm.CustomItemFilterList.Clear();
-        foreach (Item Item in _vm.MasterItemList)
+        CustomItemFilterList.Clear();
+        foreach (Item Item in MasterItemList)
         {
             foreach (string tag in Item.CustomTags)
             {
-                if (!_vm.CustomItemFilterList.Contains(tag))
+                if (!CustomItemFilterList.Contains(tag))
                 {
-                    _vm.CustomItemFilterList.Add(tag);
+                    CustomItemFilterList.Add(tag);
                 }
             }
         }
@@ -296,29 +450,29 @@ public class ItemHandler
 
     internal void AddFavoriteItemAction(object arg)
     {
-        if (_vm.SelectedItem != null && !_vm.FavoriteItemList.Contains(_vm.SelectedItem))
+        if (SelectedItem != null && !FavoriteItemList.Contains(SelectedItem))
         {
-            _vm.FavoriteItemList.Add(_vm.SelectedItem);
-            _vm.MasterItemList.Remove(_vm.SelectedItem);
-            _vm.HiddenItemList.Remove(_vm.SelectedItem);
+            FavoriteItemList.Add(SelectedItem);
+            MasterItemList.Remove(SelectedItem);
+            HiddenItemList.Remove(SelectedItem);
 
             UpdateItemCustomTags();
             ApplyItemFilters();
-            _vm.SelectedItem = null;
+            SelectedItem = null;
         }
     }
 
     internal void AddHiddenItemAction(object arg)
     {
-        if (_vm.SelectedItem != null && !_vm.HiddenItemList.Contains(_vm.SelectedItem))
+        if (SelectedItem != null && !HiddenItemList.Contains(SelectedItem))
         {
-            _vm.HiddenItemList.Add(_vm.SelectedItem);
-            _vm.MasterItemList.Remove(_vm.SelectedItem);
-            _vm.FavoriteItemList.Remove(_vm.SelectedItem);
+            HiddenItemList.Add(SelectedItem);
+            MasterItemList.Remove(SelectedItem);
+            FavoriteItemList.Remove(SelectedItem);
 
             UpdateItemCustomTags();
             ApplyItemFilters();
-            _vm.SelectedItem = null;
+            SelectedItem = null;
         }
     }
 
@@ -326,40 +480,40 @@ public class ItemHandler
     {
         try
         {
-            if (_vm.SelectedItem != null)
+            if (SelectedItem != null)
             {
-                ItemViewModel vm = new(_vm.SelectedItem);
+                ItemViewModel vm = new(SelectedItem);
                 ItemView configWindow = new(vm);
 
                 if (configWindow.ShowDialog() == true)
                 {
                     Item newItem = vm.GetItem();
 
-                    if (_vm.MasterItemList.Contains(_vm.SelectedItem))
+                    if (MasterItemList.Contains(SelectedItem))
                     {
-                        _vm.MasterItemList.Remove(_vm.SelectedItem);
-                        _vm.MasterItemList.Add(newItem);
+                        MasterItemList.Remove(SelectedItem);
+                        MasterItemList.Add(newItem);
 
                         UpdateItemCustomTags();
                         ApplyItemFilters();
-                        if (_vm.FilteredItemList.Contains(newItem))
+                        if (FilteredItemList.Contains(newItem))
                         {
-                            _vm.SelectedItem = newItem;
+                            SelectedItem = newItem;
                         }
                     }
 
-                    if (_vm.FavoriteItemList.Contains(_vm.SelectedItem))
+                    if (FavoriteItemList.Contains(SelectedItem))
                     {
-                        _vm.FavoriteItemList.Remove(_vm.SelectedItem);
-                        _vm.FavoriteItemList.Add(newItem);
-                        _vm.SelectedItem = newItem;
+                        FavoriteItemList.Remove(SelectedItem);
+                        FavoriteItemList.Add(newItem);
+                        SelectedItem = newItem;
                     }
 
-                    else if (_vm.HiddenItemList.Contains(_vm.SelectedItem))
+                    else if (HiddenItemList.Contains(SelectedItem))
                     {
-                        _vm.HiddenItemList.Remove(_vm.SelectedItem);
-                        _vm.HiddenItemList.Add(newItem);
-                        _vm.SelectedItem = newItem;
+                        HiddenItemList.Remove(SelectedItem);
+                        HiddenItemList.Add(newItem);
+                        SelectedItem = newItem;
                     }
                 }
             }
@@ -381,7 +535,12 @@ public class ItemHandler
             MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        _vm.RefreshButtonState();
+        RefreshButtonState();
+    }
+
+    public void RefreshButtonState()
+    {
+        CoreItemCheckboxCommand.RaiseCanExecuteChanged();
     }
 
     internal void NewItemAction(object arg)
@@ -394,9 +553,9 @@ public class ItemHandler
             if (configWindow.ShowDialog() == true)
             {
                 Item newItem = vm.GetItem();
-                if (_vm.MasterItemList.Select(x => x.Name).Contains(newItem.Name) ||
-                    _vm.FavoriteItemList.Select(x => x.Name).Contains(newItem.Name) ||
-                    _vm.HiddenItemList.Select(x => x.Name).Contains(newItem.Name))
+                if (MasterItemList.Select(x => x.Name).Contains(newItem.Name) ||
+                    FavoriteItemList.Select(x => x.Name).Contains(newItem.Name) ||
+                    HiddenItemList.Select(x => x.Name).Contains(newItem.Name))
                 {
                     string messageBoxText = "Item with same name already exists";
                     string caption = "Duplicate";
@@ -406,13 +565,13 @@ public class ItemHandler
                 }
                 else
                 {
-                    _vm.MasterItemList.Add(newItem);
+                    MasterItemList.Add(newItem);
 
                     UpdateItemCustomTags();
                     ApplyItemFilters();
-                    if (_vm.FilteredItemList.Contains(newItem))
+                    if (FilteredItemList.Contains(newItem))
                     {
-                        _vm.SelectedItem = newItem;
+                        SelectedItem = newItem;
                     }
                 }
             }
@@ -426,28 +585,28 @@ public class ItemHandler
             MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        _vm.RefreshButtonState();
+        RefreshButtonState();
     }
 
     internal void ItemSearchRemovePlaceholderTextAction(object arg)
     {
-        if (_vm.ItemSearchText == RegexHandler.SearchPlaceholderText)
+        if (ItemSearchText == RegexHandler.SearchPlaceholderText)
         {
-            _vm.ItemSearchText = "";
+            ItemSearchText = "";
         }
     }
 
     internal void ItemSearchAddPlaceholderTextAction(object arg)
     {
-        if (string.IsNullOrWhiteSpace(_vm.ItemSearchText))
+        if (string.IsNullOrWhiteSpace(ItemSearchText))
         {
-            _vm.ItemSearchText = RegexHandler.SearchPlaceholderText;
+            ItemSearchText = RegexHandler.SearchPlaceholderText;
         }
     }
 
     internal void RemoveItemAction(object arg)
     {
-        if (_vm.SelectedItem != null)
+        if (SelectedItem != null)
         {
             string messageBoxText = "Item will be removed. Are you sure?";
             string caption = "Warning";
@@ -457,10 +616,10 @@ public class ItemHandler
 
             if (result == MessageBoxResult.Yes)
             {
-                _vm.MasterItemList.Remove(_vm.SelectedItem);
-                _vm.HiddenItemList.Remove(_vm.SelectedItem);
-                _vm.FavoriteItemList.Remove(_vm.SelectedItem);
-                _vm.SelectedItem = null;
+                MasterItemList.Remove(SelectedItem);
+                HiddenItemList.Remove(SelectedItem);
+                FavoriteItemList.Remove(SelectedItem);
+                SelectedItem = null;
                 UpdateItemCustomTags();
                 ApplyItemFilters();
             }
@@ -469,12 +628,12 @@ public class ItemHandler
 
     internal void RemoveFavoriteItemAction(object arg)
     {
-        if (_vm.SelectedItem != null && _vm.FavoriteItemList.Contains(_vm.SelectedItem))
+        if (SelectedItem != null && FavoriteItemList.Contains(SelectedItem))
         {
-            _vm.MasterItemList.Add(_vm.SelectedItem);
-            _vm.FavoriteItemList.Remove(_vm.SelectedItem);
+            MasterItemList.Add(SelectedItem);
+            FavoriteItemList.Remove(SelectedItem);
 
-            _vm.SelectedItem = null;
+            SelectedItem = null;
             UpdateItemCustomTags();
             ApplyItemFilters();
         }
@@ -482,14 +641,19 @@ public class ItemHandler
 
     internal void RemoveHiddenItemAction(object arg)
     {
-        if (_vm.SelectedItem != null && _vm.HiddenItemList.Contains(_vm.SelectedItem))
+        if (SelectedItem != null && HiddenItemList.Contains(SelectedItem))
         {
-            _vm.MasterItemList.Add(_vm.SelectedItem);
-            _vm.HiddenItemList.Remove(_vm.SelectedItem);
+            MasterItemList.Add(SelectedItem);
+            HiddenItemList.Remove(SelectedItem);
 
-            _vm.SelectedItem = null;
+            SelectedItem = null;
             UpdateItemCustomTags();
             ApplyItemFilters();
         }
+    }
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

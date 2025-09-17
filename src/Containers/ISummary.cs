@@ -1,20 +1,19 @@
-﻿using AssetManager.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HavenheimManager.Enums;
 
-namespace AssetManager.Containers
+namespace HavenheimManager.Containers;
+
+internal interface ISummary
 {
-    internal interface ISummary
-    {
-        string Name { get; set; }
+    string Name { get; set; }
 
-        string Description { get; set; }
+    string Description { get; set; }
 
-        HashSet<string> Prereqs { get; set; }
+    HashSet<string> Prereqs { get; set; }
 
-        string Url { get; set; }
+    string Url { get; set; }
 
-        string Notes { get; set; }
+    string Notes { get; set; }
 
-        Source Source { get; set; }
-    }
+    Source Source { get; set; }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Controls;
-using AssetManager.Enums;
-using AssetManager.Extensions;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
 
-namespace AssetManager.Controllers;
+namespace HavenheimManager.Controllers;
 
 /// <summary>
 ///     Interaction logic for CraftControl.xaml

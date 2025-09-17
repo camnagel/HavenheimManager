@@ -1,0 +1,281 @@
+﻿<Window x:Class="HavenheimManager.Editors.DescriptorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Descriptor Manager" Height="1100" Width="990" Background="DarkGray">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250">
+                    <TextBlock TextAlignment="Center">Content:</TextBlock>
+                    <ListBox ItemsSource="{Binding ContentDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowContent, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Creature:</TextBlock>
+                    <ListBox ItemsSource="{Binding CreatureDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowCreature, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Creature Type:</TextBlock>
+                    <ListBox ItemsSource="{Binding CreatureTypeDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowCreatureType, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Creature Subtype:</TextBlock>
+                    <ListBox ItemsSource="{Binding CreatureSubTypeDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowCreatureSubType, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Craft Skill:</TextBlock>
+                    <ListBox ItemsSource="{Binding CraftSkillDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowCraftSkill, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Ability:</TextBlock>
+                    <ListBox ItemsSource="{Binding AbilityDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowAbility, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250">
+                    <TextBlock TextAlignment="Center">Ability Type:</TextBlock>
+                    <ListBox ItemsSource="{Binding AbilityTypeDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowAbilityType, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Buff:</TextBlock>
+                    <ListBox ItemsSource="{Binding BuffDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowBuff, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Feat:</TextBlock>
+                    <ListBox ItemsSource="{Binding FeatDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowFeat, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Magic:</TextBlock>
+                    <ListBox ItemsSource="{Binding MagicDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowMagic, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Save:</TextBlock>
+                    <ListBox ItemsSource="{Binding SaveDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowSave, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Skill:</TextBlock>
+                    <ListBox ItemsSource="{Binding SkillDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowSkill, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250">
+                    <TextBlock TextAlignment="Center">System:</TextBlock>
+                    <ListBox ItemsSource="{Binding SystemDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowSystem, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Trait:</TextBlock>
+                    <ListBox ItemsSource="{Binding TraitDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowTrait, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Usage:</TextBlock>
+                    <ListBox ItemsSource="{Binding UsageDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowUsage, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Duration:</TextBlock>
+                    <ListBox ItemsSource="{Binding DurationDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowDuration, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Knowledge:</TextBlock>
+                    <ListBox ItemsSource="{Binding KnowledgeDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowKnowledge, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Magic Aura:</TextBlock>
+                    <ListBox ItemsSource="{Binding MagicAuraDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowMagicAura, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250">
+                    <TextBlock TextAlignment="Center">Perform Skill:</TextBlock>
+                    <ListBox ItemsSource="{Binding PerformDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowPerform, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Spell School:</TextBlock>
+                    <ListBox ItemsSource="{Binding SpellSchoolDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowSpellSchool, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Stimulus:</TextBlock>
+                    <ListBox ItemsSource="{Binding StimulusDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowStimulus, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Terrain:</TextBlock>
+                    <ListBox ItemsSource="{Binding TerrainDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowTerrain, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="250" Margin="10, 0, 0, 0">
+                    <TextBlock TextAlignment="Center">Custom:</TextBlock>
+                    <ListBox ItemsSource="{Binding CustomDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
+                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowCustom, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                <Button Content="Accept" Width="100" Height="30" Margin="250,0,0,0"
+                        Command="{Binding AcceptChangesCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+
+                <Button Content="Cancel" Width="100" Height="30" Margin="260,0,0,0" Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

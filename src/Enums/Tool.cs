@@ -1,18 +1,12 @@
 ﻿using System.ComponentModel;
 
-namespace AssetManager.Enums
+namespace HavenheimManager.Enums;
+
+public enum Tool
 {
-    public enum Tool
-    {
-        [Description("None")]
-        None,
-        [Description("Improvised")]
-        Improvised,
-        [Description("Basic")]
-        Basic,
-        [Description("Masterwork")]
-        Masterwork,
-        [Description("Amazing")]
-        Amazing
-    }
+    [Description("None")] None,
+    [Description("Improvised")] Improvised,
+    [Description("Basic")] Basic,
+    [Description("Masterwork")] Masterwork,
+    [Description("Amazing")] Amazing
 }

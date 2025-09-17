@@ -1,26 +1,124 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
-using AssetManager.Calculators;
-using AssetManager.Editors;
-using AssetManager.Enums;
-using AssetManager.Extensions;
+using HavenheimManager.Calculators;
+using HavenheimManager.Containers;
+using HavenheimManager.Editors;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
 
-namespace AssetManager.Handlers;
+namespace HavenheimManager.Handlers;
 
-public class CraftHandler
+public class CraftHandler : INotifyPropertyChanged
 {
     private readonly BonusCalculator _craftingModifierCalculator;
-    private readonly MainWindowViewModel _vm;
+
+    private int _craftAlchemical;
+
+    private int _craftEnhancement;
+
+    private Item _craftItem = new();
+
+    private string _craftModifier = "N/A";
+
+    private string _craftObjectName = "Item Name...";
+
+    private int _craftRanks;
 
     private Tool _currentTool = Tool.None;
 
     private string _itemName;
 
-    public CraftHandler(MainWindowViewModel vm)
+    public CraftHandler()
     {
-        _vm = vm;
         _craftingModifierCalculator = new BonusCalculator();
+
+        CraftToolCheckboxCommand = new DelegateCommand(CraftToolAction);
+        CraftWorkshopCheckboxCommand = new DelegateCommand(CraftWorkshopAction);
+        CraftModifierBonusCalculatorCommand = new DelegateCommand(CraftModifierBonusCalcAction);
     }
+
+    // Craft Checkbox Commands
+    public DelegateCommand CraftToolCheckboxCommand { get; }
+    public DelegateCommand CraftWorkshopCheckboxCommand { get; }
+    public DelegateCommand CraftModifierBonusCalculatorCommand { get; }
+
+    // Crafting Modifiers Collections
+    public ObservableCollection<string> ActiveTool { get; set; } = new();
+    public ObservableCollection<string> CraftingToolSelectionList { get; set; } = new();
+    public ObservableCollection<string> ActiveWorkshop { get; set; } = new();
+    public ObservableCollection<string> CraftingWorkshopSelectionList { get; set; } = new();
+
+    public Item? CraftItem
+    {
+        get => _craftItem;
+        private set
+        {
+            _craftItem = value ?? throw new ArgumentNullException(nameof(value));
+            OnPropertyChanged("SelectedItem");
+        }
+    }
+
+    public string CraftObjectName
+    {
+        get => _craftObjectName;
+        set
+        {
+            _craftObjectName = value;
+            SetItemName(value);
+
+            OnPropertyChanged("CraftObjectName");
+        }
+    }
+
+    public int CraftRanks
+    {
+        get => _craftRanks;
+        set
+        {
+            _craftRanks = value;
+            SetCraftRanks(value);
+
+            OnPropertyChanged("CraftRanks");
+        }
+    }
+
+    public int CraftEnhancement
+    {
+        get => _craftEnhancement;
+        set
+        {
+            _craftEnhancement = value;
+            SetCraftEnhancementBonus(value);
+
+            OnPropertyChanged("CraftEnhancement");
+        }
+    }
+
+    public int CraftAlchemical
+    {
+        get => _craftAlchemical;
+        set
+        {
+            _craftAlchemical = value;
+            SetCraftAlchemicalBonus(value);
+
+            OnPropertyChanged("CraftAlchemical");
+        }
+    }
+
+    public string CraftModifier
+    {
+        get => _craftModifier;
+        set
+        {
+            _craftModifier = value;
+            OnPropertyChanged("CraftModifier");
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     internal void SetItemName(string itemName)
     {
@@ -49,7 +147,7 @@ public class CraftHandler
     {
         if (arg is string toolAsString)
         {
-            Tool tool = toolAsString.StringToTool();
+            Tool tool = toolAsString.StringToEnum<Tool>();
             _currentTool = tool;
             _craftingModifierCalculator.AddCircumstanceBonus(nameof(Tool), toolAsString, tool.ToolToBonus());
             UpdateCraftingModifier();
@@ -60,7 +158,7 @@ public class CraftHandler
     {
         if (arg is string workshopAsString)
         {
-            Workshop workshop = workshopAsString.StringToWorkshop();
+            Workshop workshop = workshopAsString.StringToEnum<Workshop>();
             _craftingModifierCalculator.AddCircumstanceBonus(nameof(Workshop), workshopAsString,
                 workshop.WorkshopToBonus());
             UpdateCraftingModifier();
@@ -88,18 +186,39 @@ public class CraftHandler
             MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        _vm.RefreshButtonState();
+        RefreshButtonState();
+    }
+
+    internal void Clear()
+    {
+    }
+
+    internal void InitializePathfinder()
+    {
+    }
+
+    internal void InitializeHavenheim()
+    {
+    }
+
+    public void RefreshButtonState()
+    {
+    }
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     private void UpdateCraftingModifier()
     {
         if (_currentTool == Tool.None)
         {
-            _vm.CraftModifier = "N/A";
+            CraftModifier = "N/A";
         }
         else
         {
-            _vm.CraftModifier = _craftingModifierCalculator.CurrentBonus.ToString();
+            CraftModifier = _craftingModifierCalculator.CurrentBonus.ToString();
         }
     }
 }

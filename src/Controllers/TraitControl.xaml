@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="AssetManager.Controllers.TraitControl"
+﻿<UserControl x:Class="HavenheimManager.Controllers.TraitControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:controllers="clr-namespace:HavenheimManager.Controllers"
              mc:Ignorable="d">
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
@@ -46,187 +47,10 @@
                         </ListBox>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="200" Height="900"
-                                Margin="0,0,20,0">
-                        <Expander Header="Core" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CoreTraitFilterList}" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CoreTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Skills" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding SkillTraitFilterList}" Height="500"
-                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.SkillTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Class" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding ClassTraitFilterList}" Height="500"
-                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.ClassTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Combat" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CombatTraitFilterList}" Height="500"
-                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CombatTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Role" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding RoleTraitFilterList}" Height="500"
-                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.RoleTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Spells" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding MagicTraitFilterList}" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.MagicTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding BonusTraitFilterList}" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.BonusTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Condition" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding ConditionTraitFilterList}" Height="500"
-                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.ConditionTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Source" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding SourceTraitFilterList}" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.SourceTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-
-                        <Expander Header="Custom" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CustomTraitFilterList}" Height="500"
-                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CustomTraitCheckboxCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Content="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-                    </StackPanel>
+                    <controllers:FilterControl DataContext="{Binding FilterHandler}"/>
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500"
-                                Height="900">
+                                Height="900" Margin="20, 0, 0, 0">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
                                     Width="500" Height="20">
                             <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
@@ -332,9 +156,13 @@
                             Command="{Binding AddHiddenTraitCommand}"
                             Width="60" Height="30" Margin="0,0,25,0" />
 
+                    <Button Content="Show/Hide Filters"
+                            Command="{Binding ShowHideFilterCommand}"
+                            Width="120" Height="30" Margin="50,0,40,0" />
+
                     <Button Content="Edit"
                             Command="{Binding EditTraitCommand}"
-                            Width="60" Height="30" Margin="330,0,0,0" />
+                            Width="60" Height="30" Margin="120,0,0,0" />
 
                     <Button Content="New"
                             Command="{Binding NewTraitCommand}"

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace HavenheimManager.Containers;
 
-namespace AssetManager.Containers
+public class Spell
 {
-    public class Spell
-    {
-    }
 }

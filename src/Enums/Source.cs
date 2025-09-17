@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AssetManager.Containers;
+﻿using System.ComponentModel;
+using HavenheimManager.Containers;
 
-namespace AssetManager.Enums
+namespace HavenheimManager.Enums;
+
+/// <summary>
+///     Describes the source of an <see cref="ISummary" />
+/// </summary>
+public enum Source
 {
-    /// <summary>
-    /// Describes the source of an <see cref="ISummary"/>
-    /// </summary>
-    public enum Source
-    {
-        [Description("Standard")]
-        Standard,
-        [Description("Rework")]
-        Rework,
-        [Description("Homebrew")]
-        Homebrew,
-        [Description("Unknown")]
-        Unknown
-    }
+    [Description("Standard")] Standard,
+    [Description("Rework")] Rework,
+    [Description("Homebrew")] Homebrew,
+    [Description("Unknown")] Unknown
 }

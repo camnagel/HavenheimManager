@@ -1,97 +1,109 @@
-﻿<Window x:Class="AssetManager.Editors.FeatView"
+﻿<Window x:Class="HavenheimManager.Editors.FeatView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AssetManager.Editors"
         mc:Ignorable="d"
         Title="Feat Editor" Height="1000" Width="835" Background="DarkGray">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal"  Margin="10, 10, 10, 10">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="500" Height="900">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="20">
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500"
+                            Height="900">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                Width="500" Height="20">
                         <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
-                        <TextBox Text="{Binding FeatName}" Width="256" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                        <TextBox Text="{Binding FeatName}" Width="256" Height="20" Background="DimGray"
+                                 Foreground="AliceBlue" />
 
                         <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
-                        <ComboBox x:Name="sourceBox" Width="150" Height="22"
-                                  SelectedItem="{Binding FeatSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ComboBox x:Name="SourceBox" Width="150" Height="22"
+                                  SelectedItem="{Binding FeatSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
-                        <TextBox Text="{Binding FeatUrl}" Width="407" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                        <TextBox Text="{Binding FeatUrl}" Width="407" Height="20" Background="DimGray"
+                                 Foreground="AliceBlue" />
                         <TextBlock Margin="15, 0, 3, 0">Level:</TextBlock>
-                        <TextBox Text="{Binding FeatLevel}" Width="25" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                        <TextBox Text="{Binding FeatLevel}" Width="25" Height="20" Background="DimGray"
+                                 Foreground="AliceBlue" />
                     </StackPanel>
 
                     <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>
-                    <TextBox Text="{Binding FeatDescription}" Width="500" Height="700" Background="DimGray" Foreground="AliceBlue"/>
+                    <TextBox Text="{Binding FeatDescription}" Width="500" Height="700" Background="DimGray"
+                             Foreground="AliceBlue" />
 
                     <TextBlock Margin="0, 5, 0, 0">Notes:</TextBlock>
-                    <TextBox Text="{Binding FeatNotes}" Width="500" Height="115" Background="DimGray" Foreground="AliceBlue"/>
+                    <TextBox Text="{Binding FeatNotes}" Width="500" Height="115" Background="DimGray"
+                             Foreground="AliceBlue" />
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="10, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="900" Margin="10, 0, 10, 0">
                     <TextBlock Margin="0, 0, 0, 0">Prereqs:</TextBlock>
-                    <ListBox ItemsSource="{Binding Prereqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"
-                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox ItemsSource="{Binding Prereqs}" Background="DimGray" Foreground="AliceBlue" Width="150"
+                             Height="100"
+                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
                                 Command="{Binding AddPrereqCommand}"
-                                Width="60" Height="20" Margin="10,0,10,0"/>
+                                Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
                                 Command="{Binding RemovePrereqCommand}"
-                                Width="60" Height="20"/>
+                                Width="60" Height="20" />
                     </StackPanel>
 
                     <TextBlock Margin="0, 5, 0, 0">Postreqs:</TextBlock>
-                    <ListBox ItemsSource="{Binding Postreqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"
-                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox ItemsSource="{Binding Postreqs}" Background="DimGray" Foreground="AliceBlue" Width="150"
+                             Height="100"
+                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
                                 Command="{Binding AddPrereqCommand}"
-                                Width="60" Height="20" Margin="10,0,10,0"/>
+                                Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
                                 Command="{Binding RemovePrereqCommand}"
-                                Width="60" Height="20"/>
+                                Width="60" Height="20" />
                     </StackPanel>
 
                     <TextBlock Margin="0, 5, 0, 0">Antireqs:</TextBlock>
-                    <ListBox ItemsSource="{Binding Antireqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"
-                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox ItemsSource="{Binding Antireqs}" Background="DimGray" Foreground="AliceBlue" Width="150"
+                             Height="100"
+                             SelectedItem="{Binding SelectedPrereq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
                                 Command="{Binding AddPrereqCommand}"
-                                Width="60" Height="20" Margin="10,0,10,0"/>
+                                Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
                                 Command="{Binding RemovePrereqCommand}"
-                                Width="60" Height="20"/>
+                                Width="60" Height="20" />
                     </StackPanel>
 
                     <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
-                    <ListBox ItemsSource="{Binding CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="100"
-                             SelectedItem="{Binding SelectedCustomTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox ItemsSource="{Binding CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150"
+                             Height="100"
+                             SelectedItem="{Binding SelectedCustomTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                         <Button Content="Add"
                                 Command="{Binding AddCustomTagCommand}"
-                                Width="60" Height="20" Margin="10,0,10,0"/>
+                                Width="60" Height="20" Margin="10,0,10,0" />
                         <Button Content="Remove"
                                 Command="{Binding RemoveCustomTagCommand}"
-                                Width="60" Height="20"/>
+                                Width="60" Height="20" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="0, 0, 10, 0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                            Height="900" Margin="0, 0, 10, 0">
                     <Expander Header="Core" FontSize="10" FontWeight="Bold" Margin="0, 10, 0, 0">
-                        <ListBox ItemsSource="{Binding CoreTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding CoreTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -99,14 +111,14 @@
                     </Expander>
 
                     <Expander Header="Skills" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding SkillTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding SkillTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -114,14 +126,14 @@
                     </Expander>
 
                     <Expander Header="Class" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding ClassTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding ClassTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -129,14 +141,14 @@
                     </Expander>
 
                     <Expander Header="Combat" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding CombatTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding CombatTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -144,14 +156,14 @@
                     </Expander>
 
                     <Expander Header="Role" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding RoleTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding RoleTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -159,14 +171,14 @@
                     </Expander>
 
                     <Expander Header="Spells" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding MagicTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding MagicTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -174,14 +186,14 @@
                     </Expander>
 
                     <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding BonusTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding BonusTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -189,14 +201,14 @@
                     </Expander>
 
                     <Expander Header="Condition" FontSize="10" FontWeight="Bold">
-                        <ListBox ItemsSource="{Binding ConditionTags}" Background="LightGray" 
+                        <ListBox ItemsSource="{Binding ConditionTags}" Background="LightGray"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="400">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <CheckBox FontWeight="Normal" 
+                                        <CheckBox FontWeight="Normal"
                                                   IsChecked="{Binding Path=Value}"
-                                                  Content="{Binding Path=Key}"/>
+                                                  Content="{Binding Path=Key}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -206,10 +218,10 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Save" Width="100" Height="30" Margin="10,0,0,0" Command="{Binding AcceptFeatCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
 
                 <Button Content="Cancel" Width="100" Height="30" Margin="600,0,0,0" Command="{Binding CancelCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
             </StackPanel>
         </StackPanel>
     </Grid>

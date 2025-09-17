@@ -1,16 +1,15 @@
 ﻿using System.Windows;
 
-namespace AssetManager
+namespace HavenheimManager;
+
+/// <summary>
+///     Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            Current.MainWindow = new MainWindow(new MainWindowViewModel());
-            Current.MainWindow.Show();
-        }
+        Current.MainWindow = new MainWindow(new MainWindowViewModel());
+        Current.MainWindow.Show();
     }
 }

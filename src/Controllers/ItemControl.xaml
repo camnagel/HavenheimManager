@@ -1,9 +1,8 @@
-﻿<UserControl x:Class="AssetManager.Controllers.ItemControl"
+﻿<UserControl x:Class="HavenheimManager.Controllers.ItemControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AssetManager.Controllers"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d">
     <Grid Background="LightGray">
@@ -12,7 +11,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel>
-            <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Left" Width="2360" Margin="10,10,0,0">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="2360" Margin="10,10,0,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="20">
                     <TextBlock>Name</TextBlock>
                     <TextBlock Margin="130, 0, 0, 0">Filters</TextBlock>
@@ -20,19 +19,22 @@
                     <TextBlock Margin="610, 0, 0, 0">Favorites</TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,10,0">
-                        <TextBox Text="{Binding ItemSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5" Height="20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900"
+                                Margin="0,0,10,0">
+                        <TextBox Text="{Binding ItemHandler.ItemSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"
+                                 Height="20">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="LostFocus">
-                                    <b:InvokeCommandAction Command="{Binding ItemSearchAddPlaceholderTextCommand}" />
+                                    <b:InvokeCommandAction Command="{Binding ItemHandler.ItemSearchAddPlaceholderTextCommand}" />
                                 </b:EventTrigger>
                                 <b:EventTrigger EventName="GotFocus">
-                                    <b:InvokeCommandAction Command="{Binding ItemSearchRemovePlaceholderTextCommand}" />
+                                    <b:InvokeCommandAction Command="{Binding ItemHandler.ItemSearchRemovePlaceholderTextCommand}" />
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </TextBox>
-                        <ListBox ItemsSource="{Binding FilteredItemList}" Background="DimGray" Width="150" Height="875" 
-                         SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="AliceBlue">
+                        <ListBox ItemsSource="{Binding ItemHandler.FilteredItemList}" Background="DimGray" Width="150" Height="875"
+                                 SelectedItem="{Binding ItemHandler.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Foreground="AliceBlue">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -43,17 +45,19 @@
                         </ListBox>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900" Margin="0,0,20,0">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="150" Height="900"
+                                Margin="0,0,20,0">
                         <Expander Header="Core" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CoreItemFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.CoreItemFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CoreItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.CoreItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -61,16 +65,17 @@
                         </Expander>
 
                         <Expander Header="Skills" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding SkillItemFilterList}" Height="500" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.SkillItemFilterList}" Height="500"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.SkillItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.SkillItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -78,16 +83,17 @@
                         </Expander>
 
                         <Expander Header="Class" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding ClassItemFilterList}" Height="500" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.ClassItemFilterList}" Height="500"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.ClassItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.ClassItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -95,16 +101,17 @@
                         </Expander>
 
                         <Expander Header="Combat" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CombatItemFilterList}" Height="500" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.CombatItemFilterList}" Height="500"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CombatItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.CombatItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -112,16 +119,17 @@
                         </Expander>
 
                         <Expander Header="Role" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding RoleItemFilterList}" Height="500" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.RoleItemFilterList}" Height="500"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.RoleItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.RoleItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -129,15 +137,16 @@
                         </Expander>
 
                         <Expander Header="Spells" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding MagicItemFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.MagicItemFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.MagicItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.MagicItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -145,15 +154,16 @@
                         </Expander>
 
                         <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding BonusItemFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.BonusItemFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.BonusItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.BonusItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -161,15 +171,16 @@
                         </Expander>
 
                         <Expander Header="Source" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding SourceItemFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.SourceItemFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.SourceItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.SourceItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -177,16 +188,17 @@
                         </Expander>
 
                         <Expander Header="Custom" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CustomItemFilterList}" Height="500" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
+                            <ListBox ItemsSource="{Binding ItemHandler.CustomItemFilterList}" Height="500"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox FontWeight="Normal" Command="{Binding RelativeSource=
+                                            <CheckBox FontWeight="Normal"
+                                                      Command="{Binding RelativeSource=
                                         {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.CustomItemCheckboxCommand}" 
-                                              CommandParameter="{Binding}"
-                                              Content="{Binding}"/>
+                                        Path=DataContext.ItemHandler.CustomItemCheckboxCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      Content="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -194,79 +206,98 @@
                         </Expander>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="500" Height="900">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500"
+                                Height="900">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                    Width="500" Height="20">
                             <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
-                            <TextBox Text="{Binding SelectedItem.Name}" Width="256" Height="20" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+                            <TextBox Text="{Binding ItemHandler.SelectedItem.Name}" Width="256" Height="20" Background="DimGray"
+                                     Foreground="AliceBlue" IsReadOnly="True" />
 
                             <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
-                            <TextBox Text="{Binding SelectedItem.Source}" Width="150" Height="20" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+                            <TextBox Text="{Binding ItemHandler.SelectedItem.Source}" Width="150" Height="20" Background="DimGray"
+                                     Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                             <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
-                            <TextBox Text="{Binding SelectedItem.Url}" Width="480" Height="20" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+                            <TextBox Text="{Binding ItemHandler.SelectedItem.Url}" Width="480" Height="20" Background="DimGray"
+                                     Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
                         <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>
-                        <TextBox Text="{Binding SelectedItem.Description}" Width="500" Height="600" Background="DimGray" Foreground="AliceBlue" IsReadOnly="True"/>
+                        <TextBox Text="{Binding ItemHandler.SelectedItem.Description}" Width="500" Height="600"
+                                 Background="DimGray" Foreground="AliceBlue" IsReadOnly="True" />
 
                         <StackPanel Orientation="Horizontal" Height="110" Margin="0, 5, 0, 0">
                             <StackPanel Orientation="Vertical" Width="150">
                                 <TextBlock Height="20">Prerequisites:</TextBlock>
-                                <ListBox Height="90" Background="DimGray" Foreground="AliceBlue" 
-                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                 ItemsSource="{Binding SelectedItem.Prereqs}" 
-                                 SelectedItem="{Binding SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <ListBox Height="90" Background="DimGray" Foreground="AliceBlue"
+                                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                         ItemsSource="{Binding ItemHandler.SelectedItem.Prereqs}"
+                                         SelectedItem="{Binding ItemHandler.SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
-                            <TextBlock Text="&#x2794;" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding SelectedItem.Name}" IsReadOnly="True" Height="20" Width="150" Margin="5, 0, 5, 0"/>
-                            <TextBlock Text="&#x2794;" VerticalAlignment="Center"/>
+                            <TextBlock Text="&#x2794;" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding ItemHandler.SelectedItem.Name}" IsReadOnly="True" Height="20" Width="150"
+                                     Margin="5, 0, 5, 0" />
+                            <TextBlock Text="&#x2794;" VerticalAlignment="Center" />
                             <StackPanel Orientation="Vertical" Width="150">
                                 <TextBlock Height="20">Required By:</TextBlock>
-                                <ListBox Height="90" Background="DimGray" Foreground="AliceBlue" 
-                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                 ItemsSource="{Binding SelectedItem.Postreqs}" 
-                                 SelectedItem="{Binding SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <ListBox Height="90" Background="DimGray" Foreground="AliceBlue"
+                                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                         ItemsSource="{Binding ItemHandler.SelectedItem.Postreqs}"
+                                         SelectedItem="{Binding ItemHandler.SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </StackPanel>
 
                         <TextBlock Margin="0, 5, 0, 0">Notes:</TextBlock>
-                        <TextBox Text="{Binding SelectedItem.Notes}" Width="500" Height="100" Background="DimGray" Foreground="AliceBlue" IsReadOnly="False"/>
+                        <TextBox Text="{Binding ItemHandler.SelectedItem.Notes}" Width="500" Height="100" Background="DimGray"
+                                 Foreground="AliceBlue" IsReadOnly="False" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="900" Margin="10, 0, 0, 0">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+                                Height="900" Margin="10, 0, 0, 0">
                         <TextBlock>Antirequisites:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.Antireqs}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="117"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.Antireqs}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="117" />
 
                         <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.CustomTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.CustomTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.CoreTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.CoreTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Skill Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.SkillTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.SkillTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Class Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.ClassTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.ClassTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Combat Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.CombatTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.CombatTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.RoleTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.RoleTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.MagicTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.MagicTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Bonus Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedItem.BonusTags}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="75"/>
+                        <ListBox ItemsSource="{Binding ItemHandler.SelectedItem.BonusTags}" Background="DimGray"
+                                 Foreground="AliceBlue" Width="150" Height="75" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">
-                        <ListBox ItemsSource="{Binding FavoriteItemList}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="540"
-                         SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListBox ItemsSource="{Binding ItemHandler.FavoriteItemList}" Background="DimGray" Foreground="AliceBlue"
+                                 Width="150" Height="540"
+                                 SelectedItem="{Binding ItemHandler.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -278,8 +309,9 @@
 
                         <TextBlock Margin="0, 5, 0, 0">Hidden</TextBlock>
                         <Expander>
-                            <ListBox ItemsSource="{Binding HiddenItemList}" Background="DimGray" Foreground="AliceBlue" Width="150" Height="317"
-                             SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ListBox ItemsSource="{Binding ItemHandler.HiddenItemList}" Background="DimGray" Foreground="AliceBlue"
+                                     Width="150" Height="317"
+                                     SelectedItem="{Binding ItemHandler.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
@@ -292,34 +324,35 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1500" Height="50">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1500"
+                            Height="50">
                     <Button Content="Favorite"
-                    Command="{Binding AddFavoriteItemCommand}"
-                    Width="60" Height="30" Margin="5,0,10,0"/>
+                            Command="{Binding ItemHandler.AddFavoriteItemCommand}"
+                            Width="60" Height="30" Margin="5,0,10,0" />
 
                     <Button Content="Hide"
-                    Command="{Binding AddHiddenItemCommand}"
-                    Width="60" Height="30" Margin="5,0,10,0"/>
+                            Command="{Binding ItemHandler.AddHiddenItemCommand}"
+                            Width="60" Height="30" Margin="5,0,10,0" />
 
                     <Button Content="Edit"
-                    Command="{Binding EditItemCommand}"
-                    Width="60" Height="30" Margin="280,0,10,0"/>
+                            Command="{Binding ItemHandler.EditItemCommand}"
+                            Width="60" Height="30" Margin="280,0,10,0" />
 
                     <Button Content="New"
-                    Command="{Binding NewItemCommand}"
-                    Width="60" Height="30" Margin="50,0,50,0"/>
+                            Command="{Binding ItemHandler.NewItemCommand}"
+                            Width="60" Height="30" Margin="50,0,50,0" />
 
                     <Button Content="Remove"
-                    Command="{Binding RemoveItemCommand}"
-                    Width="60" Height="30" Margin="0,0,100,0"/>
+                            Command="{Binding ItemHandler.RemoveItemCommand}"
+                            Width="60" Height="30" Margin="0,0,100,0" />
 
                     <Button Content="Unfavorite"
-                    Command="{Binding RemoveFavoriteItemCommand}"
-                    Width="60" Height="30" Margin="195,0,10,0"/>
+                            Command="{Binding ItemHandler.RemoveFavoriteItemCommand}"
+                            Width="60" Height="30" Margin="195,0,10,0" />
 
                     <Button Content="Show"
-                    Command="{Binding RemoveHiddenItemCommand}"
-                    Width="60" Height="30" Margin="10,0,0,0"/>
+                            Command="{Binding ItemHandler.RemoveHiddenItemCommand}"
+                            Width="60" Height="30" Margin="10,0,0,0" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

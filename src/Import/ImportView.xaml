@@ -1,9 +1,8 @@
-﻿<Window x:Class="AssetManager.Import.ImportView"
+﻿<Window x:Class="HavenheimManager.Import.ImportView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AssetManager.Import"
         mc:Ignorable="d"
         Title="ImportView" Height="250" Width="500" Background="DarkGray">
     <Grid>
@@ -12,28 +11,27 @@
             <StackPanel Orientation="Horizontal">
                 <Button Content="Select File"
                         Command="{Binding SelectCommand}"
-                        Width="150" Height="30">
-                </Button>
+                        Width="150" Height="30" />
 
-                <TextBox Text="{Binding SourcePath}" Margin="20,0,0,0" Width="300" Height="20" Background="DimGray" Foreground="AliceBlue"/>
+                <TextBox Text="{Binding SourcePath}" Margin="20,0,0,0" Width="300" Height="20" Background="DimGray"
+                         Foreground="AliceBlue" />
             </StackPanel>
 
-            <ComboBox x:Name="typeBox" Width="150" Height="22" Margin="0, 10, 0, 0" HorizontalAlignment="Left" SelectedIndex="0"
-                      SelectedItem="{Binding SelectedSourceType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/> 
+            <ComboBox x:Name="typeBox" Width="150" Height="22" Margin="0, 10, 0, 0" HorizontalAlignment="Left"
+                      SelectedIndex="0"
+                      SelectedItem="{Binding SelectedSourceType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 
         <Button Content="Import" Command="{Binding SaveCommand}" Margin="10, 0, 0, 10"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Width="70" Height="30">
-        </Button>
+                Width="70" Height="30" />
 
         <Button Content="Cancel" Command="{Binding CancelCommand}" Margin="0, 0, 10, 10"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Width="70" Height="30">
-        </Button>
+                Width="70" Height="30" />
     </Grid>
 </Window>

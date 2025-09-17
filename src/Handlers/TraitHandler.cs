@@ -1,579 +1,343 @@
-﻿using AssetManager.Containers;
-using AssetManager.Editors;
-using AssetManager.Enums;
+﻿using HavenheimManager.Containers;
+using HavenheimManager.Descriptors;
+using HavenheimManager.Editors;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using AssetManager.Extensions;
-using Condition = AssetManager.Enums.Condition;
 
-namespace AssetManager.Handlers
+namespace HavenheimManager.Handlers;
+
+public class TraitHandler : IFilterable
 {
-    public class TraitHandler
+    private Trait? _selectedTrait;
+
+    private string _traitSearchText = RegexHandler.SearchPlaceholderText;
+
+    public TraitHandler()
     {
-        public TraitHandler(MainWindowViewModel vm)
+        AddFavoriteTraitCommand = new DelegateCommand(AddFavoriteTraitAction);
+        AddHiddenTraitCommand = new DelegateCommand(AddHiddenTraitAction);
+        EditTraitCommand = new DelegateCommand(EditTraitAction);
+        NewTraitCommand = new DelegateCommand(NewTraitAction);
+        RemoveTraitCommand = new DelegateCommand(RemoveTraitAction);
+        RemoveFavoriteTraitCommand = new DelegateCommand(RemoveFavoriteTraitAction);
+        RemoveHiddenTraitCommand = new DelegateCommand(RemoveHiddenTraitAction);
+        TraitSearchRemovePlaceholderTextCommand =
+            new DelegateCommand(TraitSearchRemovePlaceholderTextAction);
+        TraitSearchAddPlaceholderTextCommand = new DelegateCommand(TraitSearchAddPlaceholderTextAction);
+        ShowHideFilterCommand = new DelegateCommand(ShowHideFilterAction);
+
+        DescriptorSettings = new DescriptorSettings();
+
+        FilterHandler = new FilterHandler(this);
+    }
+
+    // Trait Control Bar Commands
+    public DelegateCommand TraitSearchRemovePlaceholderTextCommand { get; }
+    public DelegateCommand TraitSearchAddPlaceholderTextCommand { get; }
+    public DelegateCommand ShowHideFilterCommand { get; }
+    public DelegateCommand AddFavoriteTraitCommand { get; }
+    public DelegateCommand AddHiddenTraitCommand { get; }
+    public DelegateCommand EditTraitCommand { get; }
+    public DelegateCommand NewTraitCommand { get; }
+    public DelegateCommand RemoveTraitCommand { get; }
+    public DelegateCommand RemoveFavoriteTraitCommand { get; }
+    public DelegateCommand RemoveHiddenTraitCommand { get; }
+
+    // Filtered Trait Collections
+    public ObservableCollection<Trait> FilteredTraitList { get; set; } = new();
+    public ObservableCollection<Trait> FavoriteTraitList { get; set; } = new();
+    public ObservableCollection<Trait> HiddenTraitList { get; set; } = new();
+
+    // Master trait list
+    public List<Trait> MasterTraitList { get; } = new();
+
+    public Trait? SelectedTrait
+    {
+        get => _selectedTrait;
+        set
         {
-            _vm = vm;
-        }
-
-        private readonly MainWindowViewModel _vm;
-
-        // Trait Filter Lists
-        private HashSet<Core> CoreTraitFilters = new HashSet<Core>();
-        private HashSet<Skill> SkillTraitFilters = new HashSet<Skill>();
-        private HashSet<Class> ClassTraitFilters = new HashSet<Class>();
-        private HashSet<Combat> CombatTraitFilters = new HashSet<Combat>();
-        private HashSet<Role> RoleTraitFilters = new HashSet<Role>();
-        private HashSet<Magic> MagicTraitFilters = new HashSet<Magic>();
-        private HashSet<Bonus> BonusTraitFilters = new HashSet<Bonus>();
-        private HashSet<Condition> ConditionTraitFilters = new HashSet<Condition>();
-        private HashSet<Source> SourceTraitFilters = new HashSet<Source>();
-        private HashSet<string> CustomTraitFilters = new HashSet<string>();
-
-        private bool _activeTraitFilters => CoreTraitFilters.Any() ||
-                                            SkillTraitFilters.Any() ||
-                                            ClassTraitFilters.Any() ||
-                                            CombatTraitFilters.Any() ||
-                                            RoleTraitFilters.Any() ||
-                                            ConditionTraitFilters.Any() ||
-                                            SourceTraitFilters.Any() ||
-                                            CustomTraitFilters.Any() ||
-                                            MagicTraitFilters.Any() ||
-                                            BonusTraitFilters.Any();
-
-        internal void TraitCoreFilterAction(object arg)
-        {
-            if (arg is string filter)
+            if (value != null)
             {
-                Core toggleCore = filter.StringToCore();
-
-                if (CoreTraitFilters.Contains(toggleCore))
-                {
-                    CoreTraitFilters.Remove(toggleCore);
-                }
-                else
-                {
-                    CoreTraitFilters.Add(toggleCore);
-                }
-
-                ApplyTraitFilters();
+                SelectedTrait = null;
             }
-        }
 
-        internal void TraitSkillFilterAction(object arg)
-        {
-            if (arg is string filter)
+            _selectedTrait = value;
+            CurrentTrait.Clear();
+            if (value != null)
             {
-                Skill toggleSkill = filter.StringToSkill();
-
-                if (SkillTraitFilters.Contains(toggleSkill))
-                {
-                    SkillTraitFilters.Remove(toggleSkill);
-                }
-                else
-                {
-                    SkillTraitFilters.Add(toggleSkill);
-                }
-
-                ApplyTraitFilters();
+                CurrentTrait.Add(value);
             }
+
+            OnPropertyChanged("SelectedTrait");
         }
+    }
 
-        internal void TraitClassFilterAction(object arg)
+    public ObservableCollection<Trait> CurrentTrait { get; set; } = new();
+
+    public string TraitSearchText
+    {
+        get => _traitSearchText;
+        set
         {
-            if (arg is string filter)
-            {
-                Class toggleClass = filter.StringToClass();
+            _traitSearchText = value;
+            ApplyFilters();
 
-                if (ClassTraitFilters.Contains(toggleClass))
-                {
-                    ClassTraitFilters.Remove(toggleClass);
-                }
-                else
-                {
-                    ClassTraitFilters.Add(toggleClass);
-                }
-
-                ApplyTraitFilters();
-            }
+            OnPropertyChanged("TraitSearchText");
         }
+    }
 
-        internal void TraitCombatFilterAction(object arg)
+    public DescriptorSettings DescriptorSettings { get; }
+
+    public FilterHandler FilterHandler { get; }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public void ApplyFilters()
+    {
+        FilteredTraitList.Clear();
+        List<Trait> possibleTraits =
+            (TraitSearchText != RegexHandler.SearchPlaceholderText && TraitSearchText != ""
+                ? MasterTraitList.Where(x => x.Name.Sanitize().Contains(TraitSearchText.Sanitize())).ToList()
+                : MasterTraitList)
+            .Where(x => !FavoriteTraitList.Contains(x) && !HiddenTraitList.Contains(x)).ToList();
+
+        foreach (Trait trait in FilterHandler.BroadFilter(possibleTraits))
         {
-            if (arg is string filter)
-            {
-                Combat toggleCombat = filter.StringToCombat();
-
-                if (CombatTraitFilters.Contains(toggleCombat))
-                {
-                    CombatTraitFilters.Remove(toggleCombat);
-                }
-                else
-                {
-                    CombatTraitFilters.Add(toggleCombat);
-                }
-
-                ApplyTraitFilters();
-            }
+            FilteredTraitList.Add(trait);
         }
+    }
 
-        internal void TraitRoleFilterAction(object arg)
+    public void RefreshButtonState()
+    {
+        FilterHandler.RefreshButtonState();
+    }
+
+    internal void ShowHideFilterAction(object arg)
+    {
+        try
         {
-            if (arg is string filter)
+            DescriptorViewModel vm = new(DescriptorSettings);
+            DescriptorView configWindow = new(vm);
+
+            // Wait here until window returns
+            if (configWindow.ShowDialog() == true)
             {
-                Role toggleRole = filter.StringToRole();
-
-                if (RoleTraitFilters.Contains(toggleRole))
-                {
-                    RoleTraitFilters.Remove(toggleRole);
-                }
-                else
-                {
-                    RoleTraitFilters.Add(toggleRole);
-                }
-
-                ApplyTraitFilters();
+                FilterHandler.SetDescriptorVisibility(DescriptorSettings);
             }
         }
-
-        internal void TraitMagicFilterAction(object arg)
+        catch (ArgumentOutOfRangeException)
         {
-            if (arg is string filter)
-            {
-                Magic toggleMagic = filter.StringToMagic();
-
-                if (MagicTraitFilters.Contains(toggleMagic))
-                {
-                    MagicTraitFilters.Remove(toggleMagic);
-                }
-                else
-                {
-                    MagicTraitFilters.Add(toggleMagic);
-                }
-
-                ApplyTraitFilters();
-            }
+            // How did you get here?
+            string messageBoxText = "Exception when modifying descriptor settings";
+            string caption = "Exception";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Error;
+            MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        internal void TraitBonusFilterAction(object arg)
+        RefreshButtonState();
+    }
+
+    internal void AddFavoriteTraitAction(object arg)
+    {
+        if (SelectedTrait != null && !FavoriteTraitList.Contains(SelectedTrait))
         {
-            if (arg is string filter)
-            {
-                Bonus toggleBonus = filter.StringToBonus();
+            FavoriteTraitList.Add(SelectedTrait);
+            HiddenTraitList.Remove(SelectedTrait);
 
-                if (BonusTraitFilters.Contains(toggleBonus))
-                {
-                    BonusTraitFilters.Remove(toggleBonus);
-                }
-                else
-                {
-                    BonusTraitFilters.Add(toggleBonus);
-                }
-
-                ApplyTraitFilters();
-            }
+            ApplyFilters();
+            SelectedTrait = null;
         }
+    }
 
-        internal void TraitConditionFilterAction(object arg)
+    internal void AddHiddenTraitAction(object arg)
+    {
+        if (SelectedTrait != null && !HiddenTraitList.Contains(SelectedTrait))
         {
-            if (arg is string filter)
-            {
-                Condition toggleCondition = filter.StringToCondition();
+            HiddenTraitList.Add(SelectedTrait);
+            FavoriteTraitList.Remove(SelectedTrait);
 
-                if (ConditionTraitFilters.Contains(toggleCondition))
-                {
-                    ConditionTraitFilters.Remove(toggleCondition);
-                }
-                else
-                {
-                    ConditionTraitFilters.Add(toggleCondition);
-                }
-
-                ApplyTraitFilters();
-            }
+            ApplyFilters();
+            SelectedTrait = null;
         }
+    }
 
-        internal void TraitSourceFilterAction(object arg)
+    internal void EditTraitAction(object arg)
+    {
+        try
         {
-            if (arg is string filter)
+            if (SelectedTrait != null)
             {
-                Source toggleSource = filter.StringToSource();
-
-                if (SourceTraitFilters.Contains(toggleSource))
-                {
-                    SourceTraitFilters.Remove(toggleSource);
-                }
-                else
-                {
-                    SourceTraitFilters.Add(toggleSource);
-                }
-
-                ApplyTraitFilters();
-            }
-        }
-
-        internal void TraitCustomFilterAction(object arg)
-        {
-            if (arg is string filter)
-            {
-                if (CustomTraitFilters.Contains(filter))
-                {
-                    CustomTraitFilters.Remove(filter);
-                }
-                else
-                {
-                    CustomTraitFilters.Add(filter);
-                }
-
-                ApplyTraitFilters();
-            }
-        }
-
-        internal void ApplyTraitFilters()
-        {
-            _vm.FilteredTraitList.Clear();
-            List<Trait> possibleTraits = (_vm.TraitSearchText != RegexHandler.SearchPlaceholderText && _vm.TraitSearchText != "" ?
-                _vm.MasterTraitList.Where(x => x.Name.Sanitize().Contains(_vm.TraitSearchText.Sanitize())).ToList() :
-                _vm.MasterTraitList).Where(x => !_vm.FavoriteTraitList.Contains(x) && !_vm.HiddenTraitList.Contains(x)).ToList();
-
-            foreach (Source filter in SourceTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.Source == filter).ToList();
-            }
-
-            foreach (Trait trait in BroadTraitFilter(possibleTraits))
-            {
-                _vm.FilteredTraitList.Add(trait);
-            }
-        }
-
-        private IEnumerable<Trait> BroadTraitFilter(List<Trait> possibleTraits)
-        {
-            if (!_activeTraitFilters)
-            {
-                foreach (Trait trait in possibleTraits)
-                {
-                    yield return trait;
-                }
-                yield break;
-            }
-
-            foreach (Trait trait in possibleTraits)
-            {
-                if (CoreTraitFilters.Any(filter => trait.CoreTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (SkillTraitFilters.Any(filter => trait.SkillTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (ClassTraitFilters.Any(filter => trait.ClassTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (CombatTraitFilters.Any(filter => trait.CombatTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (RoleTraitFilters.Any(filter => trait.RoleTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (MagicTraitFilters.Any(filter => trait.MagicTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (BonusTraitFilters.Any(filter => trait.BonusTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (ConditionTraitFilters.Any(filter => trait.ConditionTags.Contains(filter)))
-                {
-                    yield return trait;
-                    continue;
-                }
-
-                if (CustomTraitFilters.Any(filter => trait.CustomTags.Contains(filter)))
-                {
-                    yield return trait;
-                }
-            }
-        }
-
-        private IEnumerable<Trait> StrictTraitFilter(List<Trait> possibleTraits)
-        {
-            foreach (Core filter in CoreTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.CoreTags.Contains(filter)).ToList();
-            }
-
-            foreach (Skill filter in SkillTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.SkillTags.Contains(filter)).ToList();
-            }
-
-            foreach (Class filter in ClassTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.ClassTags.Contains(filter)).ToList();
-            }
-
-            foreach (Combat filter in CombatTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.CombatTags.Contains(filter)).ToList();
-            }
-
-            foreach (Role filter in RoleTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.RoleTags.Contains(filter)).ToList();
-            }
-
-            foreach (Magic filter in MagicTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.MagicTags.Contains(filter)).ToList();
-            }
-
-            foreach (Bonus filter in BonusTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.BonusTags.Contains(filter)).ToList();
-            }
-
-            foreach (Condition filter in ConditionTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.ConditionTags.Contains(filter)).ToList();
-            }
-
-            foreach (string filter in CustomTraitFilters)
-            {
-                possibleTraits = possibleTraits.Where(x => x.CustomTags.Contains(filter)).ToList();
-            }
-
-            foreach (Trait trait in possibleTraits)
-            {
-                yield return trait;
-            }
-        }
-
-        internal void UpdateTraitCustomTags()
-        {
-            _vm.CustomTraitFilterList.Clear();
-            foreach (Trait trait in _vm.MasterTraitList)
-            {
-                if (_vm.FavoriteTraitList.Contains(trait) || _vm.HiddenTraitList.Contains(trait))
-                    continue;
-
-                foreach (string tag in trait.CustomTags)
-                {
-                    if (!_vm.CustomTraitFilterList.Contains(tag))
-                    {
-                        _vm.CustomTraitFilterList.Add(tag);
-                    }
-                }
-            }
-        }
-
-        internal void AddFavoriteTraitAction(object arg)
-        {
-            if (_vm.SelectedTrait != null && !_vm.FavoriteTraitList.Contains(_vm.SelectedTrait))
-            {
-                _vm.FavoriteTraitList.Add(_vm.SelectedTrait);
-                _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
-
-                UpdateTraitCustomTags();
-                ApplyTraitFilters();
-                _vm.SelectedTrait = null;
-            }
-        }
-
-        internal void AddHiddenTraitAction(object arg)
-        {
-            if (_vm.SelectedTrait != null && !_vm.HiddenTraitList.Contains(_vm.SelectedTrait))
-            {
-                _vm.HiddenTraitList.Add(_vm.SelectedTrait);
-                _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
-
-                UpdateTraitCustomTags();
-                ApplyTraitFilters();
-                _vm.SelectedTrait = null;
-            }
-        }
-
-        internal void EditTraitAction(object arg)
-        {
-            try
-            {
-                if (_vm.SelectedTrait != null)
-                {
-                    var vm = new TraitViewModel(_vm.SelectedTrait);
-                    var configWindow = new TraitView(vm);
-
-                    if (configWindow.ShowDialog() == true)
-                    {
-                        Trait newTrait = vm.GetTrait();
-
-                        if (_vm.MasterTraitList.Contains(_vm.SelectedTrait))
-                        {
-                            _vm.MasterTraitList.Remove(_vm.SelectedTrait);
-                            _vm.MasterTraitList.Add(newTrait);
-
-                            if (_vm.FavoriteTraitList.Contains(_vm.SelectedTrait))
-                            {
-                                _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
-                                _vm.FavoriteTraitList.Add(newTrait);
-                            }
-
-                            else if (_vm.HiddenTraitList.Contains(_vm.SelectedTrait))
-                            {
-                                _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
-                                _vm.HiddenTraitList.Add(newTrait);
-                            }
-
-                            UpdateTraitCustomTags();
-                            ApplyTraitFilters();
-
-                            _vm.SelectedTrait = newTrait;
-                        }
-                    }
-                }
-                else
-                {
-                    string messageBoxText = "No trait selected to edit";
-                    string caption = "Select Trait";
-                    MessageBoxButton button = MessageBoxButton.OK;
-                    MessageBoxImage icon = MessageBoxImage.Exclamation;
-                    MessageBox.Show(messageBoxText, caption, button, icon);
-                }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                string messageBoxText = "Exception when adding trait";
-                string caption = "Exception";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-                MessageBox.Show(messageBoxText, caption, button, icon);
-            }
-
-            _vm.RefreshButtonState();
-        }
-
-        internal void NewTraitAction(object arg)
-        {
-            try
-            {
-                var vm = new TraitViewModel(new Trait());
-                var configWindow = new TraitView(vm);
+                TraitViewModel vm = new(SelectedTrait);
+                TraitView configWindow = new(vm);
 
                 if (configWindow.ShowDialog() == true)
                 {
                     Trait newTrait = vm.GetTrait();
-                    if (_vm.MasterTraitList.Select(x => x.Name).Contains(newTrait.Name))
-                    {
-                        string messageBoxText = "Trait with same name already exists";
-                        string caption = "Duplicate";
-                        MessageBoxButton button = MessageBoxButton.OK;
-                        MessageBoxImage icon = MessageBoxImage.Exclamation;
-                        MessageBox.Show(messageBoxText, caption, button, icon);
-                    }
-                    else
-                    {
-                        _vm.MasterTraitList.Add(newTrait);
 
-                        UpdateTraitCustomTags();
-                        ApplyTraitFilters();
-                        if (_vm.FilteredTraitList.Contains(newTrait))
+                    if (MasterTraitList.Contains(SelectedTrait))
+                    {
+                        MasterTraitList.Remove(SelectedTrait);
+                        MasterTraitList.Add(newTrait);
+
+                        if (FavoriteTraitList.Contains(SelectedTrait))
                         {
-                            _vm.SelectedTrait = newTrait;
+                            FavoriteTraitList.Remove(SelectedTrait);
+                            FavoriteTraitList.Add(newTrait);
                         }
+
+                        else if (HiddenTraitList.Contains(SelectedTrait))
+                        {
+                            HiddenTraitList.Remove(SelectedTrait);
+                            HiddenTraitList.Add(newTrait);
+                        }
+
+                        ApplyFilters();
+
+                        SelectedTrait = newTrait;
                     }
                 }
             }
-            catch (ArgumentOutOfRangeException)
+            else
             {
-                string messageBoxText = "Exception when adding trait";
-                string caption = "Exception";
+                string messageBoxText = "No trait selected to edit";
+                string caption = "Select Trait";
                 MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBoxImage icon = MessageBoxImage.Exclamation;
                 MessageBox.Show(messageBoxText, caption, button, icon);
             }
-
-            _vm.RefreshButtonState();
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            string messageBoxText = "Exception when adding trait";
+            string caption = "Exception";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Error;
+            MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        internal void TraitSearchRemovePlaceholderTextAction(object arg)
-        {
-            if (_vm.TraitSearchText == RegexHandler.SearchPlaceholderText)
-            {
-                _vm.TraitSearchText = "";
-            }
-        }
+        RefreshButtonState();
+    }
 
-        internal void TraitSearchAddPlaceholderTextAction(object arg)
+    internal void NewTraitAction(object arg)
+    {
+        try
         {
-            if (string.IsNullOrWhiteSpace(_vm.TraitSearchText))
-            {
-                _vm.TraitSearchText = RegexHandler.SearchPlaceholderText;
-            }
-        }
+            TraitViewModel vm = new(new Trait());
+            TraitView configWindow = new(vm);
 
-        internal void RemoveTraitAction(object arg)
-        {
-            if (_vm.SelectedTrait != null)
+            if (configWindow.ShowDialog() == true)
             {
-                string messageBoxText = "Trait will be removed. Are you sure?";
-                string caption = "Warning";
-                MessageBoxButton button = MessageBoxButton.YesNo;
-                MessageBoxImage icon = MessageBoxImage.Warning;
-                MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
-
-                if (result == MessageBoxResult.Yes)
+                Trait newTrait = vm.GetTrait();
+                if (MasterTraitList.Select(x => x.Name).Contains(newTrait.Name))
                 {
-                    _vm.MasterTraitList.Remove(_vm.SelectedTrait);
-                    _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
-                    _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
-                    _vm.SelectedTrait = null;
-                    UpdateTraitCustomTags();
-                    ApplyTraitFilters();
+                    string messageBoxText = "Trait with same name already exists";
+                    string caption = "Duplicate";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Exclamation;
+                    MessageBox.Show(messageBoxText, caption, button, icon);
+                }
+                else
+                {
+                    MasterTraitList.Add(newTrait);
+
+                    ApplyFilters();
+                    if (FilteredTraitList.Contains(newTrait))
+                    {
+                        SelectedTrait = newTrait;
+                    }
                 }
             }
         }
-
-        internal void RemoveFavoriteTraitAction(object arg)
+        catch (ArgumentOutOfRangeException)
         {
-            if (_vm.SelectedTrait != null && _vm.FavoriteTraitList.Contains(_vm.SelectedTrait))
-            {
-                _vm.FavoriteTraitList.Remove(_vm.SelectedTrait);
-
-                _vm.SelectedTrait = null;
-                UpdateTraitCustomTags();
-                ApplyTraitFilters();
-            }
+            string messageBoxText = "Exception when adding trait";
+            string caption = "Exception";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Error;
+            MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
-        internal void RemoveHiddenTraitAction(object arg)
-        {
-            if (_vm.SelectedTrait != null && _vm.HiddenTraitList.Contains(_vm.SelectedTrait))
-            {
-                _vm.HiddenTraitList.Remove(_vm.SelectedTrait);
+        RefreshButtonState();
+    }
 
-                _vm.SelectedTrait = null;
-                UpdateTraitCustomTags();
-                ApplyTraitFilters();
+    internal void TraitSearchRemovePlaceholderTextAction(object arg)
+    {
+        if (TraitSearchText == RegexHandler.SearchPlaceholderText)
+        {
+            TraitSearchText = "";
+        }
+    }
+
+    internal void TraitSearchAddPlaceholderTextAction(object arg)
+    {
+        if (string.IsNullOrWhiteSpace(TraitSearchText))
+        {
+            TraitSearchText = RegexHandler.SearchPlaceholderText;
+        }
+    }
+
+    internal void RemoveTraitAction(object arg)
+    {
+        if (SelectedTrait != null)
+        {
+            string messageBoxText = "Trait will be removed. Are you sure?";
+            string caption = "Warning";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                MasterTraitList.Remove(SelectedTrait);
+                HiddenTraitList.Remove(SelectedTrait);
+                FavoriteTraitList.Remove(SelectedTrait);
+                SelectedTrait = null;
+                ApplyFilters();
             }
         }
+    }
+
+    internal void RemoveFavoriteTraitAction(object arg)
+    {
+        if (SelectedTrait != null && FavoriteTraitList.Contains(SelectedTrait))
+        {
+            FavoriteTraitList.Remove(SelectedTrait);
+
+            SelectedTrait = null;
+            ApplyFilters();
+        }
+    }
+
+    internal void RemoveHiddenTraitAction(object arg)
+    {
+        if (SelectedTrait != null && HiddenTraitList.Contains(SelectedTrait))
+        {
+            HiddenTraitList.Remove(SelectedTrait);
+
+            SelectedTrait = null;
+            ApplyFilters();
+        }
+    }
+
+    internal void Clear()
+    {
+        FilterHandler.Clear();
+    }
+
+    internal void RefreshMode()
+    {
+        FilterHandler.RefreshMode();
+    }
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
