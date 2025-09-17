@@ -28,7 +28,7 @@ public class CraftHandler : INotifyPropertyChanged
 
     private Tool _currentTool = Tool.None;
 
-    private string _itemName;
+    private string? _itemName;
 
     public CraftHandler()
     {
@@ -37,6 +37,9 @@ public class CraftHandler : INotifyPropertyChanged
         CraftToolCheckboxCommand = new DelegateCommand(CraftToolAction);
         CraftWorkshopCheckboxCommand = new DelegateCommand(CraftWorkshopAction);
         CraftModifierBonusCalculatorCommand = new DelegateCommand(CraftModifierBonusCalcAction);
+
+        CraftingToolSelectionList.Fill<Tool>(typeof(Tool));
+        CraftingWorkshopSelectionList.Fill<Workshop>(typeof(Workshop));
     }
 
     // Craft Checkbox Commands
@@ -45,9 +48,7 @@ public class CraftHandler : INotifyPropertyChanged
     public DelegateCommand CraftModifierBonusCalculatorCommand { get; }
 
     // Crafting Modifiers Collections
-    public ObservableCollection<string> ActiveTool { get; set; } = new();
     public ObservableCollection<string> CraftingToolSelectionList { get; set; } = new();
-    public ObservableCollection<string> ActiveWorkshop { get; set; } = new();
     public ObservableCollection<string> CraftingWorkshopSelectionList { get; set; } = new();
 
     public Item? CraftItem
@@ -116,6 +117,10 @@ public class CraftHandler : INotifyPropertyChanged
             _craftModifier = value;
             OnPropertyChanged("CraftModifier");
         }
+    }
+
+    internal void RefreshMode()
+    {
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -193,16 +198,11 @@ public class CraftHandler : INotifyPropertyChanged
     {
     }
 
-    internal void InitializePathfinder()
-    {
-    }
-
-    internal void InitializeHavenheim()
-    {
-    }
-
     public void RefreshButtonState()
     {
+        CraftToolCheckboxCommand.RaiseCanExecuteChanged();
+        CraftWorkshopCheckboxCommand.RaiseCanExecuteChanged();
+        CraftModifierBonusCalculatorCommand.RaiseCanExecuteChanged();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)
