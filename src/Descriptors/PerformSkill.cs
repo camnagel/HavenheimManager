@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum PerformSkill
+public enum PerformSkill
 {
     [Description("Act")] Act,
     [Description("Choreography")] Choreography,

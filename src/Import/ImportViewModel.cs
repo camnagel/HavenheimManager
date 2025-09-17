@@ -84,7 +84,7 @@ public class ImportViewModel : INotifyPropertyChanged
 
     public SourceType GetSourceType()
     {
-        return _selectedSourceType.StringToSourceType();
+        return _selectedSourceType.StringToEnum<SourceType>();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)

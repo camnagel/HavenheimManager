@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum AbilityScore
+public enum DescAbility
 {
     [Description("Strength")] Strength,
     [Description("Dexterity")] Dexterity,

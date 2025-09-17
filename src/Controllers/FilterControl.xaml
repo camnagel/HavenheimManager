@@ -1,0 +1,407 @@
+﻿<UserControl x:Class="HavenheimManager.Controllers.FilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Width="200" Height="900">
+            <WrapPanel Orientation="Vertical">
+                <Expander Header="Content" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding ContentVisibility}">
+                    <ListBox ItemsSource="{Binding ContentDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.ContentCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Creature" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding CreatureVisibility}">
+                    <ListBox ItemsSource="{Binding CreatureDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.CreatureCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Creature Type" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding CreatureTypeVisibility}">
+                    <ListBox ItemsSource="{Binding CreatureTypeDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.CreatureTypeCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Creature Subtype" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding CreatureSubTypeVisibility}">
+                    <ListBox ItemsSource="{Binding CreatureSubTypeDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.CreatureSubTypeCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Craft Skill" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding CraftSkillVisibility}">
+                    <ListBox ItemsSource="{Binding CraftSkillDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.CraftSkillCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Ability" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding AbilityVisibility}">
+                    <ListBox ItemsSource="{Binding AbilityDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.AbilityCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Ability Type" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding AbilityTypeVisibility}">
+                    <ListBox ItemsSource="{Binding AbilityTypeDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.AbilityTypeCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Buff" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding BuffVisibility}">
+                    <ListBox ItemsSource="{Binding BuffDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.BuffCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Feat" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding FeatVisibility}">
+                    <ListBox ItemsSource="{Binding FeatDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.FeatCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Magic" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding MagicVisibility}">
+                    <ListBox ItemsSource="{Binding MagicDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.MagicCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Save" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding SaveVisibility}">
+                    <ListBox ItemsSource="{Binding SaveDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.SaveCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Skill" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding SkillVisibility}">
+                    <ListBox ItemsSource="{Binding SkillDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.SkillCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="System" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding SystemVisibility}">
+                    <ListBox ItemsSource="{Binding SystemDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.SystemCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Trait" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding TraitVisibility}">
+                    <ListBox ItemsSource="{Binding TraitDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.TraitCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Usage" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding UsageVisibility}">
+                    <ListBox ItemsSource="{Binding UsageDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.UsageCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Duration" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding DurationVisibility}">
+                    <ListBox ItemsSource="{Binding DurationDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.DurationCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Knowledge" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding KnowledgeVisibility}">
+                    <ListBox ItemsSource="{Binding KnowledgeDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.KnowledgeCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Magic Aura" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding MagicAuraVisibility}">
+                    <ListBox ItemsSource="{Binding MagicAuraDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.MagicAuraCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Perform Skill" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding PerformVisibility}">
+                    <ListBox ItemsSource="{Binding PerformDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.PerformCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Spell School" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding SpellSchoolVisibility}">
+                    <ListBox ItemsSource="{Binding SpellSchoolDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.SpellSchoolCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Stimulus" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding StimulusVisibility}">
+                    <ListBox ItemsSource="{Binding StimulusDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.StimulusCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Terrain" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding TerrainVisibility}">
+                    <ListBox ItemsSource="{Binding TerrainDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.TerrainCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Expander Header="Custom" FontSize="10" FontWeight="Bold"
+                          Visibility="{Binding CustomVisibility}">
+                    <ListBox ItemsSource="{Binding CustomDescriptorList}" Background="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox FontWeight="Normal"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                                    Path=DataContext.CustomCheckboxCommand}"
+                                              CommandParameter="{Binding}"
+                                              Content="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

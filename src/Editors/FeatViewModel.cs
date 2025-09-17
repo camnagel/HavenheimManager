@@ -290,7 +290,7 @@ public class FeatViewModel : INotifyPropertyChanged
         Feat.Url = FeatUrl;
         Feat.Level = int.Parse(FeatLevel);
         Feat.Notes = FeatNotes;
-        Feat.Source = FeatSource != "Select Source" ? FeatSource.StringToSource() : Source.Standard;
+        Feat.Source = FeatSource != "Select Source" ? FeatSource.StringToEnum<Source>() : Source.Standard;
 
         Feat.Prereqs.Clear();
         foreach (string prereq in Prereqs)
@@ -321,7 +321,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.CoreTags.Add(tag.Key.StringToCore());
+                Feat.CoreTags.Add(tag.Key.StringToEnum<Core>());
             }
         }
 
@@ -330,7 +330,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.SkillTags.Add(tag.Key.StringToSkill());
+                Feat.SkillTags.Add(tag.Key.StringToEnum<Skill>());
             }
         }
 
@@ -339,7 +339,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.ClassTags.Add(tag.Key.StringToClass());
+                Feat.ClassTags.Add(tag.Key.StringToEnum<Class>());
             }
         }
 
@@ -348,7 +348,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.CombatTags.Add(tag.Key.StringToCombat());
+                Feat.CombatTags.Add(tag.Key.StringToEnum<Combat>());
             }
         }
 
@@ -357,7 +357,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.RoleTags.Add(tag.Key.StringToRole());
+                Feat.RoleTags.Add(tag.Key.StringToEnum<Role>());
             }
         }
 
@@ -366,7 +366,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.MagicTags.Add(tag.Key.StringToMagic());
+                Feat.MagicTags.Add(tag.Key.StringToEnum<Magic>());
             }
         }
 
@@ -375,7 +375,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.BonusTags.Add(tag.Key.StringToBonus());
+                Feat.BonusTags.Add(tag.Key.StringToEnum<Bonus>());
             }
         }
 
@@ -384,7 +384,7 @@ public class FeatViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Feat.ConditionTags.Add(tag.Key.StringToCondition());
+                Feat.ConditionTags.Add(tag.Key.StringToEnum<Condition>());
             }
         }
 

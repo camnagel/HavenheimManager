@@ -249,7 +249,7 @@ public class ItemViewModel : INotifyPropertyChanged
         Item.Description = ItemDescription;
         Item.Url = ItemUrl;
         Item.Notes = ItemNotes;
-        Item.Source = ItemSource.StringToSource();
+        Item.Source = ItemSource.StringToEnum<Source>();
 
         Item.Prereqs.Clear();
         foreach (string prereq in Prereqs)
@@ -280,7 +280,7 @@ public class ItemViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Item.CoreTags.Add(tag.Key.StringToCore());
+                Item.CoreTags.Add(tag.Key.StringToEnum<Core>());
             }
         }
 
@@ -289,7 +289,7 @@ public class ItemViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Item.SkillTags.Add(tag.Key.StringToSkill());
+                Item.SkillTags.Add(tag.Key.StringToEnum<Skill>());
             }
         }
 
@@ -298,7 +298,7 @@ public class ItemViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Item.ClassTags.Add(tag.Key.StringToClass());
+                Item.ClassTags.Add(tag.Key.StringToEnum<Class>());
             }
         }
 
@@ -307,7 +307,7 @@ public class ItemViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Item.CombatTags.Add(tag.Key.StringToCombat());
+                Item.CombatTags.Add(tag.Key.StringToEnum<Combat>());
             }
         }
 
@@ -316,7 +316,7 @@ public class ItemViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Item.RoleTags.Add(tag.Key.StringToRole());
+                Item.RoleTags.Add(tag.Key.StringToEnum<Role>());
             }
         }
 
@@ -325,7 +325,7 @@ public class ItemViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Item.MagicTags.Add(tag.Key.StringToMagic());
+                Item.MagicTags.Add(tag.Key.StringToEnum<Magic>());
             }
         }
 
@@ -334,7 +334,7 @@ public class ItemViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Item.BonusTags.Add(tag.Key.StringToBonus());
+                Item.BonusTags.Add(tag.Key.StringToEnum<Bonus>());
             }
         }
 

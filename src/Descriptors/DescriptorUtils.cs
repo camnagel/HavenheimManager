@@ -108,24 +108,24 @@ internal static class DescriptorUtils
         }
     }
 
-    public static List<AbilityScore> GetAbilityScore(AppMode mode)
+    public static List<DescAbility> GetAbilityScore(AppMode mode)
     {
         switch (mode)
         {
             case AppMode.Havenheim:
-                return new List<AbilityScore>
+                return new List<DescAbility>
                 {
-                    AbilityScore.Strength,
-                    AbilityScore.Dexterity,
-                    AbilityScore.Constitution,
-                    AbilityScore.Intelligence,
-                    AbilityScore.Wisdom,
-                    AbilityScore.Charisma,
-                    AbilityScore.Replacement
+                    DescAbility.Strength,
+                    DescAbility.Dexterity,
+                    DescAbility.Constitution,
+                    DescAbility.Intelligence,
+                    DescAbility.Wisdom,
+                    DescAbility.Charisma,
+                    DescAbility.Replacement
                 };
 
             case AppMode.Pathfinder:
-                return new List<AbilityScore>();
+                return new List<DescAbility>();
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), "How did you get here?");
@@ -163,7 +163,7 @@ internal static class DescriptorUtils
                     AbilityType.Ordinary,
                     AbilityType.Extraordinary,
                     AbilityType.Supernatural,
-                    AbilityType.Supernatural
+                    AbilityType.MagicalAbility
                 };
 
             case AppMode.Pathfinder:
@@ -195,30 +195,30 @@ internal static class DescriptorUtils
         }
     }
 
-    public static List<Duration> GetDuration(AppMode mode)
+    public static List<DescDuration> GetDuration(AppMode mode)
     {
         switch (mode)
         {
             case AppMode.Havenheim:
-                return new List<Duration>
+                return new List<DescDuration>
                 {
-                    Duration.Any,
-                    Duration.Instant,
-                    Duration.EndTurn,
-                    Duration.Round,
-                    Duration.RoundPer,
-                    Duration.ThreeRoundPer,
-                    Duration.MinutePer,
-                    Duration.TenMinutePer,
-                    Duration.HourPer,
-                    Duration.DayPer,
-                    Duration.TenDayPer,
-                    Duration.MonthPer,
-                    Duration.YearPer
+                    DescDuration.Any,
+                    DescDuration.Instant,
+                    DescDuration.EndTurn,
+                    DescDuration.Round,
+                    DescDuration.RoundPer,
+                    DescDuration.ThreeRoundPer,
+                    DescDuration.MinutePer,
+                    DescDuration.TenMinutePer,
+                    DescDuration.HourPer,
+                    DescDuration.DayPer,
+                    DescDuration.TenDayPer,
+                    DescDuration.MonthPer,
+                    DescDuration.YearPer
                 };
 
             case AppMode.Pathfinder:
-                return new List<Duration>();
+                return new List<DescDuration>();
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), "How did you get here?");

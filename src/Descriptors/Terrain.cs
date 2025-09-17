@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum Terrain
+public enum Terrain
 {
     [Description("Any")] Any,
     [Description("Urban")] Urban,

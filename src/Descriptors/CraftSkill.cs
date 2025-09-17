@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum CraftSkill
+public enum CraftSkill
 {
     [Description("Alchemy")] Alchemy,
     [Description("Artistry")] Artistry,

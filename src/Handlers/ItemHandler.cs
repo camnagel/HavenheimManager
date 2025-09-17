@@ -190,7 +190,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Core toggleCore = filter.StringToCore();
+            Core toggleCore = filter.StringToEnum<Core>();
 
             if (_coreItemFilters.Contains(toggleCore))
             {
@@ -209,7 +209,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Skill toggleSkill = filter.StringToSkill();
+            Skill toggleSkill = filter.StringToEnum<Skill>();
 
             if (_skillItemFilters.Contains(toggleSkill))
             {
@@ -228,7 +228,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Class toggleClass = filter.StringToClass();
+            Class toggleClass = filter.StringToEnum<Class>();
 
             if (_classItemFilters.Contains(toggleClass))
             {
@@ -247,7 +247,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Combat toggleCombat = filter.StringToCombat();
+            Combat toggleCombat = filter.StringToEnum<Combat>();
 
             if (_combatItemFilters.Contains(toggleCombat))
             {
@@ -266,7 +266,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Role toggleRole = filter.StringToRole();
+            Role toggleRole = filter.StringToEnum<Role>();
 
             if (_roleItemFilters.Contains(toggleRole))
             {
@@ -285,7 +285,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Magic toggleMagic = filter.StringToMagic();
+            Magic toggleMagic = filter.StringToEnum<Magic>();
 
             if (_magicItemFilters.Contains(toggleMagic))
             {
@@ -304,7 +304,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Bonus toggleBonus = filter.StringToBonus();
+            Bonus toggleBonus = filter.StringToEnum<Bonus>();
 
             if (_bonusItemFilters.Contains(toggleBonus))
             {
@@ -323,7 +323,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Source toggleSource = filter.StringToSource();
+            Source toggleSource = filter.StringToEnum<Source>();
 
             if (_sourceItemFilters.Contains(toggleSource))
             {
@@ -359,7 +359,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Condition toggleCondition = filter.StringToCondition();
+            Condition toggleCondition = filter.StringToEnum<Condition>();
 
             if (_conditionItemFilters.Contains(toggleCondition))
             {

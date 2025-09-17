@@ -285,7 +285,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Core toggleCore = filter.StringToCore();
+            Core toggleCore = filter.StringToEnum<Core>();
 
             if (_coreFeatFilters.Contains(toggleCore))
             {
@@ -304,7 +304,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Skill toggleSkill = filter.StringToSkill();
+            Skill toggleSkill = filter.StringToEnum<Skill>();
 
             if (_skillFeatFilters.Contains(toggleSkill))
             {
@@ -323,7 +323,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Class toggleClass = filter.StringToClass();
+            Class toggleClass = filter.StringToEnum<Class>();
 
             if (_classFeatFilters.Contains(toggleClass))
             {
@@ -342,7 +342,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Combat toggleCombat = filter.StringToCombat();
+            Combat toggleCombat = filter.StringToEnum<Combat>();
 
             if (_combatFeatFilters.Contains(toggleCombat))
             {
@@ -361,7 +361,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Role toggleRole = filter.StringToRole();
+            Role toggleRole = filter.StringToEnum<Role>();
 
             if (_roleFeatFilters.Contains(toggleRole))
             {
@@ -380,7 +380,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Magic toggleMagic = filter.StringToMagic();
+            Magic toggleMagic = filter.StringToEnum<Magic>();
 
             if (_magicFeatFilters.Contains(toggleMagic))
             {
@@ -399,7 +399,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Bonus toggleBonus = filter.StringToBonus();
+            Bonus toggleBonus = filter.StringToEnum<Bonus>();
 
             if (_bonusFeatFilters.Contains(toggleBonus))
             {
@@ -418,7 +418,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Condition toggleCondition = filter.StringToCondition();
+            Condition toggleCondition = filter.StringToEnum<Condition>();
 
             if (_conditionFeatFilters.Contains(toggleCondition))
             {
@@ -437,7 +437,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (arg is string filter)
         {
-            Source toggleSource = filter.StringToSource();
+            Source toggleSource = filter.StringToEnum<Source>();
 
             if (_sourceFeatFilters.Contains(toggleSource))
             {

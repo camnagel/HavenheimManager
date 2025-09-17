@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum DescSkill
+public enum DescSkill
 {
     [Description("Acrobatics")] Acrobatics,
     [Description("Bluff")] Bluff,

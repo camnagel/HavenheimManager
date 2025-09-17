@@ -1,25 +1,32 @@
 ﻿using System.Collections.Generic;
-using HavenheimManager.Enums;
+using HavenheimManager.Descriptors;
 
 namespace HavenheimManager.Containers;
 
-internal interface ITaggable
+public interface ITaggable
 {
-    HashSet<Core> CoreTags { get; set; }
+    HashSet<DescContent> ContentDescriptors { get; set; }
+    HashSet<Creature> CreatureDescriptors { get; set; }
+    HashSet<CreatureType> CreatureTypeDescriptors { get; set; }
+    HashSet<CreatureSubType> CreatureSubTypeDescriptors { get; set; }
+    HashSet<CraftSkill> CraftSkillDescriptors { get; set; }
+    HashSet<DescAbility> AbilityDescriptors { get; set; }
+    HashSet<AbilityType> AbilityTypeDescriptors { get; set; }
+    HashSet<DescBuff> BuffDescriptors { get; set; }
+    HashSet<DescFeat> FeatDescriptors { get; set; }
+    HashSet<DescMagic> MagicDescriptors { get; set; }
+    HashSet<DescSave> SaveDescriptors { get; set; }
+    HashSet<DescSkill> SkillDescriptors { get; set; }
+    HashSet<DescSystem> SystemDescriptors { get; set; }
+    HashSet<DescTrait> TraitDescriptors { get; set; }
+    HashSet<DescUsage> UsageDescriptors { get; set; }
+    HashSet<DescDuration> DurationDescriptors { get; set; }
+    HashSet<Knowledge> KnowledgeDescriptors { get; set; }
+    HashSet<MagicAura> MagicAuraDescriptors { get; set; }
+    HashSet<PerformSkill> PerformSkillDescriptors { get; set; }
+    HashSet<SpellSchool> SpellSchoolDescriptors { get; set; }
+    HashSet<Stimulus> StimulusDescriptors { get; set; }
+    HashSet<Terrain> TerrainDescriptors { get; set; }
 
-    HashSet<Skill> SkillTags { get; set; }
-
-    HashSet<Class> ClassTags { get; set; }
-
-    HashSet<Combat> CombatTags { get; set; }
-
-    HashSet<Role> RoleTags { get; set; }
-
-    HashSet<Magic> MagicTags { get; set; }
-
-    HashSet<Bonus> BonusTags { get; set; }
-
-    HashSet<Condition> ConditionTags { get; set; }
-
-    IList<string> CustomTags { get; set; }
+    IList<string> CustomDescriptors { get; set; }
 }

@@ -4,9 +4,9 @@ namespace HavenheimManager.Descriptors;
 
 public enum DescTrait
 {
-    [Description("Abjuration")] Combat,
-    [Description("Conjuration")] Magic,
-    [Description("Divination")] Faction,
-    [Description("Enchantment")] Story,
-    [Description("Illusion")] Social
+    [Description("Combat")] Combat,
+    [Description("Magic")] Magic,
+    [Description("Faction")] Faction,
+    [Description("Story")] Story,
+    [Description("Social")] Social
 }

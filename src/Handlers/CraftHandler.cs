@@ -147,7 +147,7 @@ public class CraftHandler : INotifyPropertyChanged
     {
         if (arg is string toolAsString)
         {
-            Tool tool = toolAsString.StringToTool();
+            Tool tool = toolAsString.StringToEnum<Tool>();
             _currentTool = tool;
             _craftingModifierCalculator.AddCircumstanceBonus(nameof(Tool), toolAsString, tool.ToolToBonus());
             UpdateCraftingModifier();
@@ -158,7 +158,7 @@ public class CraftHandler : INotifyPropertyChanged
     {
         if (arg is string workshopAsString)
         {
-            Workshop workshop = workshopAsString.StringToWorkshop();
+            Workshop workshop = workshopAsString.StringToEnum<Workshop>();
             _craftingModifierCalculator.AddCircumstanceBonus(nameof(Workshop), workshopAsString,
                 workshop.WorkshopToBonus());
             UpdateCraftingModifier();

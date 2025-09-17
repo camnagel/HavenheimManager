@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum Knowledge
+public enum Knowledge
 {
     [Description("Arcana")] Arcana,
     [Description("Dungeoneering")] Dungeoneering,

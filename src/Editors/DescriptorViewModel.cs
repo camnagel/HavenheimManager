@@ -12,6 +12,8 @@ namespace HavenheimManager.Editors;
 
 public class DescriptorViewModel : INotifyPropertyChanged
 {
+    private DescriptorSettings _settings;
+
     private bool _showContent;
 
     private bool _showCreature;
@@ -109,6 +111,8 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     internal bool ShowTerrain { get; private set; }
 
+    internal bool ShowCustom { get; private set; }
+
     internal DescriptorViewModel(DescriptorSettings settings)
     {
         CancelCommand = new DelegateCommand(CancelAction);
@@ -121,28 +125,31 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private void ExtractDescriptorSettings(DescriptorSettings settings)
     {
-        ShowContent = settings.ShowContent;
-        ShowSkill = settings.ShowSkill;
-        ShowMagic = settings.ShowMagic;
-        ShowSystem = settings.ShowSystem;
-        ShowTrait = settings.ShowTrait;
-        ShowUsage = settings.ShowUsage;
-        ShowDuration = settings.ShowDuration;
-        ShowKnowledge = settings.ShowKnowledge;
-        ShowMagicAura = settings.ShowMagicAura;
-        ShowPerform = settings.ShowPerform;
-        ShowSpellSchool = settings.ShowSpellSchool;
-        ShowStimulus = settings.ShowStimulus;
-        ShowTerrain = settings.ShowTerrain;
-        ShowCreature = settings.ShowCreature;
-        ShowCreatureType = settings.ShowCreatureType;
-        ShowCreatureSubType = settings.ShowCreatureSubType;
-        ShowCraftSkill = settings.ShowCraftSkill;
-        ShowSave = settings.ShowSave;
-        ShowAbilityScore = settings.ShowAbilityScore;
-        ShowAbilityType = settings.ShowAbilityType;
-        ShowBuff = settings.ShowBuff;
-        ShowFeat = settings.ShowFeat;
+        _settings.ShowContent = settings.ShowContent;
+        _settings.ShowSkill = settings.ShowSkill;
+        _settings.ShowMagic = settings.ShowMagic;
+        _settings.ShowSystem = settings.ShowSystem;
+        _settings.ShowTrait = settings.ShowTrait;
+        _settings.ShowUsage = settings.ShowUsage;
+        _settings.ShowDuration = settings.ShowDuration;
+        _settings.ShowKnowledge = settings.ShowKnowledge;
+        _settings.ShowMagicAura = settings.ShowMagicAura;
+        _settings.ShowPerform = settings.ShowPerform;
+        _settings.ShowSpellSchool = settings.ShowSpellSchool;
+        _settings.ShowStimulus = settings.ShowStimulus;
+        _settings.ShowTerrain = settings.ShowTerrain;
+        _settings.ShowCreature = settings.ShowCreature;
+        _settings.ShowCreatureType = settings.ShowCreatureType;
+        _settings.ShowCreatureSubType = settings.ShowCreatureSubType;
+        _settings.ShowCraftSkill = settings.ShowCraftSkill;
+        _settings.ShowSave = settings.ShowSave;
+        _settings.ShowAbilityScore = settings.ShowAbilityScore;
+        _settings.ShowAbilityType = settings.ShowAbilityType;
+        _settings.ShowBuff = settings.ShowBuff;
+        _settings.ShowFeat = settings.ShowFeat;
+        _settings.ShowCustom = settings.ShowCustom;
+
+        _settings = settings;
     }
     
     /*
@@ -663,7 +670,7 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private void ShowContentCheckboxAction(object arg)
     {
-        ShowContent = !ShowContent;
+        _settings.ShowContent = !ShowContent;
 
     }/*
 
@@ -1238,10 +1245,34 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private void AcceptChangesAction(object arg)
     {
+        _settings.ShowContent = ShowContent;
+        _settings.ShowSkill = ShowSkill;
+        _settings.ShowMagic = ShowMagic;
+        _settings.ShowSystem = ShowSystem;
+        _settings.ShowTrait = ShowTrait;
+        _settings.ShowUsage = ShowUsage;
+        _settings.ShowDuration = ShowDuration;
+        _settings.ShowKnowledge = ShowKnowledge;
+        _settings.ShowMagicAura = ShowMagicAura;
+        _settings.ShowPerform = ShowPerform;
+        _settings.ShowSpellSchool = ShowSpellSchool;
+        _settings.ShowStimulus = ShowStimulus;
+        _settings.ShowTerrain = ShowTerrain;
+        _settings.ShowCreature = ShowCreature;
+        _settings.ShowCreatureType = ShowCreatureType;
+        _settings.ShowCreatureSubType = ShowCreatureSubType;
+        _settings.ShowCraftSkill = ShowCraftSkill;
+        _settings.ShowSave = ShowSave;
+        _settings.ShowAbilityScore = ShowAbilityScore;
+        _settings.ShowAbilityType = ShowAbilityType;
+        _settings.ShowBuff = ShowBuff;
+        _settings.ShowFeat = ShowFeat;
+        _settings.ShowCustom = ShowCustom;
+
         if (arg is Window window)
             window.DialogResult = true;
-    }/*
-    
+    } /*
+
         {
             _bonusCalculator.Clear();
 

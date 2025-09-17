@@ -213,7 +213,7 @@ public class TraitViewModel : INotifyPropertyChanged
         Trait.Description = TraitDescription;
         Trait.Url = TraitUrl;
         Trait.Notes = TraitNotes;
-        Trait.Source = TraitSource.StringToSource();
+        Trait.Source = TraitSource.StringToEnum<Source>();
 
         Trait.Prereqs.Clear();
         foreach (string prereq in Prereqs)
@@ -232,7 +232,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.CoreTags.Add(tag.Key.StringToCore());
+                Trait.CoreTags.Add(tag.Key.StringToEnum<Core>());
             }
         }
 
@@ -241,7 +241,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.SkillTags.Add(tag.Key.StringToSkill());
+                Trait.SkillTags.Add(tag.Key.StringToEnum<Skill>());
             }
         }
 
@@ -250,7 +250,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.ClassTags.Add(tag.Key.StringToClass());
+                Trait.ClassTags.Add(tag.Key.StringToEnum<Class>());
             }
         }
 
@@ -259,7 +259,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.CombatTags.Add(tag.Key.StringToCombat());
+                Trait.CombatTags.Add(tag.Key.StringToEnum<Combat>());
             }
         }
 
@@ -268,7 +268,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.RoleTags.Add(tag.Key.StringToRole());
+                Trait.RoleTags.Add(tag.Key.StringToEnum<Role>());
             }
         }
 
@@ -277,7 +277,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.MagicTags.Add(tag.Key.StringToMagic());
+                Trait.MagicTags.Add(tag.Key.StringToEnum<Magic>());
             }
         }
 
@@ -286,7 +286,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.BonusTags.Add(tag.Key.StringToBonus());
+                Trait.BonusTags.Add(tag.Key.StringToEnum<Bonus>());
             }
         }
 
@@ -295,7 +295,7 @@ public class TraitViewModel : INotifyPropertyChanged
         {
             if (tag.Value)
             {
-                Trait.ConditionTags.Add(tag.Key.StringToCondition());
+                Trait.ConditionTags.Add(tag.Key.StringToEnum<Condition>());
             }
         }
 

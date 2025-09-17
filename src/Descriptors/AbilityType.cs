@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum AbilityType
+public enum AbilityType
 {
     [Description("Ordinary (Or)")] Ordinary,
     [Description("Extraordinary (Ex)")] Extraordinary,

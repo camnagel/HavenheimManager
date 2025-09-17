@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum Stimulus
+public enum Stimulus
 {
     [Description("Visual")] Visual,
     [Description("Auditory")] Auditory,

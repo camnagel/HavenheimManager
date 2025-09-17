@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum MagicAura
+public enum MagicAura
 {
     [Description("Faint")] Faint,
     [Description("Moderate")] Moderate,

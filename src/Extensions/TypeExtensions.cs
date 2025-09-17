@@ -42,9 +42,23 @@ internal static class TypeExtensions
         return ret;
     }
 
+    /// <summary>
+    ///     Populates the collection with the descriptions off all values in the provided enum
+    /// </summary>
     internal static void Fill<T>(this ObservableCollection<string> collection, Type enumValue) where T : Enum
     {
         foreach (T value in Enum.GetValues(enumValue))
+        {
+            collection.Add(value.GetEnumDescription());
+        }
+    }
+
+    /// <summary>
+    ///     Populates the collection with the descriptions of all values in the provided list
+    /// </summary>
+    internal static void Fill<T>(this ObservableCollection<string> collection, ICollection<T> values) where T : Enum
+    {
+        foreach (T value in values)
         {
             collection.Add(value.GetEnumDescription());
         }

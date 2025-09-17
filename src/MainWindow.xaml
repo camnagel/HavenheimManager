@@ -35,7 +35,7 @@
 
             <TabControl Width="2390" Background="LightGray" Margin="10,0,0,0">
                 <TabItem Header="Traits" Background="LightGray" Width="100" Height="20">
-                    <controllers:TraitControl />
+                    <controllers:TraitControl DataContext="{Binding TraitHandler}" />
                 </TabItem>
 
                 <TabItem Header="Feats" Background="LightGray" Width="100" Height="20">

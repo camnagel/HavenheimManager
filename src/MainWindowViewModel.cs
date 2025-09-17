@@ -55,7 +55,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
 
             _appMode = value;
-            SetAppMode(value.StringToAppMode());
+            SetAppMode(value.StringToEnum<AppMode>());
             OnPropertyChanged("AppMode");
         }
     }
@@ -158,8 +158,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                             TraitHandler.MasterTraitList.Add(trait);
                         }
 
-                        TraitHandler.UpdateTraitCustomTags();
-                        TraitHandler.ApplyTraitFilters();
+                        TraitHandler.ApplyFilters();
                         break;
                     case SourceType.Feat:
                         foreach (Feat feat in ImportReader.ReadFeatCsv(importPath))
@@ -197,15 +196,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         ClearApp();
 
-        switch (mode)
-        {
-            case Enums.AppMode.Pathfinder:
-                InitializePathfinder();
-                break;
-            case Enums.AppMode.Havenheim:
-                InitializeHavenheim();
-                break;
-        }
+        TraitHandler.InitializeMode(mode);
     }
 
     private void ClearApp()
@@ -215,23 +206,5 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ItemHandler.Clear();
         SpellHandler.Clear();
         CraftHandler.Clear();
-    }
-
-    private void InitializePathfinder()
-    {
-        TraitHandler.InitializePathfinder();
-        FeatHandler.InitializePathfinder();
-        ItemHandler.InitializePathfinder();
-        SpellHandler.InitializePathfinder();
-        CraftHandler.InitializePathfinder();
-    }
-
-    private void InitializeHavenheim()
-    {
-        TraitHandler.InitializeHavenheim();
-        FeatHandler.InitializeHavenheim();
-        ItemHandler.InitializeHavenheim();
-        SpellHandler.InitializeHavenheim();
-        CraftHandler.InitializeHavenheim();
     }
 }

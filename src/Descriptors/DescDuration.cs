@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum Duration
+public enum DescDuration
 {
     [Description("Any")] Any,
     [Description("Instant")] Instant,

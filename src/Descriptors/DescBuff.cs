@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum DescBuff
+public enum DescBuff
 {
     [Description("Buff")] Buff,
     [Description("Debuff")] Debuff,

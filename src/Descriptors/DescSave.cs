@@ -2,7 +2,7 @@
 
 namespace HavenheimManager.Descriptors;
 
-internal enum DescSave
+public enum DescSave
 {
     [Description("Reflex")] Reflex,
     [Description("Will")] Will,

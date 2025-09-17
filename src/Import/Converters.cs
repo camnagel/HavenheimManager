@@ -14,7 +14,7 @@ public class SourceConverter<T> : DefaultTypeConverter
 {
     public override object ConvertFromString(string? source, IReaderRow row, MemberMapData data)
     {
-        return source.StringToSource();
+        return source.StringToEnum<Source>();
     }
 }
 
@@ -64,7 +64,7 @@ public class CoreConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToCore());
+                tagSet.Add(tag.StringToEnum<Core>());
             }
         }
 
@@ -82,7 +82,7 @@ public class SkillConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToSkill());
+                tagSet.Add(tag.StringToEnum<Skill>());
             }
         }
 
@@ -100,7 +100,7 @@ public class ClassConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToClass());
+                tagSet.Add(tag.StringToEnum<Class>());
             }
         }
 
@@ -118,7 +118,7 @@ public class CombatConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToCombat());
+                tagSet.Add(tag.StringToEnum<Combat>());
             }
         }
 
@@ -136,7 +136,7 @@ public class RoleConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToRole());
+                tagSet.Add(tag.StringToEnum<Role>());
             }
         }
 
@@ -154,7 +154,7 @@ public class MagicConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToMagic());
+                tagSet.Add(tag.StringToEnum<Magic>());
             }
         }
 
@@ -172,7 +172,7 @@ public class BonusConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToBonus());
+                tagSet.Add(tag.StringToEnum<Bonus>());
             }
         }
 
@@ -190,7 +190,7 @@ public class ConditionConverter<T> : DefaultTypeConverter
             List<string> splitTags = tags.Split(',').ToList();
             foreach (string tag in splitTags)
             {
-                tagSet.Add(tag.StringToCondition());
+                tagSet.Add(tag.StringToEnum<Condition>());
             }
         }
 
