@@ -21,19 +21,19 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1500" Height="900">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="200" Height="900"
                                 Margin="0,0,10,0">
-                        <TextBox Text="{Binding FeatHandler.FeatSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"
+                        <TextBox Text="{Binding FeatSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"
                                  Height="20">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="LostFocus">
-                                    <b:InvokeCommandAction Command="{Binding FeatHandler.FeatSearchAddPlaceholderTextCommand}" />
+                                    <b:InvokeCommandAction Command="{Binding FeatSearchAddPlaceholderTextCommand}" />
                                 </b:EventTrigger>
                                 <b:EventTrigger EventName="GotFocus">
-                                    <b:InvokeCommandAction Command="{Binding FeatHandler.FeatSearchRemovePlaceholderTextCommand}" />
+                                    <b:InvokeCommandAction Command="{Binding FeatSearchRemovePlaceholderTextCommand}" />
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </TextBox>
-                        <ListBox ItemsSource="{Binding FeatHandler.FilteredFeatList}" Background="DimGray" Width="200" Height="875"
-                                 SelectedItem="{Binding FeatHandler.SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <ListBox ItemsSource="{Binding FilteredFeatList}" Background="DimGray" Width="200" Height="875"
+                                 SelectedItem="{Binding SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Foreground="AliceBlue">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -48,44 +48,42 @@
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="200" Height="900"
                                 Margin="0,0,20,0">
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding FeatHandler.FeatMinLevel, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding FeatMinLevel, UpdateSourceTrigger=PropertyChanged}"
                                      Margin="0,0,0,5" Height="20" Width="25">
                                 <b:Interaction.Triggers>
                                     <b:EventTrigger EventName="LostFocus">
                                         <b:InvokeCommandAction
-                                            Command="{Binding FeatHandler.FeatMinLevelAddPlaceholderTextCommand}" />
+                                            Command="{Binding FeatMinLevelAddPlaceholderTextCommand}" />
                                     </b:EventTrigger>
                                     <b:EventTrigger EventName="GotFocus">
                                         <b:InvokeCommandAction
-                                            Command="{Binding FeatHandler.FeatMinLevelRemovePlaceholderTextCommand}" />
+                                            Command="{Binding FeatMinLevelRemovePlaceholderTextCommand}" />
                                     </b:EventTrigger>
                                 </b:Interaction.Triggers>
                             </TextBox>
                             <TextBlock Text=" &lt;= Level &lt;= " Height="20" />
-                            <TextBox Text="{Binding FeatHandler.FeatMaxLevel, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding FeatMaxLevel, UpdateSourceTrigger=PropertyChanged}"
                                      Margin="0,0,0,5" Height="20" Width="25">
                                 <b:Interaction.Triggers>
                                     <b:EventTrigger EventName="LostFocus">
                                         <b:InvokeCommandAction
-                                            Command="{Binding FeatHandler.FeatMaxLevelAddPlaceholderTextCommand}" />
+                                            Command="{Binding FeatMaxLevelAddPlaceholderTextCommand}" />
                                     </b:EventTrigger>
                                     <b:EventTrigger EventName="GotFocus">
                                         <b:InvokeCommandAction
-                                            Command="{Binding FeatHandler.FeatMaxLevelRemovePlaceholderTextCommand}" />
+                                            Command="{Binding FeatMaxLevelRemovePlaceholderTextCommand}" />
                                     </b:EventTrigger>
                                 </b:Interaction.Triggers>
                             </TextBox>
                         </StackPanel>
 
                         <Expander Header="Core" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.CoreFeatFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding CoreFeatFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.CoreFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.CoreFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -95,15 +93,13 @@
                         </Expander>
 
                         <Expander Header="Skills" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.SkillFeatFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding SkillFeatFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.SkillFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource= {RelativeSource AncestorType=ListBox}, Path=DataContext.SkillFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -113,15 +109,13 @@
                         </Expander>
 
                         <Expander Header="Class" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.ClassFeatFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding ClassFeatFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.ClassFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.ClassFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -131,15 +125,13 @@
                         </Expander>
 
                         <Expander Header="Combat" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.CombatFeatFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding CombatFeatFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.CombatFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.CombatFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -149,15 +141,13 @@
                         </Expander>
 
                         <Expander Header="Role" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.RoleFeatFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding RoleFeatFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.RoleFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.RoleFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -167,14 +157,12 @@
                         </Expander>
 
                         <Expander Header="Spells" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.MagicFeatFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding MagicFeatFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.MagicFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.MagicFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -184,14 +172,12 @@
                         </Expander>
 
                         <Expander Header="Bonus" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.BonusFeatFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding BonusFeatFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.BonusFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.BonusFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -201,15 +187,13 @@
                         </Expander>
 
                         <Expander Header="Condition" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.ConditionFeatFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding ConditionFeatFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.ConditionFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.ConditionFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -219,14 +203,12 @@
                         </Expander>
 
                         <Expander Header="Source" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.SourceFeatFilterList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding SourceFeatFilterList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.SourceFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.SourceFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -236,15 +218,13 @@
                         </Expander>
 
                         <Expander Header="Custom" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding FeatHandler.CustomFeatFilterList}" Height="500"
+                            <ListBox ItemsSource="{Binding CustomFeatFilterList}" Height="500"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox FontWeight="Normal"
-                                                      Command="{Binding RelativeSource=
-                                        {RelativeSource AncestorType=ListBox},
-                                        Path=DataContext.FeatHandler.CustomFeatCheckboxCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.CustomFeatCheckboxCommand}"
                                                       CommandParameter="{Binding}"
                                                       Content="{Binding}" />
                                         </StackPanel>
@@ -259,25 +239,25 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
                                     Width="500" Height="20">
                             <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
-                            <TextBox Text="{Binding FeatHandler.SelectedFeat.Name}" Width="256" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding SelectedFeat.Name}" Width="256" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
 
                             <TextBlock Margin="15, 0, 3, 0">Source:</TextBlock>
-                            <TextBox Text="{Binding FeatHandler.SelectedFeat.Source}" Width="150" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding SelectedFeat.Source}" Width="150" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                             <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
-                            <TextBox Text="{Binding FeatHandler.SelectedFeat.Url}" Width="407" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding SelectedFeat.Url}" Width="407" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
                             <TextBlock Margin="15, 0, 3, 0">Level:</TextBlock>
-                            <TextBox Text="{Binding FeatHandler.SelectedFeat.Level}" Width="25" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding SelectedFeat.Level}" Width="25" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
                         <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>
-                        <TextBox Text="{Binding FeatHandler.SelectedFeat.Description}" Width="500" Height="600"
+                        <TextBox Text="{Binding SelectedFeat.Description}" Width="500" Height="600"
                                  Background="DimGray" Foreground="AliceBlue" IsReadOnly="True" />
 
                         <StackPanel Orientation="Horizontal" Height="110" Margin="0, 5, 0, 0">
@@ -285,70 +265,70 @@
                                 <TextBlock Height="20">Prerequisites:</TextBlock>
                                 <ListBox Height="90" Background="DimGray" Foreground="AliceBlue"
                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                         ItemsSource="{Binding FeatHandler.SelectedFeat.Prereqs}"
-                                         SelectedItem="{Binding FeatHandler.SelectedFeatReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                         ItemsSource="{Binding SelectedFeat.Prereqs}"
+                                         SelectedItem="{Binding SelectedFeatReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                             <TextBlock Text="&#x2794;" VerticalAlignment="Center" />
-                            <TextBox Text="{Binding FeatHandler.SelectedFeat.Name}" IsReadOnly="True" Height="20" Width="150"
+                            <TextBox Text="{Binding SelectedFeat.Name}" IsReadOnly="True" Height="20" Width="150"
                                      Margin="5, 0, 5, 0" />
                             <TextBlock Text="&#x2794;" VerticalAlignment="Center" />
                             <StackPanel Orientation="Vertical" Width="150">
                                 <TextBlock Height="20">Required By:</TextBlock>
                                 <ListBox Height="90" Background="DimGray" Foreground="AliceBlue"
                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                         ItemsSource="{Binding FeatHandler.SelectedFeat.Postreqs}"
-                                         SelectedItem="{Binding FeatHandler.SelectedFeatReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                         ItemsSource="{Binding SelectedFeat.Postreqs}"
+                                         SelectedItem="{Binding SelectedFeatReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </StackPanel>
 
                         <TextBlock Margin="0, 5, 0, 0">Notes:</TextBlock>
-                        <TextBox Text="{Binding FeatHandler.SelectedFeat.Notes}" Width="500" Height="100" Background="DimGray"
+                        <TextBox Text="{Binding SelectedFeat.Notes}" Width="500" Height="100" Background="DimGray"
                                  Foreground="AliceBlue" IsReadOnly="False" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                                 Height="900" Margin="10, 0, 0, 0">
                         <TextBlock>Antirequisites:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.Antireqs}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.Antireqs}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="117" />
 
                         <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.CustomTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.CustomTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.CoreTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.CoreTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Skill Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.SkillTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.SkillTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Class Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.ClassTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.ClassTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Combat Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.CombatTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.CombatTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.RoleTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.RoleTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.MagicTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.MagicTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Bonus Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding FeatHandler.SelectedFeat.BonusTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedFeat.BonusTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">
-                        <ListBox ItemsSource="{Binding FeatHandler.FavoriteFeatList}" Background="DimGray" Foreground="AliceBlue"
+                        <ListBox ItemsSource="{Binding FavoriteFeatList}" Background="DimGray" Foreground="AliceBlue"
                                  Width="150" Height="540"
-                                 SelectedItem="{Binding FeatHandler.SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                 SelectedItem="{Binding SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -360,9 +340,9 @@
 
                         <TextBlock Margin="0, 5, 0, 0">Hidden</TextBlock>
                         <Expander>
-                            <ListBox ItemsSource="{Binding FeatHandler.HiddenFeatList}" Background="DimGray" Foreground="AliceBlue"
+                            <ListBox ItemsSource="{Binding HiddenFeatList}" Background="DimGray" Foreground="AliceBlue"
                                      Width="150" Height="317"
-                                     SelectedItem="{Binding FeatHandler.SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                     SelectedItem="{Binding SelectedFeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
@@ -378,31 +358,31 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1500"
                             Height="50">
                     <Button Content="Favorite"
-                            Command="{Binding FeatHandler.AddFavoriteFeatCommand}"
+                            Command="{Binding AddFavoriteFeatCommand}"
                             Width="60" Height="30" Margin="25,0,30,0" />
 
                     <Button Content="Hide"
-                            Command="{Binding FeatHandler.AddHiddenFeatCommand}"
+                            Command="{Binding AddHiddenFeatCommand}"
                             Width="60" Height="30" Margin="0,0,25,0" />
 
                     <Button Content="Edit"
-                            Command="{Binding FeatHandler.EditFeatCommand}"
+                            Command="{Binding EditFeatCommand}"
                             Width="60" Height="30" Margin="330,0,0,0" />
 
                     <Button Content="New"
-                            Command="{Binding FeatHandler.NewFeatCommand}"
+                            Command="{Binding NewFeatCommand}"
                             Width="60" Height="30" Margin="60,0,60,0" />
 
                     <Button Content="Remove"
-                            Command="{Binding FeatHandler.RemoveFeatCommand}"
+                            Command="{Binding RemoveFeatCommand}"
                             Width="60" Height="30" Margin="0,0,100,0" />
 
                     <Button Content="Unfavorite"
-                            Command="{Binding FeatHandler.RemoveFavoriteFeatCommand}"
+                            Command="{Binding RemoveFavoriteFeatCommand}"
                             Width="60" Height="30" Margin="190,0,10,0" />
 
                     <Button Content="Show"
-                            Command="{Binding FeatHandler.RemoveHiddenFeatCommand}"
+                            Command="{Binding RemoveHiddenFeatCommand}"
                             Width="60" Height="30" Margin="0,0,0,0" />
                 </StackPanel>
             </StackPanel>

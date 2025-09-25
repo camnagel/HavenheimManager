@@ -1,4 +1,5 @@
-﻿using HavenheimManager.Enums;
+﻿using HavenheimManager.Descriptors;
+using HavenheimManager.Enums;
 
 namespace HavenheimManager;
 
@@ -8,4 +9,10 @@ namespace HavenheimManager;
 internal static class AppSettings
 {
     internal static AppMode Mode { get; set; }
+
+    internal static readonly string SearchPlaceholderText = "Search...";
+
+    internal static readonly int MinLevelPlaceholder = 0;
+
+    internal static readonly int MaxLevelPlaceholder = 20;
 }

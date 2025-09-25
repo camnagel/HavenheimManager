@@ -21,6 +21,7 @@
 /// </remarks>
 public record DescriptorSettings
 {
+    public bool ShowLevel { get; set; }
     public bool ShowContent { get; set; }
     public bool ShowCreature { get; set; }
     public bool ShowCreatureType { get; set; }
@@ -50,6 +51,7 @@ public record DescriptorSettings
     /// </summary>
     internal void Copy(DescriptorSettings settings)
     {
+        ShowLevel = settings.ShowLevel;
         ShowContent = settings.ShowContent;
         ShowSkill = settings.ShowSkill;
         ShowMagic = settings.ShowMagic;

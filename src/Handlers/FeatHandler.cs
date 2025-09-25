@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using HavenheimManager.Containers;
+using HavenheimManager.Descriptors;
 using HavenheimManager.Editors;
 using HavenheimManager.Enums;
 using HavenheimManager.Extensions;
@@ -12,7 +13,7 @@ using Condition = HavenheimManager.Enums.Condition;
 
 namespace HavenheimManager.Handlers;
 
-public class FeatHandler : INotifyPropertyChanged
+public class FeatHandler : IFilterable
 {
     // Feat Filter Lists
     private readonly HashSet<Bonus> _bonusFeatFilters = new();
@@ -26,11 +27,7 @@ public class FeatHandler : INotifyPropertyChanged
     private readonly HashSet<Skill> _skillFeatFilters = new();
     private readonly HashSet<Source> _sourceFeatFilters = new();
 
-    private string _featMaxLevel = RegexHandler.FeatMaxLevelPlaceholder.ToString();
-
-    private string _featMinLevel = RegexHandler.FeatMinLevelPlaceholder.ToString();
-
-    private string _featSearchText = RegexHandler.SearchPlaceholderText;
+    private string _featSearchText = AppSettings.SearchPlaceholderText;
 
     private Feat? _selectedFeat;
 
@@ -57,12 +54,9 @@ public class FeatHandler : INotifyPropertyChanged
         RemoveHiddenFeatCommand = new DelegateCommand(RemoveHiddenFeatAction);
         FeatSearchRemovePlaceholderTextCommand = new DelegateCommand(FeatSearchRemovePlaceholderTextAction);
         FeatSearchAddPlaceholderTextCommand = new DelegateCommand(FeatSearchAddPlaceholderTextAction);
-        FeatMinLevelRemovePlaceholderTextCommand =
-            new DelegateCommand(FeatMinLevelRemovePlaceholderTextAction);
-        FeatMinLevelAddPlaceholderTextCommand = new DelegateCommand(FeatMinLevelAddPlaceholderTextAction);
-        FeatMaxLevelRemovePlaceholderTextCommand =
-            new DelegateCommand(FeatMaxLevelRemovePlaceholderTextAction);
-        FeatMaxLevelAddPlaceholderTextCommand = new DelegateCommand(FeatMaxLevelAddPlaceholderTextAction);
+
+        DescriptorSettings = new DescriptorSettings();
+        FilterHandler = new FilterHandler(this);
     }
 
     // Filtered Feat Collections
@@ -129,83 +123,14 @@ public class FeatHandler : INotifyPropertyChanged
         set
         {
             _featSearchText = value;
-            ApplyFeatFilters();
+            ApplyFilters();
 
             OnPropertyChanged("FeatSearchText");
         }
     }
 
-    public string FeatMinLevel
-    {
-        get => _featMinLevel;
-        set
-        {
-            if (value == "")
-            {
-                _featMinLevel = value;
-                OnPropertyChanged("FeatMinLevel");
-                return;
-            }
-
-            if (!RegexHandler.NumberFilter.IsMatch(value))
-            {
-                int input = int.Parse(value);
-                if (value == _featMinLevel)
-                {
-                    return;
-                }
-
-                _featMinLevel = input > int.Parse(_featMaxLevel) ? _featMaxLevel : value;
-                ApplyFeatFilters();
-                OnPropertyChanged("FeatMinLevel");
-            }
-            else
-            {
-                string messageBoxText = "Level must be an integer between 0 and 20";
-                string caption = "Error";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-
-                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
-            }
-        }
-    }
-
-    public string FeatMaxLevel
-    {
-        get => _featMaxLevel;
-        set
-        {
-            if (value == "")
-            {
-                _featMaxLevel = value;
-                OnPropertyChanged("FeatMaxLevel");
-                return;
-            }
-
-            if (!RegexHandler.NumberFilter.IsMatch(value) && int.Parse(value) <= 20)
-            {
-                int input = int.Parse(value);
-                if (value == _featMaxLevel)
-                {
-                    return;
-                }
-
-                _featMaxLevel = input < int.Parse(_featMinLevel) ? _featMinLevel : value;
-                ApplyFeatFilters();
-                OnPropertyChanged("FeatMaxLevel");
-            }
-            else
-            {
-                string messageBoxText = "Level must be an integer between 0 and 20";
-                string caption = "Error";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-
-                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
-            }
-        }
-    }
+    public DescriptorSettings DescriptorSettings { get; }
+    public FilterHandler FilterHandler { get; }
 
     public List<Feat> MasterFeatList { get; } = new();
     public ObservableCollection<Feat> CurrentFeat { get; set; } = new();
@@ -221,10 +146,6 @@ public class FeatHandler : INotifyPropertyChanged
     public DelegateCommand ConditionFeatCheckboxCommand { get; }
     public DelegateCommand SourceFeatCheckboxCommand { get; }
     public DelegateCommand CustomFeatCheckboxCommand { get; }
-    public DelegateCommand FeatMinLevelRemovePlaceholderTextCommand { get; }
-    public DelegateCommand FeatMinLevelAddPlaceholderTextCommand { get; }
-    public DelegateCommand FeatMaxLevelRemovePlaceholderTextCommand { get; }
-    public DelegateCommand FeatMaxLevelAddPlaceholderTextCommand { get; }
 
     // Feat Control Bar Commands
     public DelegateCommand FeatSearchRemovePlaceholderTextCommand { get; }
@@ -296,7 +217,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _coreFeatFilters.Add(toggleCore);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -315,7 +236,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _skillFeatFilters.Add(toggleSkill);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -334,7 +255,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _classFeatFilters.Add(toggleClass);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -353,7 +274,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _combatFeatFilters.Add(toggleCombat);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -372,7 +293,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _roleFeatFilters.Add(toggleRole);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -391,7 +312,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _magicFeatFilters.Add(toggleMagic);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -410,7 +331,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _bonusFeatFilters.Add(toggleBonus);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -429,7 +350,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _conditionFeatFilters.Add(toggleCondition);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -448,7 +369,7 @@ public class FeatHandler : INotifyPropertyChanged
                 _sourceFeatFilters.Add(toggleSource);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -465,19 +386,19 @@ public class FeatHandler : INotifyPropertyChanged
                 _customFeatFilters.Add(filter);
             }
 
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
-    internal void ApplyFeatFilters()
+    public void ApplyFilters()
     {
         FilteredFeatList.Clear();
         List<Feat> possibleFeats =
-            (FeatSearchText != RegexHandler.SearchPlaceholderText && FeatSearchText != ""
+            (FeatSearchText != AppSettings.SearchPlaceholderText && FeatSearchText != ""
                 ? MasterFeatList.Where(x => x.Name.Sanitize().Contains(FeatSearchText.Sanitize())).ToList()
                 : MasterFeatList).Where(x => !FavoriteFeatList.Contains(x) && !HiddenFeatList.Contains(x) &&
-                                             x.Level <= int.Parse(FeatMaxLevel) &&
-                                             x.Level >= int.Parse(FeatMinLevel)).ToList();
+                                             x.Level <= int.Parse(FilterHandler.MaxLevel) &&
+                                             x.Level >= int.Parse(FilterHandler.MinLevel)).ToList();
 
         foreach (Source filter in _sourceFeatFilters)
         {
@@ -669,7 +590,7 @@ public class FeatHandler : INotifyPropertyChanged
             HiddenFeatList.Remove(SelectedFeat);
 
             UpdateFeatCustomTags();
-            ApplyFeatFilters();
+            ApplyFilters();
             SelectedFeat = null;
         }
     }
@@ -682,7 +603,7 @@ public class FeatHandler : INotifyPropertyChanged
             FavoriteFeatList.Remove(SelectedFeat);
 
             UpdateFeatCustomTags();
-            ApplyFeatFilters();
+            ApplyFilters();
             SelectedFeat = null;
         }
     }
@@ -719,7 +640,7 @@ public class FeatHandler : INotifyPropertyChanged
 
                         UpdateFeatReqs();
                         UpdateFeatCustomTags();
-                        ApplyFeatFilters();
+                        ApplyFilters();
 
                         SelectedFeat = newFeat;
                     }
@@ -775,7 +696,7 @@ public class FeatHandler : INotifyPropertyChanged
 
                     UpdateFeatReqs();
                     UpdateFeatCustomTags();
-                    ApplyFeatFilters();
+                    ApplyFilters();
                     if (FilteredFeatList.Contains(newFeat))
                     {
                         SelectedFeat = newFeat;
@@ -797,7 +718,7 @@ public class FeatHandler : INotifyPropertyChanged
 
     internal void FeatSearchRemovePlaceholderTextAction(object arg)
     {
-        if (FeatSearchText == RegexHandler.SearchPlaceholderText)
+        if (FeatSearchText == AppSettings.SearchPlaceholderText)
         {
             FeatSearchText = "";
         }
@@ -807,39 +728,7 @@ public class FeatHandler : INotifyPropertyChanged
     {
         if (string.IsNullOrWhiteSpace(FeatSearchText))
         {
-            FeatSearchText = RegexHandler.SearchPlaceholderText;
-        }
-    }
-
-    internal void FeatMinLevelRemovePlaceholderTextAction(object arg)
-    {
-        if (FeatMinLevel == RegexHandler.FeatMinLevelPlaceholder.ToString())
-        {
-            FeatMinLevel = "";
-        }
-    }
-
-    internal void FeatMinLevelAddPlaceholderTextAction(object arg)
-    {
-        if (string.IsNullOrWhiteSpace(FeatMinLevel))
-        {
-            FeatMinLevel = RegexHandler.FeatMinLevelPlaceholder.ToString();
-        }
-    }
-
-    internal void FeatMaxLevelRemovePlaceholderTextAction(object arg)
-    {
-        if (FeatMaxLevel == RegexHandler.FeatMaxLevelPlaceholder.ToString())
-        {
-            FeatMaxLevel = "";
-        }
-    }
-
-    internal void FeatMaxLevelAddPlaceholderTextAction(object arg)
-    {
-        if (string.IsNullOrWhiteSpace(FeatMaxLevel))
-        {
-            FeatMaxLevel = RegexHandler.FeatMaxLevelPlaceholder.ToString();
+            FeatSearchText = AppSettings.SearchPlaceholderText;
         }
     }
 
@@ -860,7 +749,7 @@ public class FeatHandler : INotifyPropertyChanged
                 FavoriteFeatList.Remove(SelectedFeat);
                 SelectedFeat = null;
                 UpdateFeatCustomTags();
-                ApplyFeatFilters();
+                ApplyFilters();
             }
         }
     }
@@ -873,7 +762,7 @@ public class FeatHandler : INotifyPropertyChanged
 
             SelectedFeat = null;
             UpdateFeatCustomTags();
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
@@ -885,7 +774,7 @@ public class FeatHandler : INotifyPropertyChanged
 
             SelectedFeat = null;
             UpdateFeatCustomTags();
-            ApplyFeatFilters();
+            ApplyFilters();
         }
     }
 
