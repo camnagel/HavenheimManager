@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using HavenheimManager.Descriptors;
 using HavenheimManager.Enums;
@@ -18,11 +20,15 @@ public class DescriptorViewModel : INotifyPropertyChanged
     /// </remarks>
     private readonly DescriptorSettings _settings;
 
+    private string _searchText = AppSettings.SearchPlaceholderText;
+
     internal DescriptorViewModel(DescriptorSettings settings)
     {
         CancelCommand = new DelegateCommand(CancelAction);
         AcceptChangesCommand = new DelegateCommand(AcceptChangesAction);
         ShowContentCheckboxCommand = new DelegateCommand(ShowContentCheckboxAction);
+        SearchRemovePlaceholderTextCommand = new DelegateCommand(SearchRemovePlaceholderTextAction);
+        SearchAddPlaceholderTextCommand = new DelegateCommand(SearchAddPlaceholderTextAction);
 
         // We do this to avoid messing with the settings until the user confirms their changes
         ExtractDescriptorSettings(settings);
@@ -62,28 +68,8 @@ public class DescriptorViewModel : INotifyPropertyChanged
     public ObservableCollection<string> TerrainDescriptorList { get; } = new();
     public ObservableCollection<string> CustomDescriptorList { get; } = new();
 
-    /*
-
-    internal DelegateCommand AddNaturalArmorBonusCommand { get; }
-
-    internal DelegateCommand RemoveNaturalArmorBonusCommand { get; }
-
-    internal ObservableCollection<BonusScv> NaturalArmorBonuses { get; set; } = new();
-
-    internal ObservableCollection<BonusTsv> ActiveBonuses { get; set; } = new();
-
-    internal BonusTsv? SelectedActiveBonus
-    {
-        get => _selectedActiveBonus;
-        set
-        {
-            _selectedActiveBonus = value;
-            OnPropertyChanged("SelectedActiveBonus");
-
-    }
-
-
-    */
+    public DelegateCommand SearchRemovePlaceholderTextCommand { get; }
+    public DelegateCommand SearchAddPlaceholderTextCommand { get; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -140,6 +126,34 @@ public class DescriptorViewModel : INotifyPropertyChanged
         TerrainDescriptorList.Fill(DescriptorUtils.GetTerrain(mode));
     }
 
+    private void ClearDescriptors()
+    {
+        ContentDescriptorList.Clear();
+        CreatureDescriptorList.Clear();
+        CreatureTypeDescriptorList.Clear();
+        CreatureSubTypeDescriptorList.Clear();
+        CraftSkillDescriptorList.Clear();
+        AbilityDescriptorList.Clear();
+        AbilityTypeDescriptorList.Clear();
+        BuffDescriptorList.Clear();
+        FeatDescriptorList.Clear();
+        MagicDescriptorList.Clear();
+        SaveDescriptorList.Clear();
+        SkillDescriptorList.Clear();
+        SystemDescriptorList.Clear();
+        TraitDescriptorList.Clear();
+        UsageDescriptorList.Clear();
+        DurationDescriptorList.Clear();
+        KnowledgeDescriptorList.Clear();
+        MagicAuraDescriptorList.Clear();
+        PerformDescriptorList.Clear();
+        SpellSchoolDescriptorList.Clear();
+        StimulusDescriptorList.Clear();
+        TerrainDescriptorList.Clear();
+
+        // Special custom descriptor handling
+    }
+
     private void ShowContentCheckboxAction(object arg)
     {
         _settings.ShowContent = !ShowContent;
@@ -190,6 +204,80 @@ public class DescriptorViewModel : INotifyPropertyChanged
         {
             window.DialogResult = true;
         }
+    }
+
+    private void SearchRemovePlaceholderTextAction(object arg)
+    {
+        if (SearchText == AppSettings.SearchPlaceholderText)
+        {
+            SearchText = "";
+        }
+    }
+
+    private void SearchAddPlaceholderTextAction(object arg)
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            SearchText = AppSettings.SearchPlaceholderText;
+        }
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            _searchText = value;
+            SearchTextAction(_searchText.Sanitize());
+
+            OnPropertyChanged("SearchText");
+        }
+    }
+
+    private void SearchTextAction(string text)
+    {
+        // Refresh descriptor lists, inefficient but should be fast enough
+        ClearDescriptors();
+        GetDescriptors(AppSettings.Mode);
+
+        if (text == AppSettings.SearchPlaceholderText.Sanitize() || text.Length == 0)
+            return;
+
+        // Filter descriptor lists for match to search string
+        KeepSearchMatch(ContentDescriptorList, text);
+        KeepSearchMatch(CreatureDescriptorList, text);
+        KeepSearchMatch(CreatureTypeDescriptorList, text);
+        KeepSearchMatch(CreatureSubTypeDescriptorList, text);
+        KeepSearchMatch(CraftSkillDescriptorList, text);
+        KeepSearchMatch(AbilityDescriptorList, text);
+        KeepSearchMatch(AbilityTypeDescriptorList, text);
+        KeepSearchMatch(BuffDescriptorList, text);
+        KeepSearchMatch(FeatDescriptorList, text);
+        KeepSearchMatch(MagicDescriptorList, text);
+        KeepSearchMatch(SaveDescriptorList, text);
+        KeepSearchMatch(SkillDescriptorList, text);
+        KeepSearchMatch(SystemDescriptorList, text);
+        KeepSearchMatch(TraitDescriptorList, text);
+        KeepSearchMatch(UsageDescriptorList, text);
+        KeepSearchMatch(DurationDescriptorList, text);
+        KeepSearchMatch(KnowledgeDescriptorList, text);
+        KeepSearchMatch(MagicAuraDescriptorList, text);
+        KeepSearchMatch(PerformDescriptorList, text);
+        KeepSearchMatch(SpellSchoolDescriptorList, text);
+        KeepSearchMatch(StimulusDescriptorList, text);
+        KeepSearchMatch(TerrainDescriptorList, text);
+    }
+
+    /// <summary>
+    /// Check if a collection contains a specific string
+    /// </summary>
+    /// <remarks>
+    /// Also matches on substring rather than just exact match
+    /// </remarks>
+    private void KeepSearchMatch(ICollection<string> list, string text)
+    {
+        if (!list.Any(entry => entry.Sanitize().Contains(text)))
+            list.Clear();
     }
 
     protected virtual void OnPropertyChanged(string propertyName)

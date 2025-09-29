@@ -3,10 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Descriptor Manager" Height="1100" Width="990" Background="DarkGray">
+        Title="Descriptor Manager" Height="1200" Width="990" Background="DarkGray">
     <Grid>
         <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 0">
+                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Height="20" Width="150">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="LostFocus">
+                            <b:InvokeCommandAction Command="{Binding SearchAddPlaceholderTextCommand}" />
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="GotFocus">
+                            <b:InvokeCommandAction Command="{Binding SearchRemovePlaceholderTextCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </TextBox>
+            </StackPanel>
+
             <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 0">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                             Height="250">
