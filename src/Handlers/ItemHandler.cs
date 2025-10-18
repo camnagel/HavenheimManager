@@ -26,7 +26,7 @@ public class ItemHandler : INotifyPropertyChanged
     private readonly HashSet<Skill> _skillItemFilters = new();
     private readonly HashSet<Source> _sourceItemFilters = new();
 
-    private string _itemSearchText = RegexHandler.SearchPlaceholderText;
+    private string _itemSearchText = AppSettings.SearchPlaceholderText;
 
     private Item? _selectedItem;
 
@@ -377,7 +377,7 @@ public class ItemHandler : INotifyPropertyChanged
     internal void ApplyItemFilters()
     {
         FilteredItemList.Clear();
-        List<Item> possibleItems = ItemSearchText != RegexHandler.SearchPlaceholderText && ItemSearchText != ""
+        List<Item> possibleItems = ItemSearchText != AppSettings.SearchPlaceholderText && ItemSearchText != ""
             ? MasterItemList.Where(x => x.Name.Sanitize()
                 .Contains(ItemSearchText.Sanitize())).ToList()
             : MasterItemList;
@@ -590,7 +590,7 @@ public class ItemHandler : INotifyPropertyChanged
 
     internal void ItemSearchRemovePlaceholderTextAction(object arg)
     {
-        if (ItemSearchText == RegexHandler.SearchPlaceholderText)
+        if (ItemSearchText == AppSettings.SearchPlaceholderText)
         {
             ItemSearchText = "";
         }
@@ -600,7 +600,7 @@ public class ItemHandler : INotifyPropertyChanged
     {
         if (string.IsNullOrWhiteSpace(ItemSearchText))
         {
-            ItemSearchText = RegexHandler.SearchPlaceholderText;
+            ItemSearchText = AppSettings.SearchPlaceholderText;
         }
     }
 

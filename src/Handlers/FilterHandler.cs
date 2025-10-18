@@ -40,7 +40,24 @@ public class FilterHandler : INotifyPropertyChanged
     // Value source
     private readonly IFilterable _source;
 
+    // Level filter string backing
+    private string _maxLevel = AppSettings.MaxLevelPlaceholder.ToString();
+
+    private string _minLevel = AppSettings.MinLevelPlaceholder.ToString();
+
     #region Visibility
+    private Visibility _levelVisibility;
+    public Visibility LevelVisibility
+    {
+        get => _levelVisibility;
+        set
+        {
+            if (value == _levelVisibility) return;
+            _levelVisibility = value;
+            OnPropertyChanged("LevelVisibility");
+        }
+    }
+
     private Visibility _abilityVisibility;
     public Visibility AbilityVisibility
     {
@@ -345,6 +362,10 @@ public class FilterHandler : INotifyPropertyChanged
         StimulusCheckboxCommand = new DelegateCommand(StimulusFilterAction);
         TerrainCheckboxCommand = new DelegateCommand(TerrainFilterAction);
         CustomCheckboxCommand = new DelegateCommand(CustomFilterAction);
+        MinLevelRemovePlaceholderTextCommand = new DelegateCommand(MinLevelRemovePlaceholderTextAction);
+        MinLevelAddPlaceholderTextCommand = new DelegateCommand(MinLevelAddPlaceholderTextAction);
+        MaxLevelRemovePlaceholderTextCommand = new DelegateCommand(MaxLevelRemovePlaceholderTextAction);
+        MaxLevelAddPlaceholderTextCommand = new DelegateCommand(MaxLevelAddPlaceholderTextAction);
 
         SetDescriptorVisibility(_source.DescriptorSettings);
     }
@@ -373,6 +394,10 @@ public class FilterHandler : INotifyPropertyChanged
     public DelegateCommand StimulusCheckboxCommand { get; }
     public DelegateCommand TerrainCheckboxCommand { get; }
     public DelegateCommand CustomCheckboxCommand { get; }
+    public DelegateCommand MinLevelRemovePlaceholderTextCommand { get; }
+    public DelegateCommand MinLevelAddPlaceholderTextCommand { get; }
+    public DelegateCommand MaxLevelRemovePlaceholderTextCommand { get; }
+    public DelegateCommand MaxLevelAddPlaceholderTextCommand { get; }
 
     // Descriptor collections
     public ObservableCollection<string> ContentDescriptorList { get; } = new();
@@ -427,6 +452,7 @@ public class FilterHandler : INotifyPropertyChanged
 
     public void SetDescriptorVisibility(DescriptorSettings settings)
     {
+        LevelVisibility = settings.ShowLevel ? Visibility.Visible : Visibility.Collapsed;
         ContentVisibility = settings.ShowContent ? Visibility.Visible : Visibility.Collapsed;
         CreatureVisibility = settings.ShowCreature ? Visibility.Visible : Visibility.Collapsed;
         CreatureTypeVisibility = settings.ShowCreatureType ? Visibility.Visible : Visibility.Collapsed;
@@ -450,6 +476,12 @@ public class FilterHandler : INotifyPropertyChanged
         StimulusVisibility = settings.ShowStimulus ? Visibility.Visible : Visibility.Collapsed;
         TerrainVisibility = settings.ShowTerrain ? Visibility.Visible : Visibility.Collapsed;
         CustomVisibility = settings.ShowCustom ? Visibility.Visible : Visibility.Collapsed;
+
+        CustomDescriptorList.Clear();
+        foreach (string desc in settings.CustomDescList)
+        {
+            CustomDescriptorList.Add(desc);
+        }
     }
 
     public void RefreshButtonState()
@@ -626,6 +658,78 @@ public class FilterHandler : INotifyPropertyChanged
         foreach (T value in possibleValues)
         {
             yield return value;
+        }
+    }
+
+    public string MinLevel
+    {
+        get => _minLevel;
+        set
+        {
+            if (value == "")
+            {
+                _minLevel = value;
+                OnPropertyChanged("FeatMinLevel");
+                return;
+            }
+
+            if (!RegexHandler.NumberFilter.IsMatch(value))
+            {
+                int input = int.Parse(value);
+                if (value == _minLevel)
+                {
+                    return;
+                }
+
+                _minLevel = input > int.Parse(_maxLevel) ? _maxLevel : value;
+                _source.ApplyFilters();
+                OnPropertyChanged("MinLevel");
+            }
+            else
+            {
+                string messageBoxText = "Level must be an integer between 0 and 20";
+                string caption = "Error";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+
+                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+            }
+        }
+    }
+
+    public string MaxLevel
+    {
+        get => _maxLevel;
+        set
+        {
+            if (value == "")
+            {
+                _maxLevel = value;
+                OnPropertyChanged("MaxLevel");
+                return;
+            }
+
+            if (!RegexHandler.NumberFilter.IsMatch(value) && int.Parse(value) <= 20)
+            {
+                int input = int.Parse(value);
+                if (value == _maxLevel)
+                {
+                    return;
+                }
+
+                _maxLevel = input < int.Parse(_minLevel) ? _minLevel : value;
+                _source.ApplyFilters();
+                OnPropertyChanged("MaxLevel");
+            }
+            else
+            {
+                string messageBoxText = "Level must be an integer between 0 and 20";
+                string caption = "Error";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+
+                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+            }
         }
     }
 
@@ -985,6 +1089,38 @@ public class FilterHandler : INotifyPropertyChanged
             }
 
             _source.ApplyFilters();
+        }
+    }
+
+    private void MinLevelRemovePlaceholderTextAction(object arg)
+    {
+        if (MinLevel == AppSettings.MinLevelPlaceholder.ToString())
+        {
+            MinLevel = "";
+        }
+    }
+
+    private void MinLevelAddPlaceholderTextAction(object arg)
+    {
+        if (string.IsNullOrWhiteSpace(MinLevel))
+        {
+            MinLevel = AppSettings.MinLevelPlaceholder.ToString();
+        }
+    }
+
+    private void MaxLevelRemovePlaceholderTextAction(object arg)
+    {
+        if (MaxLevel == AppSettings.MaxLevelPlaceholder.ToString())
+        {
+            MaxLevel = "";
+        }
+    }
+
+    private void MaxLevelAddPlaceholderTextAction(object arg)
+    {
+        if (string.IsNullOrWhiteSpace(MaxLevel))
+        {
+            MaxLevel = AppSettings.MaxLevelPlaceholder.ToString();
         }
     }
 

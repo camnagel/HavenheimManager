@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d">
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
@@ -11,6 +12,36 @@
         </Grid.RowDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Width="200" Height="900">
             <WrapPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Visibility="{Binding LevelVisibility}">
+                    <TextBox Text="{Binding MinLevel, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,5" Height="20" Width="25">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="LostFocus">
+                                <b:InvokeCommandAction
+                                    Command="{Binding MinLevelAddPlaceholderTextCommand}" />
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="GotFocus">
+                                <b:InvokeCommandAction
+                                    Command="{Binding MinLevelRemovePlaceholderTextCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </TextBox>
+                    <TextBlock Text=" &lt;= Level &lt;= " Height="20" />
+                    <TextBox Text="{Binding MaxLevel, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,5" Height="20" Width="25">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="LostFocus">
+                                <b:InvokeCommandAction
+                                    Command="{Binding MaxLevelAddPlaceholderTextCommand}" />
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="GotFocus">
+                                <b:InvokeCommandAction
+                                    Command="{Binding MaxLevelRemovePlaceholderTextCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </TextBox>
+                </StackPanel>
+
                 <Expander Header="Content" FontSize="10" FontWeight="Bold"
                           Visibility="{Binding ContentVisibility}">
                     <ListBox ItemsSource="{Binding ContentDescriptorList}" Background="LightGray">

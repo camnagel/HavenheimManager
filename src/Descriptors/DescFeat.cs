@@ -4,19 +4,19 @@ namespace HavenheimManager.Descriptors;
 
 public enum DescFeat
 {
-    [Description("Abjuration")] Combat,
-    [Description("Conjuration")] Magic,
-    [Description("Divination")] Utility,
-    [Description("Enchantment")] Armor,
-    [Description("Evocation")] Weapon,
-    [Description("Illusion")] Maneuver,
-    [Description("Necromancy")] Critical,
+    [Description("Combat")] Combat,
+    [Description("Magic")] Magic,
+    [Description("Utility")] Utility,
+    [Description("Armor")] Armor,
+    [Description("Weapon")] Weapon,
+    [Description("Maneuver")] Maneuver,
+    [Description("Critical")] Critical,
     [Description("Spell")] Spell,
     [Description("Metamagic")] Metamagic,
-    [Description("Abjuration")] Crafting,
-    [Description("Conjuration")] Skill,
-    [Description("Divination")] Mythic,
-    [Description("Enchantment")] Story,
-    [Description("Evocation")] Style,
-    [Description("Illusion")] Social
+    [Description("Crafting")] Crafting,
+    [Description("Skill")] Skill,
+    [Description("Mythic")] Mythic,
+    [Description("Story")] Story,
+    [Description("Style")] Style,
+    [Description("Social")] Social
 }

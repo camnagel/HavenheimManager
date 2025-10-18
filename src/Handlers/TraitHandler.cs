@@ -1,14 +1,13 @@
-﻿using HavenheimManager.Containers;
-using HavenheimManager.Descriptors;
-using HavenheimManager.Editors;
-using HavenheimManager.Enums;
-using HavenheimManager.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using HavenheimManager.Containers;
+using HavenheimManager.Descriptors;
+using HavenheimManager.Editors;
+using HavenheimManager.Extensions;
 
 namespace HavenheimManager.Handlers;
 
@@ -16,7 +15,18 @@ public class TraitHandler : IFilterable
 {
     private Trait? _selectedTrait;
 
-    private string _traitSearchText = RegexHandler.SearchPlaceholderText;
+    private string _traitSearchText = AppSettings.SearchPlaceholderText;
+
+    internal static readonly DescriptorSettings DefaultTraitDescriptorSettings = new ()
+    {
+        ShowContent = true,
+        ShowSkill = true,
+        ShowSystem = true,
+        ShowTrait = true,
+        ShowSpellSchool = true,
+        ShowSave = true,
+        ShowAbility = true
+    };
 
     public TraitHandler()
     {
@@ -32,7 +42,7 @@ public class TraitHandler : IFilterable
         TraitSearchAddPlaceholderTextCommand = new DelegateCommand(TraitSearchAddPlaceholderTextAction);
         ShowHideFilterCommand = new DelegateCommand(ShowHideFilterAction);
 
-        DescriptorSettings = new DescriptorSettings();
+        DescriptorSettings = DefaultTraitDescriptorSettings;
 
         FilterHandler = new FilterHandler(this);
     }
@@ -102,7 +112,7 @@ public class TraitHandler : IFilterable
     {
         FilteredTraitList.Clear();
         List<Trait> possibleTraits =
-            (TraitSearchText != RegexHandler.SearchPlaceholderText && TraitSearchText != ""
+            (TraitSearchText != AppSettings.SearchPlaceholderText && TraitSearchText != ""
                 ? MasterTraitList.Where(x => x.Name.Sanitize().Contains(TraitSearchText.Sanitize())).ToList()
                 : MasterTraitList)
             .Where(x => !FavoriteTraitList.Contains(x) && !HiddenTraitList.Contains(x)).ToList();
@@ -269,7 +279,7 @@ public class TraitHandler : IFilterable
 
     internal void TraitSearchRemovePlaceholderTextAction(object arg)
     {
-        if (TraitSearchText == RegexHandler.SearchPlaceholderText)
+        if (TraitSearchText == AppSettings.SearchPlaceholderText)
         {
             TraitSearchText = "";
         }
@@ -279,7 +289,7 @@ public class TraitHandler : IFilterable
     {
         if (string.IsNullOrWhiteSpace(TraitSearchText))
         {
-            TraitSearchText = RegexHandler.SearchPlaceholderText;
+            TraitSearchText = AppSettings.SearchPlaceholderText;
         }
     }
 

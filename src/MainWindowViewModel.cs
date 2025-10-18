@@ -168,7 +168,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
                         FeatHandler.UpdateFeatReqs();
                         FeatHandler.UpdateFeatCustomTags();
-                        FeatHandler.ApplyFeatFilters();
+                        FeatHandler.ApplyFilters();
                         break;
                     case SourceType.Item:
                         ImportReader.ReadItemCsv(importPath);

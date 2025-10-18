@@ -1,4 +1,6 @@
-﻿namespace HavenheimManager.Descriptors;
+﻿using System.Collections.Generic;
+
+namespace HavenheimManager.Descriptors;
 
 /// <summary>
 ///     Settings for showing descriptors in the filter list
@@ -21,6 +23,7 @@
 /// </remarks>
 public record DescriptorSettings
 {
+    public bool ShowLevel { get; set; }
     public bool ShowContent { get; set; }
     public bool ShowCreature { get; set; }
     public bool ShowCreatureType { get; set; }
@@ -44,12 +47,14 @@ public record DescriptorSettings
     public bool ShowStimulus { get; set; }
     public bool ShowTerrain { get; set; }
     public bool ShowCustom { get; set; }
+    public List<string> CustomDescList { get; set; } = new();
 
     /// <summary>
     ///     Copy the settings from the given <see cref="DescriptorSettings" /> to this record
     /// </summary>
     internal void Copy(DescriptorSettings settings)
     {
+        ShowLevel = settings.ShowLevel;
         ShowContent = settings.ShowContent;
         ShowSkill = settings.ShowSkill;
         ShowMagic = settings.ShowMagic;
@@ -73,5 +78,6 @@ public record DescriptorSettings
         ShowBuff = settings.ShowBuff;
         ShowFeat = settings.ShowFeat;
         ShowCustom = settings.ShowCustom;
+        CustomDescList = settings.CustomDescList;
     }
 }

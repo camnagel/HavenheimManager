@@ -16,7 +16,7 @@
                                 Margin="0,0,10,0">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Margin="0, 0, 5 5">Crafting Modifier:</TextBlock>
-                            <TextBox Text="{Binding CraftHandler.CraftModifier}" Width="40" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding CraftModifier}" Width="40" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
@@ -24,17 +24,17 @@
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Margin="0, 0, 5 5">Craft Ranks:</TextBlock>
-                            <TextBox Text="{Binding CraftHandler.CraftRanks, UpdateSourceTrigger=PropertyChanged}" Width="40"
+                            <TextBox Text="{Binding CraftRanks, UpdateSourceTrigger=PropertyChanged}" Width="40"
                                      Height="20" Background="AliceBlue" />
                         </StackPanel>
 
                         <Expander Header="Tool" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CraftHandler.CraftingToolSelectionList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding CraftingToolSelectionList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <RadioButton GroupName="CraftTool" FontWeight="Normal"
-                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.CraftHandler.CraftToolCheckboxCommand}"
+                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.CraftToolCheckboxCommand}"
                                                          CommandParameter="{Binding}"
                                                          Content="{Binding}" />
                                         </StackPanel>
@@ -44,12 +44,12 @@
                         </Expander>
 
                         <Expander Header="Workshop" FontSize="10" FontWeight="Bold">
-                            <ListBox ItemsSource="{Binding CraftHandler.CraftingWorkshopSelectionList}" Background="LightGray">
+                            <ListBox ItemsSource="{Binding CraftingWorkshopSelectionList}" Background="LightGray">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
                                             <RadioButton GroupName="CraftWorkshop" FontWeight="Normal"
-                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.CraftHandler.CraftWorkshopCheckboxCommand}"
+                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.CraftWorkshopCheckboxCommand}"
                                                          CommandParameter="{Binding}"
                                                          Content="{Binding}" />
                                         </StackPanel>
@@ -60,18 +60,18 @@
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Margin="0, 0, 5 5">Enhancement:</TextBlock>
-                            <TextBox Text="{Binding CraftHandler.CraftEnhancement, UpdateSourceTrigger=PropertyChanged}" Width="40"
+                            <TextBox Text="{Binding CraftEnhancement, UpdateSourceTrigger=PropertyChanged}" Width="40"
                                      Height="20" Background="AliceBlue" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Margin="0, 0, 5 5">Alchemical:</TextBlock>
-                            <TextBox Text="{Binding CraftHandler.CraftAlchemical, UpdateSourceTrigger=PropertyChanged}" Width="40"
+                            <TextBox Text="{Binding CraftAlchemical, UpdateSourceTrigger=PropertyChanged}" Width="40"
                                      Height="20" Background="AliceBlue" />
                         </StackPanel>
 
                         <Button Content="Calculator"
-                                Command="{Binding CraftHandler.CraftModifierBonusCalculatorCommand}"
+                                Command="{Binding CraftModifierBonusCalculatorCommand}"
                                 Width="60" Height="20" Margin="5,5,10,0" />
                     </StackPanel>
 
@@ -80,21 +80,21 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
                                     Width="500" Height="20">
                             <TextBlock Margin="0, 0, 3, 0">Name:</TextBlock>
-                            <TextBox Text="{Binding CraftHandler.CraftItem.Name}" Width="256" Height="20" />
+                            <TextBox Text="{Binding CraftItem.Name}" Width="256" Height="20" />
 
                             <TextBlock Margin="15, 0, 3, 0">Slot:</TextBlock>
                             <ComboBox x:Name="CraftItemSourceBox" Width="150" Height="22"
-                                      SelectedItem="{Binding CraftHandler.FeatSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                      SelectedItem="{Binding FeatSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
                             <TextBlock Margin="0, 0, 3, 0">Url:</TextBlock>
-                            <TextBox Text="{Binding CraftHandler.SelectedItem.Url}" Width="480" Height="20" Background="DimGray"
+                            <TextBox Text="{Binding SelectedItem.Url}" Width="480" Height="20" Background="DimGray"
                                      Foreground="AliceBlue" IsReadOnly="True" />
                         </StackPanel>
 
                         <TextBlock Margin="0, 5, 0, 0">Benefits:</TextBlock>
-                        <TextBox Text="{Binding CraftHandler.SelectedItem.Description}" Width="500" Height="600"
+                        <TextBox Text="{Binding SelectedItem.Description}" Width="500" Height="600"
                                  Background="DimGray" Foreground="AliceBlue" IsReadOnly="True" />
 
                         <StackPanel Orientation="Horizontal" Height="110" Margin="0, 5, 0, 0">
@@ -102,8 +102,8 @@
                                 <TextBlock Height="20">Prerequisites:</TextBlock>
                                 <ListBox Height="90" Background="DimGray" Foreground="AliceBlue"
                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                         ItemsSource="{Binding CraftHandler.SelectedItem.Prereqs}"
-                                         SelectedItem="{Binding CraftHandler.SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                         ItemsSource="{Binding SelectedItem.Prereqs}"
+                                         SelectedItem="{Binding SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                             <TextBlock Text="&#x2794;" VerticalAlignment="Center" />
                             <TextBox Text="{Binding SelectedItem.Name}" IsReadOnly="True" Height="20" Width="150"
@@ -113,59 +113,59 @@
                                 <TextBlock Height="20">Required By:</TextBlock>
                                 <ListBox Height="90" Background="DimGray" Foreground="AliceBlue"
                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                         ItemsSource="{Binding CraftHandler.SelectedItem.Postreqs}"
-                                         SelectedItem="{Binding CraftHandler.SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                         ItemsSource="{Binding SelectedItem.Postreqs}"
+                                         SelectedItem="{Binding SelectedItemReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </StackPanel>
 
                         <TextBlock Margin="0, 5, 0, 0">Notes:</TextBlock>
-                        <TextBox Text="{Binding CraftHandler.SelectedItem.Notes}" Width="500" Height="100" Background="DimGray"
+                        <TextBox Text="{Binding SelectedItem.Notes}" Width="500" Height="100" Background="DimGray"
                                  Foreground="AliceBlue" IsReadOnly="False" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                                 Height="900" Margin="10, 0, 0, 0">
                         <TextBlock>Antirequisites:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.Antireqs}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.Antireqs}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="117" />
 
                         <TextBlock Margin="0, 5, 0, 0">Custom Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.CustomTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.CustomTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Core Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.CoreTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.CoreTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Skill Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.SkillTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.SkillTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Class Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.ClassTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.ClassTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Combat Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.CombatTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.CombatTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Role Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.RoleTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.RoleTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Spell Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.MagicTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.MagicTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
 
                         <TextBlock Margin="0, 5, 0, 0">Bonus Tags:</TextBlock>
-                        <ListBox ItemsSource="{Binding CraftHandler.SelectedItem.BonusTags}" Background="DimGray"
+                        <ListBox ItemsSource="{Binding SelectedItem.BonusTags}" Background="DimGray"
                                  Foreground="AliceBlue" Width="150" Height="75" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0" Width="150">
-                        <ListBox ItemsSource="{Binding CraftHandler.FavoriteItemList}" Background="DimGray" Foreground="AliceBlue"
+                        <ListBox ItemsSource="{Binding FavoriteItemList}" Background="DimGray" Foreground="AliceBlue"
                                  Width="150" Height="540"
-                                 SelectedItem="{Binding CraftHandler.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                 SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -177,9 +177,9 @@
 
                         <TextBlock Margin="0, 5, 0, 0">Hidden</TextBlock>
                         <Expander>
-                            <ListBox ItemsSource="{Binding CraftHandler.HiddenItemList}" Background="DimGray" Foreground="AliceBlue"
+                            <ListBox ItemsSource="{Binding HiddenItemList}" Background="DimGray" Foreground="AliceBlue"
                                      Width="150" Height="317"
-                                     SelectedItem="{Binding CraftHandler.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                     SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
@@ -195,31 +195,31 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="1500"
                             Height="50">
                     <Button Content="Favorite"
-                            Command="{Binding CraftHandler.AddFavoriteItemCommand}"
+                            Command="{Binding AddFavoriteItemCommand}"
                             Width="60" Height="30" Margin="5,0,10,0" />
 
                     <Button Content="Hide"
-                            Command="{Binding CraftHandler.AddHiddenItemCommand}"
+                            Command="{Binding AddHiddenItemCommand}"
                             Width="60" Height="30" Margin="5,0,10,0" />
 
                     <Button Content="Edit"
-                            Command="{Binding CraftHandler.EditItemCommand}"
+                            Command="{Binding EditItemCommand}"
                             Width="60" Height="30" Margin="280,0,10,0" />
 
                     <Button Content="New"
-                            Command="{Binding CraftHandler.NewItemCommand}"
+                            Command="{Binding NewItemCommand}"
                             Width="60" Height="30" Margin="50,0,50,0" />
 
                     <Button Content="Remove"
-                            Command="{Binding CraftHandler.RemoveItemCommand}"
+                            Command="{Binding RemoveItemCommand}"
                             Width="60" Height="30" Margin="0,0,100,0" />
 
                     <Button Content="Unfavorite"
-                            Command="{Binding CraftHandler.RemoveFavoriteItemCommand}"
+                            Command="{Binding RemoveFavoriteItemCommand}"
                             Width="60" Height="30" Margin="195,0,10,0" />
 
                     <Button Content="Show"
-                            Command="{Binding CraftHandler.RemoveHiddenItemCommand}"
+                            Command="{Binding RemoveHiddenItemCommand}"
                             Width="60" Height="30" Margin="10,0,0,0" />
                 </StackPanel>
             </StackPanel>

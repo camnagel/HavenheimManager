@@ -35,23 +35,23 @@
 
             <TabControl Width="2390" Background="LightGray" Margin="10,0,0,0">
                 <TabItem Header="Traits" Background="LightGray" Width="100" Height="20">
-                    <controllers:TraitControl DataContext="{Binding TraitHandler}" />
+                    <controllers:TraitControl DataContext="{Binding TraitHandler}"/>
                 </TabItem>
 
                 <TabItem Header="Feats" Background="LightGray" Width="100" Height="20">
-                    <controllers:FeatControl />
+                    <controllers:FeatControl DataContext="{Binding FeatHandler}"/>
                 </TabItem>
 
                 <TabItem Header="Spells" Background="LightGray" Width="100" Height="20">
-                    <controllers:SpellControl />
+                    <controllers:SpellControl DataContext="{Binding SpellHandler}"/>
                 </TabItem>
 
                 <TabItem Header="Items" Background="LightGray" Width="100" Height="20">
-                    <controllers:ItemControl />
+                    <controllers:ItemControl DataContext="{Binding ItemHandler}"/>
                 </TabItem>
 
                 <TabItem Header="Crafting" Background="LightGray" Width="100" Height="20">
-                    <controllers:CraftControl />
+                    <controllers:CraftControl DataContext="{Binding CraftHandler}"/>
                 </TabItem>
             </TabControl>
         </StackPanel>
