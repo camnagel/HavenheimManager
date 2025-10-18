@@ -19,6 +19,12 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </TextBox>
+
+                <TextBlock Margin="15, 0, 5, 0" TextAlignment="Center">Show Level Filter:</TextBlock>
+                <CheckBox IsChecked="{Binding ShowLevel, Mode=TwoWay}" />
+
+                <TextBlock Margin="15, 0, 5, 0" TextAlignment="Center">Show Custom Filter:</TextBlock>
+                <CheckBox IsChecked="{Binding ShowCustom, Mode=TwoWay}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 0">
@@ -273,11 +279,26 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
                             Height="250" Margin="10, 0, 0, 0">
                     <TextBlock TextAlignment="Center">Custom:</TextBlock>
-                    <ListBox ItemsSource="{Binding CustomDescriptorList}" Background="DimGray"
-                             Foreground="AliceBlue" Width="150" Height="200" />
-                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0" HorizontalAlignment="Center">
-                        <TextBlock Margin="0, 0, 5, 0" TextAlignment="Center">Show Filter:</TextBlock>
-                        <CheckBox IsChecked="{Binding ShowCustom, Mode=TwoWay}" />
+                    <DataGrid ItemsSource="{Binding CustomDescriptorList}" Background="DimGray"
+                             Foreground="AliceBlue" Width="150" Height="200" HeadersVisibility="None" MouseDown="DeselectRow"
+                             SelectedItem="{Binding SelectedCustomDesc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="Width" Value="148" />
+                                <Setter Property="Height" Value="20" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
+                        <Button Content="Add" Command="{Binding AddCustomDescCommand}" Width="60" Height="20" Margin="10,0,10,0" />
+                        <Button Content="Remove" Command="{Binding RemoveCustomDescCommand}" Width="60" Height="20" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

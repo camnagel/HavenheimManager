@@ -476,6 +476,12 @@ public class FilterHandler : INotifyPropertyChanged
         StimulusVisibility = settings.ShowStimulus ? Visibility.Visible : Visibility.Collapsed;
         TerrainVisibility = settings.ShowTerrain ? Visibility.Visible : Visibility.Collapsed;
         CustomVisibility = settings.ShowCustom ? Visibility.Visible : Visibility.Collapsed;
+
+        CustomDescriptorList.Clear();
+        foreach (string desc in settings.CustomDescList)
+        {
+            CustomDescriptorList.Add(desc);
+        }
     }
 
     public void RefreshButtonState()

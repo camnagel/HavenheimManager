@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using HavenheimManager.Containers;
+using HavenheimManager.Descriptors;
+using HavenheimManager.Enums;
+using HavenheimManager.Extensions;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using HavenheimManager.Descriptors;
-using HavenheimManager.Enums;
-using HavenheimManager.Extensions;
 
 namespace HavenheimManager.Editors;
 
@@ -20,15 +21,18 @@ public class DescriptorViewModel : INotifyPropertyChanged
     /// </remarks>
     private readonly DescriptorSettings _settings;
 
+    private DescWrapper? _selectedCustomDesc;
+
     private string _searchText = AppSettings.SearchPlaceholderText;
 
     internal DescriptorViewModel(DescriptorSettings settings)
     {
         CancelCommand = new DelegateCommand(CancelAction);
         AcceptChangesCommand = new DelegateCommand(AcceptChangesAction);
-        ShowContentCheckboxCommand = new DelegateCommand(ShowContentCheckboxAction);
         SearchRemovePlaceholderTextCommand = new DelegateCommand(SearchRemovePlaceholderTextAction);
         SearchAddPlaceholderTextCommand = new DelegateCommand(SearchAddPlaceholderTextAction);
+        AddCustomDescCommand = new DelegateCommand(AddCustomDescAction);
+        RemoveCustomDescCommand = new DelegateCommand(RemoveCustomDescAction);
 
         // We do this to avoid messing with the settings until the user confirms their changes
         ExtractDescriptorSettings(settings);
@@ -38,11 +42,37 @@ public class DescriptorViewModel : INotifyPropertyChanged
         GetDescriptors(AppSettings.Mode);
     }
 
+    public DelegateCommand AddCustomDescCommand { get; }
+
+    public DelegateCommand RemoveCustomDescCommand { get; }
+
+    public DescWrapper? SelectedCustomDesc
+    {
+        get => _selectedCustomDesc;
+        set
+        {
+            _selectedCustomDesc = value;
+            OnPropertyChanged("SelectedCustomDesc");
+        }
+    }
+
+    private void AddCustomDescAction(object arg)
+    {
+        CustomDescriptorList.Add(new DescWrapper("Custom Descriptor"));
+    }
+
+    private void RemoveCustomDescAction(object arg)
+    {
+        if (SelectedCustomDesc != null)
+        {
+            CustomDescriptorList.Remove(SelectedCustomDesc);
+            SelectedCustomDesc = null;
+        }
+    }
+
     public DelegateCommand AcceptChangesCommand { get; }
 
     public DelegateCommand CancelCommand { get; }
-
-    internal DelegateCommand ShowContentCheckboxCommand { get; }
 
     public ObservableCollection<string> ContentDescriptorList { get; } = new();
     public ObservableCollection<string> CreatureDescriptorList { get; } = new();
@@ -66,7 +96,7 @@ public class DescriptorViewModel : INotifyPropertyChanged
     public ObservableCollection<string> SpellSchoolDescriptorList { get; } = new();
     public ObservableCollection<string> StimulusDescriptorList { get; } = new();
     public ObservableCollection<string> TerrainDescriptorList { get; } = new();
-    public ObservableCollection<string> CustomDescriptorList { get; } = new();
+    public ObservableCollection<DescWrapper> CustomDescriptorList { get; } = new();
 
     public DelegateCommand SearchRemovePlaceholderTextCommand { get; }
     public DelegateCommand SearchAddPlaceholderTextCommand { get; }
@@ -75,6 +105,7 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private void ExtractDescriptorSettings(DescriptorSettings settings)
     {
+        ShowLevel = settings.ShowLevel;
         ShowContent = settings.ShowContent;
         ShowSkill = settings.ShowSkill;
         ShowMagic = settings.ShowMagic;
@@ -98,6 +129,11 @@ public class DescriptorViewModel : INotifyPropertyChanged
         ShowBuff = settings.ShowBuff;
         ShowFeat = settings.ShowFeat;
         ShowCustom = settings.ShowCustom;
+        
+        foreach (string desc in settings.CustomDescList)
+        {
+            CustomDescriptorList.Add(new DescWrapper(desc));
+        }
     }
 
     private void GetDescriptors(AppMode mode)
@@ -150,13 +186,6 @@ public class DescriptorViewModel : INotifyPropertyChanged
         SpellSchoolDescriptorList.Clear();
         StimulusDescriptorList.Clear();
         TerrainDescriptorList.Clear();
-
-        // Special custom descriptor handling
-    }
-
-    private void ShowContentCheckboxAction(object arg)
-    {
-        _settings.ShowContent = !ShowContent;
     }
 
     private void CancelAction(object arg)
@@ -176,6 +205,7 @@ public class DescriptorViewModel : INotifyPropertyChanged
 
     private void AcceptChangesAction(object arg)
     {
+        _settings.ShowLevel = ShowLevel;
         _settings.ShowContent = ShowContent;
         _settings.ShowSkill = ShowSkill;
         _settings.ShowMagic = ShowMagic;
@@ -199,6 +229,9 @@ public class DescriptorViewModel : INotifyPropertyChanged
         _settings.ShowBuff = ShowBuff;
         _settings.ShowFeat = ShowFeat;
         _settings.ShowCustom = ShowCustom;
+
+        _settings.CustomDescList.Clear();
+        _settings.CustomDescList.AddRange(CustomDescriptorList.Select(x => x.Descriptor));
 
         if (arg is Window window)
         {
@@ -286,6 +319,22 @@ public class DescriptorViewModel : INotifyPropertyChanged
     }
 
     #region ShowVariables
+    private bool _showLevel;
+
+    public bool ShowLevel
+    {
+        get => _showLevel;
+        set
+        {
+            if (value == _showLevel)
+            {
+                return;
+            }
+
+            _showLevel = value;
+            OnPropertyChanged("ShowLevel");
+        }
+    }
 
     private bool _showContent;
 
